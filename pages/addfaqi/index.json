@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "SearchInput":"../../components/SearchInput/SearchInput"
+    "Select":"../../components/select/select"
   },
   "navigationBarTitleText": "添加发起"
 }
