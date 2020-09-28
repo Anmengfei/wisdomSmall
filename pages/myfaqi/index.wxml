@@ -1,0 +1,53 @@
+<view class="pyg_index">
+  <view class="threeTabs">
+    <navigator url="/pages/addfaqi/index">
+      <view class="add tab">
+        <text>新增</text>
+      </view>
+    </navigator>
+    <view class="allTab tab" bindtap="searchList">
+      <text>全部</text>
+    </view>
+    <view class="oneTab tab" bindtap="selectWeichuli">
+      <text>未处理</text>
+    </view>
+    <view class="twoTab tab" bindtap="selectChulizhong">
+      <text>处理中</text>
+    </view>
+    <view class="threeTab tab" bindtap="selectFinish">
+      <text>已完成</text>
+    </view>
+  </view>
+
+  <view class="container">
+ 
+  <view class='xiangqing' wx:for="{{myFaqiList}}" bindtap="navigateTo">
+    
+    <view class='xiangqing_info' >
+      <view>
+        <text class='zi' >问题描述</text><text class='title'>{{item.description}}</text>
+      </view>
+      <view >
+        <text class='zi' >时间</text><text class='title'>{{item.time}}</text>
+      </view>
+      <view >
+        <text class='zi' >类型</text><text class='title'>{{item.type}}</text>
+      </view>
+      <view >
+        <text class='zi' >状态</text><text class='title'>{{item.status}}</text>
+      </view>
+    </view>
+    
+  </view>
+ 
+</view>
+    
+
+  
+  
+  
+
+  
+
+ 
+</view>

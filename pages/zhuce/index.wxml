@@ -1,0 +1,41 @@
+<view style="height: 100%;width: 100%;display:flex;flex-direction: column;">
+    
+      
+     
+          <view class="complete-card">
+            <view class="info-item">
+              <view class="info-item__value">
+                
+                <view class="yangshi">
+                    <view><text class="yangshititle">用户名：</text></view>
+                    <view>
+                     <input type="text" class="schoolname" placeholder="请填写用户名" value="{{userName}}" bindinput="tianUserName"></input>
+                    </view>
+                    
+                  </view>
+              </view>
+            </view>
+
+           
+            
+            <view class="info-item">
+              <view class="info-item__value">
+                 <view class="yangshi">
+                    <view><text class="yangshititle">密码：</text></view>
+                    <view>
+                     <input type="text" class="schoolname" placeholder="请填写密码" value="{{passowrd}}" bindinput="tianPassword"></input>
+                    </view>
+                    
+                  </view>
+                
+              </view>
+            </view>
+            
+            
+          <view class="tianbao">
+            <button  type="primary" size="mini" bindtap="tianbao">登陆</button>
+          </view>
+        </view>
+     
+ 
+</view>

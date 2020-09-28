@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    
+  },
+  "navigationBarTitleText": "登陆",
+  "enablePullDownRefresh":true,
+  "backgroundTextStyle":"dark"
+}
