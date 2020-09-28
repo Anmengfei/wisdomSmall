@@ -1,0 +1,44 @@
+<view class="pyg_index">
+  
+  <view class="fourModel">
+    <navigator url="/pages/tianbao/index">
+      <view class="model" >
+        <text class="iconfont icon-faqi tubiao">
+        </text>
+        <text class="faqi">我发起的</text>
+      </view>
+    </navigator>
+    
+    <navigator url="/pages/tianbao/index">
+      <view class="model">
+        <text class="iconfont icon-chuli tubiao">
+        </text>
+        <text class="faqi">我处理的</text>
+      </view>
+    </navigator>
+  </view>
+  <view class="fourModel">
+    <navigator url="/pages/tianbao/index">
+      <view class="model" >
+        <text class="iconfont icon-jiahaoyou tubiao">
+        </text>
+        <text class="faqi">抄送我的</text>
+      </view>
+    </navigator>
+     
+    <navigator url="/pages/tianbao/index">
+      <view class="model">
+        <text class="iconfont icon-gerenxinxi tubiao">
+        </text>
+        <text class="faqi">个人信息</text>
+      </view>
+    </navigator>
+    
+  </view>
+  
+  
+
+  
+
+ 
+</view>

@@ -1,0 +1,57 @@
+{
+  "pages": [ 
+    "pages/index/index",
+    "pages/zhuce/index",
+    "pages/user1/index",
+    "pages/myfaqi/index",
+    "pages/mydeal/index",
+    "pages/giveme/index",
+    "pages/myinfo/index",
+    "pages/addfaqi/index"
+
+    
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#42b473",
+    "navigationBarTitleText": "智慧工地",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#999",
+    "backgroundColor": "#fafafa",
+    "position": "bottom",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "icons/shouye.png",
+        "selectedIconPath": "icons/shouye_green.png"
+      },
+      
+      {
+        "pagePath": "pages/user1/index",
+        "text": "我的",
+        "iconPath": "icons/wode.png",
+        "selectedIconPath": "icons/wode_green.png"
+      }
+    ]
+  },
+  
+    
+  "sitemapLocation": "sitemap.json"
+}
+
+
+
+
+
+
+
+
+
+
+
+
