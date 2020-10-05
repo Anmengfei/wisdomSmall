@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"enhance": true,
 		"postcss": false,
@@ -34,8 +34,8 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.11.0",
-	"appid": "wx4c73c80e2e139b2d",
-	"projectname": "gaokao",
+	"appid": "wx43b4de0f13b9a916",
+	"projectname": "智慧工地",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

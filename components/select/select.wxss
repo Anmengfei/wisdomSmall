@@ -1,7 +1,10 @@
-.com-selectBox{
-  width: 200px;
+/* components/single-dropdown-select/index.wxss */
+
+.ms-content-box {
+  width: 120px;
 }
-.com-sContent{
+
+.ms-content {
   border: 1px solid #e2e2e2;
   background: white;
   font-size: 16px;
@@ -9,22 +12,16 @@
   height: 30px;
   line-height: 30px;
 }
-.com-sImg{
-  position: absolute;
-  right: 10px;
-  top: 11px;
-  width: 16px;
-  height: 9px;
-  transition: all .3s ease;
-}
-.com-sTxt{
+
+.ms-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding:0 20px 0 6px;
+  padding: 0 40px 0 6px;
   font-size: 14px;
 }
-.com-sList{
+
+.ms-options {
   background: white;
   width: inherit;
   position: absolute;
@@ -35,7 +32,8 @@
   max-height: 120px;
   overflow: auto;
 }
-.com-sItem{
+
+.ms-option {
   height: 30px;
   line-height: 30px;
   border-top: 1px solid #e2e2e2;
@@ -46,6 +44,44 @@
   white-space: nowrap;
   font-size: 14px;
 }
-.com-sItem:first-child{
+
+.ms-item:first-child {
   border-top: none;
+}
+
+.icon-right, .icon-down, .icon-up {
+  display: inline-block;
+  padding-right: 13rpx;
+  position: absolute;
+  right: 20rpx;
+  top: 10rpx;
+}
+
+.icon-right::after, .icon-down::after, .icon-up::after {
+  content: "";
+  display: inline-block;
+  position: relative;
+  bottom: 2rpx;
+  margin-left: 10rpx;
+  height: 10px;
+  width: 10px;
+  border: solid #bbb;
+  border-width: 2px 2px 0 0;
+}
+
+.icon-right::after {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.icon-down::after {
+  bottom: 14rpx;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.icon-up::after {
+  bottom: 0rpx;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }

@@ -33,6 +33,10 @@ Page({
     checkTypeTF: false,
     checkTypeZiTF: false,
 
+    processArr: ['未处理', '处理中', '已完成'],
+    process_index: undefined,
+    process_status: '未处理',
+
 
     imgs: [],
 
@@ -58,48 +62,104 @@ Page({
   },
   // 页面开始加载 就会触发
   onLoad: function (options) {
-    // var obj = {
-    //   construction_site_name: '项目A',
-    //   from_user: '王二',
-    //   to_user: '张三',
-    //   cc_people: '李四',
-    //   context: 'aaaaaaaaa',
-    //   image_url: ['http://tmp/wx4c73c80e2e139b2d.o6zAJs1NAT64OS_9LH6z….kNenUHWIMWOQfad59a245550b9aa3aa43ebe66e6d493.jpg'],
-    //   risk_level: 1,
-    //   set_end_time: "2020-09-20",
-    //   check_type: 1,
-    //   check_type_offspring: '深基坑'
-    // }
+    var obj = {
+      construction_site_name: '项目A',
+      from_user: '王二',
+      to_user: '张三',
+      cc_people: '李四',
+      context: 'aaaaaaaaa',
+      image_url: ['http://tmp/wx4c73c80e2e139b2d.o6zAJs1NAT64OS_9LH6z….kNenUHWIMWOQfad59a245550b9aa3aa43ebe66e6d493.jpg'],
+      risk_level: 1,
+      set_end_time: "2020-09-20",
+      check_type: 1,
+      check_type_offspring: '深基坑',
+      process_status: 1
+    }
     // var userIndex = this.findToUserIndex(obj.to_user)
+    // var ccIndex = this.findCcIndex(obj.cc_people)
+    // var riskIndex = this.findRiskIndex(obj.risk_level)
+    // var checkTypeIndex = this.findCheckIndex(obj.check_type)
+    // var processIdex = this.findProcessIndex(obj.process_status)
     // console.log("userIndex",userIndex)
+    // console.log("ccIndex", ccIndex)
+    // console.log("riskIndex", riskIndex)
+    // console.log("checkTypeIndex", checkTypeIndex)
+    // console.log("processIdex", processIdex)
 
-    // this.setData({
-    //   toUser: obj.to_user,
-    //   ccPeople: obj.cc_people,
-    //   context: obj.context,
-    //   imgs: obj.image_url,
-    //   risk: this.reverseRisk(obj.risk_level),
-    //   endDate: obj.set_end_time,
-    //   checkType: this.reverseStatus(obj.check_type),
-    //   checkTypeZi: obj.check_type_offspring,
-    //   toUser_index: userIndex
+    var typezi = this.getCheckTypeZiList(this.reverseCheckType(obj.check_type))
+    this.setData({
+      checkTypeZis: typezi
+    })
+    
 
-    // })
+    this.setData({
+      toUser: obj.to_user,
+      ccPeople: obj.cc_people,
+      context: obj.context,
+      imgs: obj.image_url,
+      risk: this.reverseRisk(obj.risk_level),
+      //risk_index: riskIndex,
+      riskTF: true,
+      endDate: obj.set_end_time,
+      process_status: this.reverseStatus(obj.process_status),
+      checkType: this.reverseCheckType(obj.check_type),
+      checkTypeTF: true,
+      checkTypeZi: obj.check_type_offspring,
+      checkTypeZiTF: true,
+      //toUser_index: 0,
+      toUserTF: true,
+      //ccPeople_index: ccIndex,
+      ccPeopleTF: true
+      
 
-    // console.log(this.data.risk)
-    // console.log(this.data.checkType)
-    // console.log(this.data.toUser_index)
+    })
+
+    console.log(this.data.risk)
+    console.log(this.data.checkType)
+    console.log(this.data.toUser_index)
 
     
       
   },
 
-  findToUserIndex(name) {
-    console.log("users",this.data.toUsers)
-    return this.data.toUsers.findIndex((item) => {
-      return item === name
-    })
-  },
+  // findToUserIndex(name) {
+  //   console.log("users",this.data.toUsers)
+  //   return this.data.toUsers.findIndex((item) => {
+  //     return item === name
+  //   })
+  // },
+  // findCcIndex(name) {
+  //   console.log("ccPeople",this.data.ccPeople)
+  //   return this.data.ccPeoples.findIndex((item) => {
+  //     return item === name
+  //   })
+  // },
+  // findRiskIndex(risk) {
+    
+  //   var riskName = this.reverseRisk(risk)
+  //   console.log("risk",riskName)
+  //   return this.data.risks.findIndex((item) => {
+  //     return item === riskName
+  //   })
+  // },
+  // findCheckIndex(checkType) {
+  //   var checkName = ''
+  //   if(checkType === 0) {
+  //     checkName = '安全'
+  //   } else {
+  //     checkName = '质量'
+  //   }
+  //   console.log("checkName",checkName)
+  //   return this.data.checkTypes.findIndex((item) => {
+  //     return item === checkName
+  //   })
+  // },
+  // findProcessIndex(process) {
+  //   var processName = this.reverseStatus(process)
+  //   return this.data.processArr.findIndex((item) => {
+  //     return item === processName
+  //   })
+  // },
   
 
 
@@ -119,6 +179,11 @@ Page({
       riskTF: true
     })
   },
+  // bindProcess() {
+  //   this.setData({
+  //     riskTF: true
+  //   })
+  // },
   bindCheckType() {
     this.setData({
       checkTypeTF: true
@@ -175,6 +240,18 @@ Page({
       endDate: e.detail.value
       
     })
+  },
+  bindProcessChange(e) {
+    console.log("process", e.detail.value)
+    console.log(e)
+
+    var temp = this.data.processArr[e.detail.value]
+    console.log(temp)
+     this.setData({
+       process_index: e.detail.value,
+       process_status: temp
+     })
+     console.log("process_status",this.data.process_status)
   },
   
 
@@ -260,6 +337,13 @@ Page({
     }
     if(num === 2) {
       return '已完成'
+    }
+  },
+  reverseCheckType(num) {
+    if(num === 0) {
+      return '安全'
+    } else {
+      return '质量'
     }
   },
 

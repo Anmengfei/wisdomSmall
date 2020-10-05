@@ -7,7 +7,8 @@
     "pages/mydeal/index",
     "pages/giveme/index",
     "pages/myinfo/index",
-    "pages/addfaqi/index"
+    "pages/addfaqi/index",
+    "pages/faqidetail/index"
 
     
   ],

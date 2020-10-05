@@ -3,6 +3,35 @@ import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
   data: {
+    statusList: [
+      {
+        "id": 0,
+        "value": "未处理"
+      },
+      {
+        "id": 1,
+        "value": "处理中"
+      },
+      {
+        "id": 2,
+        "value": "已完成"
+      },
+    ],
+
+    typeList: [
+      {
+        "id": 0,
+        "value": "安全"
+      },
+      {
+        "id": 1,
+        "value": "质量"
+      },
+      {
+        "id": 2,
+        "value": "绿色施工"
+      },
+    ],
     myFaqiList: [],
    
     
@@ -25,6 +54,15 @@ Page({
     this.searchList()
       
   },
+
+  selectStatus: function(e) {
+    console.log(e.detail)
+  },
+
+  selectType(e) {
+    console.log(e.detail)
+  },
+
 
   async searchList() {
     /** 请求我发起的列表 */
@@ -176,6 +214,8 @@ Page({
     })
 
   },
+
+  
 
   parseWenzi(num) {
     if(num === 1) {
