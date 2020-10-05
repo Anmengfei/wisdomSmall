@@ -19,7 +19,7 @@ export const request=(params)=>{
     
 
   // 定义公共的url
-  const baseUrl="https://www.zytb.top/show/cee";
+  const baseUrl="http://121.36.106.18:38088/";
   return new Promise((resolve,reject)=>{
     wx.request({
      ...params,
