@@ -2,5 +2,5 @@
   "usingComponents": {
     "Select":"../../components/select/select"
   },
-  "navigationBarTitleText": "处理列表"
+  "navigationBarTitleText": "发起详情"
 }

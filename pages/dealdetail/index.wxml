@@ -12,7 +12,7 @@
                     <view><text class="yangshititle">接收人：</text></view>
                     <view bindtap="bindToUser">
                       <text wx:if="{{toUsers.length === 0 || toUserTF === false}}" class="yangshiTishi">请选择接收人></text>
-                      <text wx:else class="yangshivalue">{{toUsers[toUser_index]}}</text>
+                      <text wx:else class="yangshivalue">{{toUser}}</text>
                     </view>
                     
                   </view>
@@ -75,12 +75,28 @@
 
             <view class="info-item">
               <view class="info-item__value">
+                <picker mode="selector" value="{{process_index}}" bindchange="bindProcessChange" range="{{processArr}}">
+                  <view class="yangshi">
+                    <view><text class="yangshititle">处理状态：</text></view>
+                    <view bindtap="bindProcess">
+                      <text wx:if="{{processArr.length === 0 }}" class="yangshiTishi">请选择处理状态></text>
+                      <text wx:else class="yangshivalue">{{process_status}}</text>
+                    </view>
+                    
+                  </view>
+                  
+                </picker>
+              </view>
+            </view>
+
+            <view class="info-item">
+              <view class="info-item__value">
                 <picker mode="selector" value="{{checkType_index}}" bindchange="bindCheckTypeChange" range="{{checkTypes}}">
                   <view class="yangshi">
                     <view><text class="yangshititle">检查类型：</text></view>
                     <view bindtap="bindCheckType">
                       <text wx:if="{{checkTypes.length === 0 || checkTypeTF === false}}" class="yangshiTishi">请选择检查类型></text>
-                      <text wx:else class="yangshivalue">{{checkTypes[checkType_index]}}</text>
+                      <text wx:else class="yangshivalue">{{checkType}}</text>
                     </view>
                     
                   </view>
@@ -96,7 +112,7 @@
                     <view><text class="yangshititle">检查子类型：</text></view>
                     <view bindtap="bindCheckTypeZi">
                       <text wx:if="{{checkTypeZis.length === 0 || checkTypeZiTF === false}}" class="yangshiTishi">请选择检查子类型></text>
-                      <text wx:else class="yangshivalue">{{checkTypeZis[checkTypeZi_index]}}</text>
+                      <text wx:else class="yangshivalue">{{checkTypeZi}}</text>
                     </view>
                     
                   </view>
@@ -110,7 +126,7 @@
                  <view class="">
                     <view><text class="yangshititle">内容：</text></view>
                     <view>
-                        <textarea class="textarea-bg" placeholder="请填写问题描述" bindblur="tianxieContent"></textarea>                    
+                        <textarea class="textarea-bg" bindblur="tianxieContent">{{context}}</textarea>                    
                     </view>
                     
                   </view>
@@ -118,7 +134,18 @@
               </view>
             </view>
 
-             
+             <!-- <view class="info-item">
+              <view class="info-item__value">
+                 <view class="">
+                    <view><text class="yangshititle">上传图片：</text></view>
+                    <view>
+                        <textarea class="textarea-bg" placeholder="请填写问题描述" bindblur="tianxieContent"></textarea>                    
+                    </view>
+                    
+                  </view>
+                
+              </view>
+            </view> -->
 
 
             <view class="weui-uploader">

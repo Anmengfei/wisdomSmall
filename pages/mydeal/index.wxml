@@ -1,40 +1,60 @@
+<wxs module="index" src="./index.wxs"></wxs>
 <view class="pyg_index">
+  <view class="threeTabs">
+    <!-- <navigator url="/pages/addfaqi/index">
+      <view class="add tab">
+        <text>新增</text>
+      </view>
+    </navigator> -->
+
+    
+  </view>
+  <view class="search">
+    <view class="selectStatus">
+      <text class="tab oneTab">状态:</text>
+      <Select class="selectZujian" prop-array='{{statusList}}' bind:select='selectStatus'></Select>
+    </view>
+
+    <view class="selectStatus">
+      <text class="tab twoTab">类型:</text>
+      <Select prop-array='{{typeList}}' bind:select='selectType'></Select>
+    </view>
+  </view>
+
+  <view class="container">
+ 
+  <view class='xiangqing' wx:for="{{myFaqiList}}" bindtap="navigateTo">
+    <navigator url="/pages/dealdetail/index">
+    
+      <view class='xiangqing_info' >
+        <view>
+          <text class='zi' >问题描述</text><text class='title'>{{item.context}}</text>
+        </view>
+        <view >
+          <text class='zi' >发起人</text><text class='title' >{{item.fromUser}}</text>
+          <text class='zi' >接受人</text><text class='title'>{{item.toUser}}</text>
+          <text class='zi' >抄送人</text><text class='title'>{{item.ccPeople}}</text>
+        </view>
+        <view >
+          <text class='zi' >危险登记</text><text class='title' style="margin-right:30px;">{{index.riskConvert(item.riskLevel)}}</text>
+          <text class='zi' >处理状态</text><text class='title'>{{index.statusConvert(item.processStatus)}}</text>
+        </view>
+        <view >
+          <text class='zi' >检查类型</text><text class='title' style="margin-right:25px;">{{item.checkType}}</text>
+          <text class='zi' >详细类型</text><text class='title'>{{item.checkTypeOffspring}}</text>
+        </view>
+        <view >
+          <text class='zi' >预计结束时间</text><text class='title'>{{item.setEndTime}}</text>
+        </view>
+      </view>
+    </navigator>
+    
+  </view>
+ 
+</view>
+    
+
   
-  <view class="fourModel">
-    <navigator url="/pages/tianbao/index">
-      <view class="model" >
-        <text class="iconfont icon-faqi tubiao">
-        </text>
-        <text class="faqi">我发起的</text>
-      </view>
-    </navigator>
-    
-    <navigator url="/pages/tianbao/index">
-      <view class="model">
-        <text class="iconfont icon-chuli tubiao">
-        </text>
-        <text class="faqi">我处理的</text>
-      </view>
-    </navigator>
-  </view>
-  <view class="fourModel">
-    <navigator url="/pages/tianbao/index">
-      <view class="model" >
-        <text class="iconfont icon-jiahaoyou tubiao">
-        </text>
-        <text class="faqi">抄送我的</text>
-      </view>
-    </navigator>
-     
-    <navigator url="/pages/tianbao/index">
-      <view class="model">
-        <text class="iconfont icon-gerenxinxi tubiao">
-        </text>
-        <text class="faqi">个人信息</text>
-      </view>
-    </navigator>
-    
-  </view>
   
   
 

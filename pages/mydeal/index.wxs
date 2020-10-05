@@ -1,0 +1,37 @@
+var riskLevel = {
+    zhuanhuan: function(value) {
+        if(value === 1) {
+            return '一级'
+        }
+        if(value === 2) {
+            return '二级'
+        }
+        if(value === 3) {
+            return '三级'
+        }
+        if(value === 1) {
+            return '一级'
+        }
+    }
+}
+
+var status = {
+    zhuanhuan: function(value) {
+        if(value === 1) {
+            return '未处理'
+        }
+
+        if(value === 2) {
+            return '处理中'
+        }
+
+        if(value === 3) {
+            return '已完成'
+        }
+    }
+}
+
+module.exports = {
+    riskConvert: riskLevel.zhuanhuan,
+    statusConvert: status.zhuanhuan
+}
