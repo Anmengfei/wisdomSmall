@@ -241,7 +241,7 @@ Page({
       return '已完成'
     }
     if(num === 4) {
-      return '预警'
+      return '逾期'
     }
   },
 

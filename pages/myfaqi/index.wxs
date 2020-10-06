@@ -30,7 +30,7 @@ var status = {
         }
 
         if(value === 4) {
-            return '预警'
+            return '逾期'
         }
         
     }
