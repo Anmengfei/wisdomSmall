@@ -35,17 +35,48 @@
                 </view>
             </view>
         </view>
-        <view style="clear:both;">
-          <view class="threeTabs">
+        <view style="clear:both;" wx:if="{{process_status === '未处理' || process_status === '处理中'}}">
+          <view class="threeTabs" >
             <view class="chulizhong tab" bindtap="clickChulizhong" wx:if="{{process_status === '未处理'}}">
               <text>处理中</text>
             </view>
 
-            <view class="yiwancheng tab" bindtap="clickFinish">
+            <view class="yiwancheng tab" bindtap="clickFinish" >
               <text>已完成</text>
             </view>
           </view>
         </view>
+
+        <view class="dealForm" wx:if="{{showForm}}">
+          <view class="">
+            <view><text class="yangshititle">处理内容：</text></view>
+            <view>
+                <textarea class="textarea-bg"  bindblur="tianxieContent">{{dealcontext}}</textarea>                    
+            </view>
+          </view>
+
+          <view class="weui-uploader-deal">
+                <view class="img-v weui-uploader__bd">
+                    <view class='pic-deal' wx:for="{{dealimgs}}" wx:for-item="item" wx:key="*this">
+                        <image class='weui-uploader__img '
+                                src="{{item}}"
+                                data-index="{{index}}" mode="aspectFill" bindtap="previewDealImg">
+                                <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
+                        </image>
+                    </view>
+                    
+                    <!-- 用来提示用户上传图片 -->
+                    <view class="weui-uploader__input-box pic" bindtap="chooseImg"> </view>
+                </view>
+                <button class="upload-img-btn" bindtap="chooseImg" type='primary'>拍照  / 上传</button>
+            </view>
+
+            <view class="tianbao">
+            <button  type="primary" size="mini" bindtap="tianbao">提交</button>
+          </view>
+        </view>
+
+        
         
       </view>
     
