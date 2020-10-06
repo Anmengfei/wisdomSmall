@@ -33,7 +33,7 @@ Page({
     checkTypeTF: false,
     checkTypeZiTF: false,
 
-    processArr: ['未处理', '处理中', '已完成', '预警'],
+    processArr: ['未处理', '处理中', '已完成', '逾期'],
     process_index: undefined,
     process_status: '',
 
@@ -316,7 +316,7 @@ Page({
       return '已完成'
     }
     if(num === 4) {
-      return '预警'
+      return '逾期'
     }
   },
   statusConvert(status) {
@@ -329,7 +329,7 @@ Page({
     if(status==='已完成') {
       return 3
     }
-    if(status==='预警') {
+    if(status==='逾期') {
       return 4
     }
   },
