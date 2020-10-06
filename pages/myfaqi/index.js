@@ -5,17 +5,22 @@ Page({
   data: {
     statusList: [
       {
-        "id": 0,
+        "id": 1,
         "value": "未处理"
       },
       {
-        "id": 1,
-        "value": "处理中"
+        "id": 2,
+        "value": "正在处理"
       },
       {
-        "id": 2,
-        "value": "已完成"
+        "id": 3,
+        "value": "已经完成"
       },
+      ,
+      {
+        "id": 4,
+        "value": "预警"
+      }
     ],
 
     typeList: [],

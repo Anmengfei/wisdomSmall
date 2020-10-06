@@ -3,11 +3,11 @@ import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
   data: {
-    toUsers: ["张三","李四","王五"],
+    toUsers: [],
     toUser_index: undefined,
     toUser: '',
 
-    ccPeoples: ["张三","李四","王五"],
+    ccPeoples: [],
     ccPeople_index: undefined,
     ccPeople: '',
 
@@ -16,7 +16,7 @@ Page({
     risk: undefined,
 
     endDate: undefined,
-    checkTypes: ["安全", "质量"],
+    checkTypes: [],
     checkType_index: undefined,
     checkType: undefined,
 
@@ -33,15 +33,14 @@ Page({
     checkTypeTF: false,
     checkTypeZiTF: false,
 
-    processArr: ['未处理', '处理中', '已完成'],
+    processArr: ['未处理', '处理中', '已完成', '预警'],
     process_index: undefined,
-    process_status: '未处理',
+    process_status: '',
 
 
     imgs: [],
+    id: undefined,
 
-   
-    
     openId: undefined
   },
   
@@ -50,6 +49,9 @@ Page({
     var openid = wx.getStorageSync("openId")
     var username = wx.getStorageSync("userName")
     var construction_site_name = wx.getStorageSync("construction_site_name")
+
+    
+    
     console.log("openid是：", openid)
     this.setData({
       openId: openid,
@@ -62,104 +64,88 @@ Page({
   },
   // 页面开始加载 就会触发
   onLoad: function (options) {
-    var obj = {
-      construction_site_name: '项目A',
-      from_user: '王二',
-      to_user: '张三',
-      cc_people: '李四',
-      context: 'aaaaaaaaa',
-      image_url: ['http://tmp/wx4c73c80e2e139b2d.o6zAJs1NAT64OS_9LH6z….kNenUHWIMWOQfad59a245550b9aa3aa43ebe66e6d493.jpg'],
-      risk_level: 1,
-      set_end_time: "2020-09-20",
-      check_type: 1,
-      check_type_offspring: '深基坑',
-      process_status: 1
-    }
-    // var userIndex = this.findToUserIndex(obj.to_user)
-    // var ccIndex = this.findCcIndex(obj.cc_people)
-    // var riskIndex = this.findRiskIndex(obj.risk_level)
-    // var checkTypeIndex = this.findCheckIndex(obj.check_type)
-    // var processIdex = this.findProcessIndex(obj.process_status)
-    // console.log("userIndex",userIndex)
-    // console.log("ccIndex", ccIndex)
-    // console.log("riskIndex", riskIndex)
-    // console.log("checkTypeIndex", checkTypeIndex)
-    // console.log("processIdex", processIdex)
 
-    var typezi = this.getCheckTypeZiList(this.reverseCheckType(obj.check_type))
+    var id = options.id;
     this.setData({
-      checkTypeZis: typezi
+      id: id
     })
-    
-
-    this.setData({
-      toUser: obj.to_user,
-      ccPeople: obj.cc_people,
-      context: obj.context,
-      imgs: obj.image_url,
-      risk: this.reverseRisk(obj.risk_level),
-      //risk_index: riskIndex,
-      riskTF: true,
-      endDate: obj.set_end_time,
-      process_status: this.reverseStatus(obj.process_status),
-      checkType: this.reverseCheckType(obj.check_type),
-      checkTypeTF: true,
-      checkTypeZi: obj.check_type_offspring,
-      checkTypeZiTF: true,
-      //toUser_index: 0,
-      toUserTF: true,
-      //ccPeople_index: ccIndex,
-      ccPeopleTF: true
-      
-
-    })
-
-    console.log(this.data.risk)
-    console.log(this.data.checkType)
-    console.log(this.data.toUser_index)
-
-    
+    this.getCheckType()
+    this.getToUSers()
+    this.getCcPeoples()
+    this.getInfoById(id)
       
   },
 
-  // findToUserIndex(name) {
-  //   console.log("users",this.data.toUsers)
-  //   return this.data.toUsers.findIndex((item) => {
-  //     return item === name
-  //   })
-  // },
-  // findCcIndex(name) {
-  //   console.log("ccPeople",this.data.ccPeople)
-  //   return this.data.ccPeoples.findIndex((item) => {
-  //     return item === name
-  //   })
-  // },
-  // findRiskIndex(risk) {
+  async getCheckType() {
+    const res=await request({url:"system/safe/getCheckType", method: 'get'});
+    console.log("获取checkTypeList",res)
     
-  //   var riskName = this.reverseRisk(risk)
-  //   console.log("risk",riskName)
-  //   return this.data.risks.findIndex((item) => {
-  //     return item === riskName
-  //   })
-  // },
-  // findCheckIndex(checkType) {
-  //   var checkName = ''
-  //   if(checkType === 0) {
-  //     checkName = '安全'
-  //   } else {
-  //     checkName = '质量'
-  //   }
-  //   console.log("checkName",checkName)
-  //   return this.data.checkTypes.findIndex((item) => {
-  //     return item === checkName
-  //   })
-  // },
-  // findProcessIndex(process) {
-  //   var processName = this.reverseStatus(process)
-  //   return this.data.processArr.findIndex((item) => {
-  //     return item === processName
-  //   })
-  // },
+    this.setData({
+      checkTypes: res.data
+    })
+  },
+
+  async getToUSers() {
+    const res=await request({url:"system/safe/getAllToUser", method: 'get'});
+    console.log("获取ToUsersList",res)
+    
+    this.setData({
+      toUsers: res.data
+    })
+  },
+
+  async getCcPeoples() {
+    const res=await request({url:"system/safe/getAllCcPeople", method: 'get'});
+    console.log("获取CcPeopleList",res)
+    
+    this.setData({
+      ccPeoples: res.data
+    })
+  },
+
+  async getCheckTypeZiList(checkType) {
+    var url = `system/safe/getCheckTypeOffspring?type=${checkType}`
+    const res=await request({url:url});
+    console.log("获取checkTypeziList",res)
+    this.setData({
+      checkTypeZis: res.data
+    })
+  },
+
+  async getInfoById(id) {
+    var url = `system/safe/getCheckInfoById?id=${id}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取List",res)
+    var obj = res.data
+    var riskName = this.reverseRisk(obj.riskLevel)
+    var processName = this.reverseStatus(obj.processStatus)
+    
+
+    var typezi = this.getCheckTypeZiList(obj.checkType)
+    this.setData({
+      checkTypeZis: typezi
+    })
+    this.setData({
+      ccPeople: obj.ccPeople,
+      checkType: obj.checkType,
+      checkTypeZi: obj.checkTypeOffspring,
+      construction_site_name: obj.constructionSiteName,
+      context: obj.context,
+      from_user: obj.fromUser,
+      imgs: [obj.imageUrl],
+      process_status: processName,
+      risk: riskName,
+      endDate: obj.setEndTime.split(" ")[0],
+      toUser: obj.toUser,
+      checkTypeTF: true,
+      riskTF: true,
+      checkTypeZiTF: true,
+      toUserTF: true,
+      ccPeopleTF: true
+    })
+  },
+
+
   
 
 
@@ -179,11 +165,7 @@ Page({
       riskTF: true
     })
   },
-  // bindProcess() {
-  //   this.setData({
-  //     riskTF: true
-  //   })
-  // },
+  
   bindCheckType() {
     this.setData({
       checkTypeTF: true
@@ -235,6 +217,7 @@ Page({
   bindDateChange(e) {
     console.log("endDate", e.detail.value)
     console.log(e)
+    
 
     this.setData({
       endDate: e.detail.value
@@ -282,19 +265,8 @@ Page({
     })
     console.log("checkTypeZi", this.data.checkTypeZi)
   },
-  async getCheckTypeZiList(checkType) {
-    if(checkType === '安全') {
-      var tmp = ["安全1", "安全2", "安全3"]
-    } else {
-      var tmp = ["质量1", "质量2", "质量3"]
-    }
-    this.setData({
-      checkTypeZis: tmp
-    })
-  },
+  
 
-  
-  
 
   tianxieContent(e) {
     console.log("content", e.detail.value)
@@ -329,27 +301,161 @@ Page({
     }
   },
   reverseStatus(num) {
-    if(num === 0) {
+    if(num === 1) {
       return '未处理'
     }
-    if(num === 1) {
+    if(num === 2) {
       return '处理中'
     }
-    if(num === 2) {
+    if(num === 3) {
       return '已完成'
     }
-  },
-  reverseCheckType(num) {
-    if(num === 0) {
-      return '安全'
-    } else {
-      return '质量'
+    if(num === 4) {
+      return '预警'
     }
   },
+  statusConvert(status) {
+    if(status==='未处理') {
+      return 1
+    }
+    if(status==='处理中') {
+      return 2
+    }
+    if(status==='已完成') {
+      return 3
+    }
+    if(status==='预警') {
+      return 4
+    }
+  },
+  
 
   
 
 
+
+
+  // async tianbao() {
+  //   if(this.data.toUser === '') {
+  //     wx.showToast({
+  //       title: '请先选择接收人',
+  //       icon: 'none',
+  //       duration: 2000
+  //     })
+  //     return
+  //   }
+
+  //   if(this.data.ccPeople === '') {
+  //     wx.showToast({
+  //       title: '请先选择抄送人',
+  //       icon: 'none',
+  //       duration: 2000
+  //     })
+  //     return
+  //   }
+
+  //   if(this.data.endDate === '') {
+  //     wx.showToast({
+  //       title: '请先选择预计结束时间',
+  //       icon: 'none',
+  //       duration: 2000
+  //     })
+  //     return
+  //   }
+
+  //   if(this.data.risk === '') {
+  //     wx.showToast({
+  //       title: '请先选择风险等级',
+  //       icon: 'none',
+  //       duration: 2000
+  //     })
+  //     return
+  //   }
+
+  //   if(this.data.checkType === '') {
+  //     wx.showToast({
+  //       title: '请先选择检查类型',
+  //       icon: 'none',
+  //       duration: 2000
+  //     })
+  //     return
+  //   }
+
+  //   if(this.data.checkTypeZi === '') {
+  //     wx.showToast({
+  //       title: '请先选择子检查类型',
+  //       icon: 'none',
+  //       duration: 2000
+  //     })
+  //     return
+  //   }
+
+
+   
+    
+    
+    
+    
+
+  //   const submitParam = {
+  //     openid: this.openId,
+  //     construction_site_name: this.data.construction_site_name,
+  //     from_user: this.data.from_user,
+  //     to_user: this.data.toUser,
+  //     cc_people: this.data.ccPeople,
+  //     context: this.data.context,
+  //     image_url: this.data.imgs,
+  //     risk_level: this.riskLevelConvert(this.data.risk),
+  //     set_end_time: this.data.endDate,
+  //     check_type: this.data.checkType,
+  //     check_type_offspring: this.data.checkTypeZi
+  //   }
+
+  //   console.log(submitParam)
+
+  //   wx.switchTab({
+  //     url: '/pages/myfaqi/index',
+      
+  //     success: function(e) {
+  //       console.log('aaa')
+  //       var page =  getCurrentPages().pop();
+  //       console.log(page)
+  //       if(page == undefined || page == null) return;
+  //       // page.onShow();
+  //       page.onLoad();
+  //     }
+
+  //   })
+    
+    
+  //   // var url = `/school/saveUserInfo?openid=${this.openId}&province=${this.data.provinceCode}&category=${this.data.leibie}&batch=${this.data.pici}&subject=${allSubject}&city=${this.data.city}&citycode=${this.data.cityCode}&address=${this.data.address}&addresscode=${this.data.addressCode}&schoolname=${this.data.schoolName}`
+  //   // const res = await request({url:url,method:"post"});
+  //   // console.log(res)
+  //   // if(res.msg === '成功') {
+      
+  //   //   wx.switchTab({
+  //   //     url: '/pages/user1/index',
+        
+  //   //     success: function(e) {
+  //   //       console.log('aaa')
+  //   //       var page =  getCurrentPages().pop();
+  //   //       console.log(page)
+  //   //       if(page == undefined || page == null) return;
+  //   //       // page.onShow();
+  //   //       page.onLoad();
+  //   //     }
+
+  //   //   })
+  //   // } else {
+  //   //   wx.showToast({
+  //   //     title: '提交失败',
+  //   //     icon: 'none',
+  //   //     duration: 2000
+  //   //   })
+  //   //   return
+  //   // }
+
+  // },
 
 
   async tianbao() {
@@ -406,6 +512,9 @@ Page({
       })
       return
     }
+    var endTime = `${this.data.endDate} 00:00:00`
+    console.log(endTime)
+    var processStatus = this.statusConvert(this.data.process_status)
 
 
    
@@ -416,61 +525,48 @@ Page({
 
     const submitParam = {
       openid: this.openId,
-      construction_site_name: this.data.construction_site_name,
-      from_user: this.data.from_user,
-      to_user: this.data.toUser,
-      cc_people: this.data.ccPeople,
+      constructionSiteName: this.data.construction_site_name,
+      fromUser: this.data.from_user,
+      toUser: this.data.toUser,
+      ccPeople: this.data.ccPeople,
       context: this.data.context,
-      image_url: this.data.imgs,
-      risk_level: this.riskLevelConvert(this.data.risk),
-      set_end_time: this.data.endDate,
-      check_type: this.data.checkType,
-      check_type_offspring: this.data.checkTypeZi
+      imageUrl: this.data.imgs,
+      riskLevel: this.riskLevelConvert(this.data.risk),
+      setEndTime: endTime.toString(),
+      checkType: this.data.checkType,
+      checkTypeOffspring: this.data.checkTypeZi
     }
 
     console.log(submitParam)
-
-    wx.switchTab({
-      url: '/pages/myfaqi/index',
-      
-      success: function(e) {
-        console.log('aaa')
-        var page =  getCurrentPages().pop();
-        console.log(page)
-        if(page == undefined || page == null) return;
-        // page.onShow();
-        page.onLoad();
-      }
-
-    })
     
     
-    // var url = `/school/saveUserInfo?openid=${this.openId}&province=${this.data.provinceCode}&category=${this.data.leibie}&batch=${this.data.pici}&subject=${allSubject}&city=${this.data.city}&citycode=${this.data.cityCode}&address=${this.data.address}&addresscode=${this.data.addressCode}&schoolname=${this.data.schoolName}`
-    // const res = await request({url:url,method:"post"});
-    // console.log(res)
-    // if(res.msg === '成功') {
-      
-    //   wx.switchTab({
-    //     url: '/pages/user1/index',
+    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&fromUser=${this.data.from_user}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&processStatus=${processStatus}`
+    //var url = 'system/safe/getSafetyAndQualityInitInfo?'
+    const res = await request({url:url,method:"post"});
+    console.log("提交信息:", res)
+    if(res.code === 200) {
+      console.log("AAAAA")
+      wx.navigateTo({
+        url: '/pages/myfaqi/index',
         
-    //     success: function(e) {
-    //       console.log('aaa')
-    //       var page =  getCurrentPages().pop();
-    //       console.log(page)
-    //       if(page == undefined || page == null) return;
-    //       // page.onShow();
-    //       page.onLoad();
-    //     }
+        success: function(e) {
+          console.log('aaa')
+          // var page =  getCurrentPages().pop();
+          // console.log(page)
+          // if(page == undefined || page == null) return;
+          // // page.onShow();
+          // page.onLoad();
+        }
 
-    //   })
-    // } else {
-    //   wx.showToast({
-    //     title: '提交失败',
-    //     icon: 'none',
-    //     duration: 2000
-    //   })
-    //   return
-    // }
+      })
+    } else {
+      wx.showToast({
+        title: '提交失败',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
 
   },
 

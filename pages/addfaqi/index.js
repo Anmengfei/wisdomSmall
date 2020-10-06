@@ -3,11 +3,11 @@ import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
   data: {
-    toUsers: ["张三","李四","王五"],
+    toUsers: [],
     toUser_index: undefined,
     toUser: '',
 
-    ccPeoples: ["张三","李四","王五"],
+    ccPeoples: [],
     ccPeople_index: undefined,
     ccPeople: '',
 
@@ -60,6 +60,26 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
     this.getCheckType()
+    this.getToUSers()
+    this.getCcPeoples()
+  },
+
+  async getToUSers() {
+    const res=await request({url:"system/safe/getAllToUser", method: 'get'});
+    console.log("获取ToUsersList",res)
+    
+    this.setData({
+      toUsers: res.data
+    })
+  },
+
+  async getCcPeoples() {
+    const res=await request({url:"system/safe/getAllCcPeople", method: 'get'});
+    console.log("获取CcPeopleList",res)
+    
+    this.setData({
+      ccPeoples: res.data
+    })
   },
 
   findToUserIndex(name) {
@@ -211,14 +231,17 @@ Page({
     }
   },
   reverseStatus(num) {
-    if(num === 0) {
+    if(num === 1) {
       return '未处理'
     }
-    if(num === 1) {
+    if(num === 2) {
       return '处理中'
     }
-    if(num === 2) {
+    if(num === 3) {
       return '已完成'
+    }
+    if(num === 4) {
+      return '预警'
     }
   },
 
@@ -332,16 +355,16 @@ Page({
     console.log("提交信息:", res)
     if(res.code === 200) {
       console.log("AAAAA")
-      wx.switchTab({
+      wx.navigateTo({
         url: '/pages/myfaqi/index',
         
         success: function(e) {
           console.log('aaa')
-          var page =  getCurrentPages().pop();
-          console.log(page)
-          if(page == undefined || page == null) return;
-          // page.onShow();
-          page.onLoad();
+          // var page =  getCurrentPages().pop();
+          // console.log(page)
+          // if(page == undefined || page == null) return;
+          // // page.onShow();
+          // page.onLoad();
         }
 
       })

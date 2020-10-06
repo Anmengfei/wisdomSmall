@@ -24,7 +24,7 @@
   <view class="container">
  
   <view class='xiangqing' wx:for="{{myFaqiList}}" bindtap="navigateTo">
-    <navigator url="/pages/faqidetail/index">
+    <navigator url="/pages/faqidetail/index?id={{item.id}}">
     
       <view class='xiangqing_info' >
         <view>

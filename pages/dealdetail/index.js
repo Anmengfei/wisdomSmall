@@ -3,11 +3,11 @@ import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
   data: {
-    toUsers: ["张三","李四","王五"],
+    toUsers: [],
     toUser_index: undefined,
     toUser: '',
 
-    ccPeoples: ["张三","李四","王五"],
+    ccPeoples: [],
     ccPeople_index: undefined,
     ccPeople: '',
 
@@ -35,7 +35,7 @@ Page({
 
     processArr: ['未处理', '处理中', '已完成'],
     process_index: undefined,
-    process_status: '未处理',
+    process_status: '',
 
 
     imgs: [],
@@ -62,104 +62,85 @@ Page({
   },
   // 页面开始加载 就会触发
   onLoad: function (options) {
-    var obj = {
-      construction_site_name: '项目A',
-      from_user: '王二',
-      to_user: '张三',
-      cc_people: '李四',
-      context: 'aaaaaaaaa',
-      image_url: ['http://tmp/wx4c73c80e2e139b2d.o6zAJs1NAT64OS_9LH6z….kNenUHWIMWOQfad59a245550b9aa3aa43ebe66e6d493.jpg'],
-      risk_level: 1,
-      set_end_time: "2020-09-20",
-      check_type: 1,
-      check_type_offspring: '深基坑',
-      process_status: 1
-    }
-    // var userIndex = this.findToUserIndex(obj.to_user)
-    // var ccIndex = this.findCcIndex(obj.cc_people)
-    // var riskIndex = this.findRiskIndex(obj.risk_level)
-    // var checkTypeIndex = this.findCheckIndex(obj.check_type)
-    // var processIdex = this.findProcessIndex(obj.process_status)
-    // console.log("userIndex",userIndex)
-    // console.log("ccIndex", ccIndex)
-    // console.log("riskIndex", riskIndex)
-    // console.log("checkTypeIndex", checkTypeIndex)
-    // console.log("processIdex", processIdex)
-
-    var typezi = this.getCheckTypeZiList(this.reverseCheckType(obj.check_type))
-    this.setData({
-      checkTypeZis: typezi
-    })
-    
-
-    this.setData({
-      toUser: obj.to_user,
-      ccPeople: obj.cc_people,
-      context: obj.context,
-      imgs: obj.image_url,
-      risk: this.reverseRisk(obj.risk_level),
-      //risk_index: riskIndex,
-      riskTF: true,
-      endDate: obj.set_end_time,
-      process_status: this.reverseStatus(obj.process_status),
-      checkType: this.reverseCheckType(obj.check_type),
-      checkTypeTF: true,
-      checkTypeZi: obj.check_type_offspring,
-      checkTypeZiTF: true,
-      //toUser_index: 0,
-      toUserTF: true,
-      //ccPeople_index: ccIndex,
-      ccPeopleTF: true
-      
-
-    })
-
-    console.log(this.data.risk)
-    console.log(this.data.checkType)
-    console.log(this.data.toUser_index)
-
-    
+    var id = options.id;
+    this.getCheckType()
+    this.getToUSers()
+    this.getCcPeoples()
+    this.getInfoById(id)
       
   },
 
-  // findToUserIndex(name) {
-  //   console.log("users",this.data.toUsers)
-  //   return this.data.toUsers.findIndex((item) => {
-  //     return item === name
-  //   })
-  // },
-  // findCcIndex(name) {
-  //   console.log("ccPeople",this.data.ccPeople)
-  //   return this.data.ccPeoples.findIndex((item) => {
-  //     return item === name
-  //   })
-  // },
-  // findRiskIndex(risk) {
+
+  async getCheckType() {
+    const res=await request({url:"system/safe/getCheckType", method: 'get'});
+    console.log("获取checkTypeList",res)
     
-  //   var riskName = this.reverseRisk(risk)
-  //   console.log("risk",riskName)
-  //   return this.data.risks.findIndex((item) => {
-  //     return item === riskName
-  //   })
-  // },
-  // findCheckIndex(checkType) {
-  //   var checkName = ''
-  //   if(checkType === 0) {
-  //     checkName = '安全'
-  //   } else {
-  //     checkName = '质量'
-  //   }
-  //   console.log("checkName",checkName)
-  //   return this.data.checkTypes.findIndex((item) => {
-  //     return item === checkName
-  //   })
-  // },
-  // findProcessIndex(process) {
-  //   var processName = this.reverseStatus(process)
-  //   return this.data.processArr.findIndex((item) => {
-  //     return item === processName
-  //   })
-  // },
+    this.setData({
+      checkTypes: res.data
+    })
+  },
+
+  async getToUSers() {
+    const res=await request({url:"system/safe/getAllToUser", method: 'get'});
+    console.log("获取ToUsersList",res)
+    
+    this.setData({
+      toUsers: res.data
+    })
+  },
+
+  async getCcPeoples() {
+    const res=await request({url:"system/safe/getAllCcPeople", method: 'get'});
+    console.log("获取CcPeopleList",res)
+    
+    this.setData({
+      ccPeoples: res.data
+    })
+  },
+
+  async getCheckTypeZiList(checkType) {
+    var url = `system/safe/getCheckTypeOffspring?type=${checkType}`
+    const res=await request({url:url});
+    console.log("获取checkTypeziList",res)
+    this.setData({
+      checkTypeZis: res.data
+    })
+  },
+
+  async getInfoById(id) {
+    var url = `system/safe/getCheckInfoById?id=${id}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取List",res)
+    var obj = res.data
+    var riskName = this.reverseRisk(obj.riskLevel)
+    var processName = this.reverseStatus(obj.processStatus)
+    
+
+    var typezi = this.getCheckTypeZiList(obj.check_type)
+    this.setData({
+      checkTypeZis: typezi
+    })
+    this.setData({
+      ccPeople: obj.ccPeople,
+      checkType: obj.checkType,
+      checkTypeZi: obj.checkTypeOffspring,
+      construction_site_name: obj.constructionSiteName,
+      context: obj.context,
+      from_user: obj.fromUser,
+      imgs: [obj.imageUrl],
+      process_status: processName,
+      risk: riskName,
+      endDate: obj.setEndTime.split(" ")[0],
+      toUser: obj.toUser,
+      checkTypeTF: true,
+      riskTF: true,
+      checkTypeZiTF: true,
+      toUserTF: true,
+      ccPeopleTF: true
+    })
+  },
+
+  
   
 
 
@@ -329,23 +310,20 @@ Page({
     }
   },
   reverseStatus(num) {
-    if(num === 0) {
+    if(num === 1) {
       return '未处理'
     }
-    if(num === 1) {
+    if(num === 2) {
       return '处理中'
     }
-    if(num === 2) {
+    if(num === 3) {
       return '已完成'
     }
-  },
-  reverseCheckType(num) {
-    if(num === 0) {
-      return '安全'
-    } else {
-      return '质量'
+    if(num === 4) {
+      return '预警'
     }
   },
+  
 
   
 
@@ -520,14 +498,14 @@ Page({
 
 
   // 删除图片
-  deleteImg: function (e) {
-    var imgs = this.data.imgs;
-    var index = e.currentTarget.dataset.index;
-    imgs.splice(index, 1);
-    this.setData({
-      imgs: imgs
-    });
-  },
+  // deleteImg: function (e) {
+  //   var imgs = this.data.imgs;
+  //   var index = e.currentTarget.dataset.index;
+  //   imgs.splice(index, 1);
+  //   this.setData({
+  //     imgs: imgs
+  //   });
+  // },
   // 预览图片
   previewImg: function (e) {
     //获取当前图片的下标
