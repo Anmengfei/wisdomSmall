@@ -9,8 +9,8 @@ var riskLevel = {
         if(value === 3) {
             return '三级'
         }
-        if(value === 1) {
-            return '一级'
+        if(value === 4) {
+            return '四级'
         }
     }
 }
@@ -28,6 +28,11 @@ var status = {
         if(value === 3) {
             return '已完成'
         }
+
+        if(value === 4) {
+            return '预警'
+        }
+        
     }
 }
 

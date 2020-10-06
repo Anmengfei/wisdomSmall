@@ -143,7 +143,6 @@ navigator {
   height: 220rpx;
 }
 .xiangqing_info {
-  width: 90%;
   padding-top: 25rpx;
   padding-bottom: 25rpx;
 }

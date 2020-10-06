@@ -1,175 +1,52 @@
-<view style="height: 100%;width: 100%;display:flex;flex-direction: column;">
-    <view class="complete-wrapper">
-      <view class="complete-content">
+<wxs module="index" src="./index.wxs"></wxs>
+<view class='xiangqing' >
+   
+    
+      <view class='xiangqing_info' >
         <view>
-          <view class="complete-card">
+          <text class='zi' >问题描述</text><text class='title'>{{context}}</text>
+        </view>
+        <view >
+          <text class='zi' >发起人</text><text class='title' >{{from_user}}</text>
+          <text class='zi' >接受人</text><text class='title'>{{toUser}}</text>
+          <text class='zi' >抄送人</text><text class='title'>{{ccPeople}}</text>
+        </view>
+        <!-- <view >
+          <text class='zi' >危险登记</text><text class='title' style="margin-right:30px;">{{index.riskConvert(risk)}}</text>
+          <text class='zi' >处理状态</text><text class='title'>{{index.statusConvert(process_status)}}</text>
+        </view> -->
+        <view >
+          <text class='zi' >检查类型</text><text class='title' style="margin-right:25px;">{{checkType}}</text>
+          <text class='zi' >详细类型</text><text class='title'>{{checkTypeZi}}</text>
+        </view>
+        <view >
+          <text class='zi' >危险登记</text><text class='title' style="margin-right:30px;">{{risk}}</text>
+          <text class='zi' >预计结束时间</text><text class='title'>{{endDate}}</text>
+        </view>
 
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{toUser_index}}" bindchange="bindToUserChange" range="{{toUsers}}">
-
-                  <view class="yangshi">
-                    <view><text class="yangshititle">接收人：</text></view>
-                    <view bindtap="bindToUser">
-                      <text wx:if="{{toUsers.length === 0 || toUserTF === false}}" class="yangshiTishi">请选择接收人></text>
-                      <text wx:else class="yangshivalue">{{toUser}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{ccPeople_index}}" bindchange="bindCcPeopleChange" range="{{ccPeoples}}">
-
-                  <view class="yangshi">
-                    <view><text class="yangshititle">抄送人：</text></view>
-                    <view bindtap="bindCcPeople">
-                      <text wx:if="{{ccPeoples.length === 0 || ccPeopleTF === false}}" class="yangshiTishi">请选择抄送人></text>
-                      <text wx:else class="yangshivalue">{{ccPeople}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{risk_index}}" bindchange="bindRiskChange" range="{{risks}}">
-
-                  <view class="yangshi">
-                    <view><text class="yangshititle">危险等级：</text></view>
-                    <view bindtap="bindRisk">
-                      <text wx:if="{{risks.length === 0 || riskTF === false}}" class="yangshiTishi">请选择危险等级></text>
-                      <text wx:else class="yangshivalue">{{risk}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-
-            
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="date" value="{{endDate}}" bindchange="bindDateChange" start="2020-09-01" end="2021-09-01">
-
-                  <view class="yangshi">
-                    <view><text class="yangshititle">预计结束时间：</text></view>
-                    <view bindtap="bindDate">
-                      <text wx:if="{{endDate === undefined}}" class="yangshiTishi">请选择预计结束时间></text>
-                      <text wx:else class="yangshivalue">{{endDate}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{process_index}}" bindchange="bindProcessChange" range="{{processArr}}">
-                  <view class="yangshi">
-                    <view><text class="yangshititle">处理状态：</text></view>
-                    <view bindtap="bindProcess">
-                      <text wx:if="{{processArr.length === 0 }}" class="yangshiTishi">请选择处理状态></text>
-                      <text wx:else class="yangshivalue">{{process_status}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{checkType_index}}" bindchange="bindCheckTypeChange" range="{{checkTypes}}">
-                  <view class="yangshi">
-                    <view><text class="yangshititle">检查类型：</text></view>
-                    <view bindtap="bindCheckType">
-                      <text wx:if="{{checkTypes.length === 0 || checkTypeTF === false}}" class="yangshiTishi">请选择检查类型></text>
-                      <text wx:else class="yangshivalue">{{checkType}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{checkTypeZi_index}}" bindchange="bindCheckTypeZiChange" range="{{checkTypeZis}}">
-                  <view class="yangshi">
-                    <view><text class="yangshititle">检查子类型：</text></view>
-                    <view bindtap="bindCheckTypeZi">
-                      <text wx:if="{{checkTypeZis.length === 0 || checkTypeZiTF === false}}" class="yangshiTishi">请选择检查子类型></text>
-                      <text wx:else class="yangshivalue">{{checkTypeZi}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-            
-            <view class="info-item">
-              <view class="info-item__value">
-                 <view class="">
-                    <view><text class="yangshititle">内容：</text></view>
-                    <view>
-                        <textarea class="textarea-bg" bindblur="tianxieContent">{{context}}</textarea>                    
-                    </view>
-                    
-                  </view>
-                
-              </view>
-            </view>
-
-             <!-- <view class="info-item">
-              <view class="info-item__value">
-                 <view class="">
-                    <view><text class="yangshititle">上传图片：</text></view>
-                    <view>
-                        <textarea class="textarea-bg" placeholder="请填写问题描述" bindblur="tianxieContent"></textarea>                    
-                    </view>
-                    
-                  </view>
-                
-              </view>
-            </view> -->
-
-
-            <view class="weui-uploader">
-                <view class="img-v weui-uploader__bd">
-                    <view class='pic' wx:for="{{imgs}}" wx:for-item="item" wx:key="*this">
-                        <image class='weui-uploader__img '
-                                src="{{item}}"
-                                data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
-                                <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
-                        </image>
-                    </view>
-                    
-                    <!-- 用来提示用户上传图片 -->
-                    <view class="weui-uploader__input-box pic" bindtap="chooseImg"> </view>
+        <view class="weui-uploader">
+            <view class="img-v weui-uploader__bd">
+                <view class='pic' wx:for="{{imgs}}" wx:for-item="item" wx:key="*this">
+                    <image class='weui-uploader__img '
+                            src="{{item}}"
+                            data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
+                            
+                    </image>
                 </view>
-                <button class="upload-img-btn" bindtap="chooseImg" type='primary'>拍照  / 上传</button>
             </view>
-            
-            
-          <view class="tianbao">
-            <button  type="primary" size="mini" bindtap="tianbao">提交</button>
+        </view>
+        <view style="clear:both;">
+          <view class="threeTabs">
+            <view class="chulizhong tab" bindtap="clickChulizhong" wx:if="{{process_status === '未处理'}}">
+              <text>处理中</text>
+            </view>
+
+            <view class="yiwancheng tab" bindtap="clickFinish">
+              <text>已完成</text>
+            </view>
           </view>
         </view>
+        
       </view>
-    </view>
+    
   </view>
-</view>
