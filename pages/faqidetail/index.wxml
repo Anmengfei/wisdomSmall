@@ -74,7 +74,7 @@
               </view>
             </view>
 
-            <view class="info-item">
+            <!-- <view class="info-item">
               <view class="info-item__value">
                 <picker mode="selector" value="{{process_index}}" bindchange="bindProcessChange" range="{{processArr}}">
                   <view class="yangshi">
@@ -88,7 +88,7 @@
                   
                 </picker>
               </view>
-            </view>
+            </view> -->
 
             <view class="info-item">
               <view class="info-item__value">

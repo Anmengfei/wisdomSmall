@@ -73,12 +73,22 @@
   width: 120px;
   height: 120px;
 }
+.pic-dela {
+  float: left;
+  position: relative;
+  margin-right: 9px;
+  margin-bottom: 9px;
+  width: 100%;
+}
 .delete-btn {
   position: absolute;
   top: 0;
   right: 0;
 }
 .weui-uploader {
+  padding: 10rpx;
+}
+.weui-uploader-deal {
   padding: 10rpx;
 }
 .threeTabs {
@@ -99,4 +109,38 @@
 }
 .yiwancheng {
   background-color: #39ec75;
+}
+.yangshi {
+  display: flex;
+  height: 60px;
+  line-height: 60rpx;
+  justify-content: space-between;
+  border-bottom: 3rpx solid rgba(112, 171, 219, 0.6);
+}
+.yangshititle {
+  color: #70abdb;
+}
+.yangshiTishi {
+  color: #6e6d6d;
+  font-size: small;
+  font-weight: lighter;
+}
+.yangshivalue {
+  color: black;
+  font-size: 23rpx;
+}
+.dealForm {
+  margin-top: 10px;
+}
+textarea {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #afe2da;
+  border-radius: 3px;
+}
+.tianbao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50rpx;
 }

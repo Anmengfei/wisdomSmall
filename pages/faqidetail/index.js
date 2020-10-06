@@ -40,6 +40,7 @@ Page({
 
     imgs: [],
     id: undefined,
+    startTime: undefined,
 
     openId: undefined
   },
@@ -66,6 +67,7 @@ Page({
   onLoad: function (options) {
 
     var id = options.id;
+    
     this.setData({
       id: id
     })
@@ -117,6 +119,9 @@ Page({
     const res=await request({url:url, method: 'get'});
     console.log("获取List",res)
     var obj = res.data
+    this.setData({
+      startTime: obj.startTime
+    })
     var riskName = this.reverseRisk(obj.riskLevel)
     var processName = this.reverseStatus(obj.processStatus)
     
@@ -514,14 +519,6 @@ Page({
     }
     var endTime = `${this.data.endDate} 00:00:00`
     console.log(endTime)
-    var processStatus = this.statusConvert(this.data.process_status)
-
-
-   
-    
-    
-    
-    
 
     const submitParam = {
       openid: this.openId,
@@ -540,7 +537,7 @@ Page({
     console.log(submitParam)
     
     
-    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&fromUser=${this.data.from_user}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&processStatus=${processStatus}`
+    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&startTime=${this.data.startTime}`
     //var url = 'system/safe/getSafetyAndQualityInitInfo?'
     const res = await request({url:url,method:"post"});
     console.log("提交信息:", res)
