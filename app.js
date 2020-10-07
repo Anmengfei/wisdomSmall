@@ -12,6 +12,7 @@ App({
     //     _this.getOpenid(code)
     //   }
     // });
+    // yangmignqi
   },
   // async getOpenid (val) {
   //   const getOpenidParams = {code: val}
