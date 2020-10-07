@@ -3,28 +3,43 @@ import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
   data: {
+    username: '',
+    danwei: '',
+    tel: '',
+    role: ''
+
     
-   
     
-    openId: undefined
+    
+    
   },
   
 
   onShow: function(options) {
-    var openid = wx.getStorageSync("openId")
-    console.log("openid是：", openid)
-    this.setData({
-      openId: openid
-    })
+    
     
   
       
   },
   // 页面开始加载 就会触发
   onLoad: function (options) {
+
+    var username = wx.getStorageSync("nickName")
+    var danwei = wx.getStorageSync("remark")
+    var role = wx.getStorageSync("roleName")
+    var tel = wx.getStorageSync("phonenumber")
+    this.setData({
+      username: username,
+      danwei: danwei,
+      role: role,
+      tel: tel
+
+    })
     
       
   },
+
+
 
   
 

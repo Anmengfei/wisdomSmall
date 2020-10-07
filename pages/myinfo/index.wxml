@@ -1,40 +1,32 @@
 <view class="pyg_index">
+
+  <view class="container">
+ 
+  <view class='xiangqing' >
+    
+    
+      <view class='xiangqing_info' >
+        <view>
+          <text class='zi' >名字：</text><text class='title'>{{username}}</text>
+        </view>
+        <view >
+          <text class='zi' >单位：</text><text class='title' >{{danwei}}</text>
+          
+        </view>
+        <view >
+          <text class='zi' >角色：</text><text class='title' style="margin-right:30px;">{{role}}</text>
+        </view>
+        <view >
+          <text class='zi' >电话：</text><text class='title' style="margin-right:25px;">{{tel}}</text>
+        </view>
+      </view>
+    
+  </view>
+ 
+</view>
+    
+
   
-  <view class="fourModel">
-    <navigator url="/pages/tianbao/index">
-      <view class="model" >
-        <text class="iconfont icon-faqi tubiao">
-        </text>
-        <text class="faqi">我发起的</text>
-      </view>
-    </navigator>
-    
-    <navigator url="/pages/tianbao/index">
-      <view class="model">
-        <text class="iconfont icon-chuli tubiao">
-        </text>
-        <text class="faqi">我处理的</text>
-      </view>
-    </navigator>
-  </view>
-  <view class="fourModel">
-    <navigator url="/pages/tianbao/index">
-      <view class="model" >
-        <text class="iconfont icon-jiahaoyou tubiao">
-        </text>
-        <text class="faqi">抄送我的</text>
-      </view>
-    </navigator>
-     
-    <navigator url="/pages/tianbao/index">
-      <view class="model">
-        <text class="iconfont icon-gerenxinxi tubiao">
-        </text>
-        <text class="faqi">个人信息</text>
-      </view>
-    </navigator>
-    
-  </view>
   
   
 

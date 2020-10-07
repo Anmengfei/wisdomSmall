@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "SearchInput":"../../components/SearchInput/SearchInput"
+    "Select":"../../components/select/select"
   },
-  "navigationBarTitleText": "志愿填报"
+  "navigationBarTitleText": "发起列表"
 }

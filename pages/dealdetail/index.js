@@ -51,15 +51,15 @@ Page({
   
 
   onShow: function(options) {
-    var openid = wx.getStorageSync("openId")
-    var username = wx.getStorageSync("userName")
-    var construction_site_name = wx.getStorageSync("construction_site_name")
-    console.log("openid是：", openid)
-    this.setData({
-      openId: openid,
-      from_user: username,
-      construction_site_name: construction_site_name
-    })
+    // var openid = wx.getStorageSync("openId")
+    // var username = wx.getStorageSync("userName")
+    // var construction_site_name = wx.getStorageSync("deptName")
+    
+    // this.setData({
+    //   openId: openid,
+    //   from_user: username,
+    //   construction_site_name: construction_site_name
+    // })
     
   
       
@@ -121,7 +121,7 @@ Page({
     var obj = res.data
     var riskName = this.reverseRisk(obj.riskLevel)
     var processName = this.reverseStatus(obj.processStatus)
-    
+    var safetyAndQualityProcessList = obj.safetyAndQualityProcessList[0]
 
     var typezi = this.getCheckTypeZiList(obj.checkType)
     this.setData({
@@ -143,7 +143,9 @@ Page({
       riskTF: true,
       checkTypeZiTF: true,
       toUserTF: true,
-      ccPeopleTF: true
+      ccPeopleTF: true,
+      dealcontext: safetyAndQualityProcessList.context,
+      dealimgs: safetyAndQualityProcessList.imageUrl
     })
   },
 
