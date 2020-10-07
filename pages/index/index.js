@@ -26,6 +26,22 @@ Page({
       
   },
 
+  navigateTo() {
+    wx.switchTab({
+      url: '/pages/myinfo/index',
+      
+      success: function(e) {
+        console.log('aaa')
+        var page =  getCurrentPages().pop();
+        console.log(page)
+        if(page == undefined || page == null) return;
+        // page.onShow();
+        page.onLoad();
+      }
+
+    })
+  }
+
   
 
 

@@ -71,21 +71,30 @@ Page({
   async tianbao() {
 
     const zhuceParams = {
-      openid: this.openId,
+      
       userName: this.data.userName,
       password: this.data.password
       
     }
+    console.log(zhuceParams)
     
-    var url = `/school/saveUserInfo?openid=${this.openId}&province=${this.data.provinceCode}&category=${this.data.leibie}&batch=${this.data.pici}&subject=${allSubject}&city=${this.data.city}&citycode=${this.data.cityCode}&address=${this.data.address}&addresscode=${this.data.addressCode}&schoolname=${this.data.schoolName}`
-    const res = await request({url:url,method:"post"});
+    // var url = `/school/saveUserInfo?openid=${this.openId}&province=${this.data.provinceCode}&category=${this.data.leibie}&batch=${this.data.pici}&subject=${allSubject}&city=${this.data.city}&citycode=${this.data.cityCode}&address=${this.data.address}&addresscode=${this.data.addressCode}&schoolname=${this.data.schoolName}`
+    var url = `wechat_login?username=${this.data.userName}&password=${this.data.password}`
+    const res = await request({url:url,method:"get"});
     console.log(res)
-    if(res.msg === '成功') {
-      
+    var id = res.site_id
+    if(res.code === 200) {
+      wx.setStorageSync("site_id", res.site_id);
+      wx.setStorageSync("nickName", res.userinfo.nickName);
+      wx.setStorageSync("remark", res.userinfo.remark); // 项目管理员
+      wx.setStorageSync("userName", res.userinfo.userName); 
+      wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       wx.switchTab({
-        url: '/pages/user1/index',
+        url: '/pages/index/index',
         
         success: function(e) {
+          this.getNameById(id)
           console.log('aaa')
           var page =  getCurrentPages().pop();
           console.log(page)
@@ -105,6 +114,14 @@ Page({
     }
 
   },
+
+  async getNameById(id) {
+    var url = `getSite?siteId=${id}`
+    const res = await request({url:url,method:"get"});
+    console.log(res)
+    wx.setStorageSync("deptName", res.data.deptName);
+
+  }
 
   
 })

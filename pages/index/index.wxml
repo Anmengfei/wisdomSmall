@@ -26,13 +26,13 @@
       </view>
     </navigator>
      
-    <navigator url="/pages/myinfo/index">
-      <view class="model">
+    
+      <view class="model" bindtap="navigateTo">
         <text class="iconfont icon-gerenxinxi tubiao">
         </text>
         <text class="faqi">个人信息</text>
       </view>
-    </navigator>
+    
     
   </view>
   
