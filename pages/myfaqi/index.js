@@ -10,13 +10,13 @@ Page({
       },
       {
         "id": 2,
-        "value": "正在处理"
+        "value": "处理中"
       },
       {
         "id": 3,
-        "value": "已经完成"
+        "value": "已完成"
       },
-      ,
+      
       {
         "id": 4,
         "value": "逾期"
@@ -59,7 +59,7 @@ Page({
 
   async searchList() {
     /** 请求我发起的列表 */
-    var name = '发起人1'
+    var name = '发起人3'
     var url = `system/safe/getInfoByFromUser?name=${name}`
     const res=await request({url:url});
     console.log("发起Lists",res)

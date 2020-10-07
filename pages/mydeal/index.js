@@ -5,16 +5,20 @@ Page({
   data: {
     statusList: [
       {
-        "id": 0,
+        "id": 1,
         "value": "未处理"
       },
       {
-        "id": 1,
+        "id": 2,
         "value": "处理中"
       },
       {
-        "id": 2,
+        "id": 3,
         "value": "已完成"
+      },
+      {
+        "id": 4,
+        "value": "逾期"
       },
     ],
 
@@ -54,7 +58,7 @@ Page({
 
   async searchList() {
     /** 请求我发起的列表 */
-    var name = '接收人1'
+    var name = '接收人3'
     var url = `system/safe/getInfoByToUser?name=${name}`
     const res=await request({url:url});
     console.log("发起Lists",res)
