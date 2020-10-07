@@ -19,7 +19,7 @@ export const request=(params)=>{
     
 
   // 定义公共的url
-  const baseUrl="http://121.36.106.18:38080/";
+  const baseUrl="https://zhgdxcs.jiangongtong.cn/wechat/";
   return new Promise((resolve,reject)=>{
     wx.request({
      ...params,

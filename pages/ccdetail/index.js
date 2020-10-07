@@ -3,6 +3,7 @@ import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
   data: {
+    showForm: false,
     toUsers: [],
     toUser_index: undefined,
     toUser: '',
@@ -16,7 +17,7 @@ Page({
     risk: undefined,
 
     endDate: undefined,
-    checkTypes: [],
+    checkTypes: ["安全", "质量"],
     checkType_index: undefined,
     checkType: undefined,
 
@@ -25,6 +26,7 @@ Page({
     checkTypeZi: undefined,
 
     context: '',
+    dealcontext: '',
     construction_site_name: '',
     from_user: '',
     toUserTF: false,
@@ -32,9 +34,16 @@ Page({
     riskTF: false,
     checkTypeTF: false,
     checkTypeZiTF: false,
-    lenMore: 0,
-    imgs: [],
 
+    processArr: ['未处理', '处理中', '已完成'],
+    process_index: undefined,
+    process_status: '',
+
+
+    imgs: [],
+    dealimgs: [],
+
+    id: undefined,
    
     
     openId: undefined
@@ -45,8 +54,6 @@ Page({
     var openid = wx.getStorageSync("openId")
     var username = wx.getStorageSync("userName")
     var construction_site_name = wx.getStorageSync("construction_site_name")
-    username = "发起人3"
-    construction_site_name = "测试项目12321"
     console.log("openid是：", openid)
     this.setData({
       openId: openid,
@@ -59,9 +66,25 @@ Page({
   },
   // 页面开始加载 就会触发
   onLoad: function (options) {
+    var id = options.id;
+    this.setData({
+      id: id
+    })
     this.getCheckType()
     this.getToUSers()
     this.getCcPeoples()
+    this.getInfoById(id)
+      
+  },
+
+
+  async getCheckType() {
+    const res=await request({url:"system/safe/getCheckType", method: 'get'});
+    console.log("获取checkTypeList",res)
+    
+    this.setData({
+      checkTypes: res.data
+    })
   },
 
   async getToUSers() {
@@ -82,12 +105,49 @@ Page({
     })
   },
 
-  findToUserIndex(name) {
-    console.log("users",this.data.toUsers)
-    return this.data.toUsers.findIndex((item) => {
-      return item === name
+  async getCheckTypeZiList(checkType) {
+    var url = `system/safe/getCheckTypeOffspring?type=${checkType}`
+    const res=await request({url:url});
+    console.log("获取checkTypeziList",res)
+    this.setData({
+      checkTypeZis: res.data
     })
   },
+
+  async getInfoById(id) {
+    var url = `system/safe/getCheckInfoById?id=${id}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取List",res)
+    var obj = res.data
+    var riskName = this.reverseRisk(obj.riskLevel)
+    var processName = this.reverseStatus(obj.processStatus)
+    
+
+    var typezi = this.getCheckTypeZiList(obj.checkType)
+    this.setData({
+      checkTypeZis: typezi
+    })
+    this.setData({
+      ccPeople: obj.ccPeople,
+      checkType: obj.checkType,
+      checkTypeZi: obj.checkTypeOffspring,
+      construction_site_name: obj.constructionSiteName,
+      context: obj.context,
+      from_user: obj.fromUser,
+      imgs: [obj.imageUrl],
+      process_status: processName,
+      risk: riskName,
+      endDate: obj.setEndTime.split(" ")[0],
+      toUser: obj.toUser,
+      checkTypeTF: true,
+      riskTF: true,
+      checkTypeZiTF: true,
+      toUserTF: true,
+      ccPeopleTF: true
+    })
+  },
+
+  
   
 
 
@@ -107,6 +167,11 @@ Page({
       riskTF: true
     })
   },
+  // bindProcess() {
+  //   this.setData({
+  //     riskTF: true
+  //   })
+  // },
   bindCheckType() {
     this.setData({
       checkTypeTF: true
@@ -164,6 +229,18 @@ Page({
       
     })
   },
+  bindProcessChange(e) {
+    console.log("process", e.detail.value)
+    console.log(e)
+
+    var temp = this.data.processArr[e.detail.value]
+    console.log(temp)
+     this.setData({
+       process_index: e.detail.value,
+       process_status: temp
+     })
+     console.log("process_status",this.data.process_status)
+  },
   
 
   bindCheckTypeChange(e) {
@@ -195,13 +272,10 @@ Page({
   },
   
 
-  
-  
-
   tianxieContent(e) {
     console.log("content", e.detail.value)
     this.setData({
-      context: e.detail.value
+      dealcontext: e.detail.value
     })
   },
 
@@ -244,24 +318,7 @@ Page({
       return '逾期'
     }
   },
-
-  async getCheckType() {
-    const res=await request({url:"system/safe/getCheckType", method: 'get'});
-    console.log("获取checkTypeList",res)
-    
-    this.setData({
-      checkTypes: res.data
-    })
-  },
-
-  async getCheckTypeZiList(checkType) {
-    var url = `system/safe/getCheckTypeOffspring?type=${checkType}`
-    const res=await request({url:url});
-    console.log("获取checkTypeziList",res)
-    this.setData({
-      checkTypeZis: res.data
-    })
-  },
+  
 
   
 
@@ -269,112 +326,56 @@ Page({
 
 
   async tianbao() {
-    if(this.data.toUser === '') {
+    if(this.data.dealcontext === '') {
       wx.showToast({
-        title: '请先选择接收人',
+        title: '请先填写处理内容',
         icon: 'none',
         duration: 2000
       })
       return
     }
 
-    if(this.data.ccPeople === '') {
-      wx.showToast({
-        title: '请先选择抄送人',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
-
-    if(this.data.endDate === '') {
-      wx.showToast({
-        title: '请先选择预计结束时间',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
-
-    if(this.data.risk === '') {
-      wx.showToast({
-        title: '请先选择风险等级',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
-
-    if(this.data.checkType === '') {
-      wx.showToast({
-        title: '请先选择检查类型',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
-
-    if(this.data.checkTypeZi === '') {
-      wx.showToast({
-        title: '请先选择子检查类型',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
-    var endTime = `${this.data.endDate} 00:00:00`
-    console.log(endTime)
-
-
-   
     
-    
-    
-    
+    // const submitParam = {
+    //   openid: this.openId,
+    //   construction_site_name: this.data.construction_site_name,
+    //   from_user: this.data.from_user,
+    //   to_user: this.data.toUser,
+    //   cc_people: this.data.ccPeople,
+    //   context: this.data.context,
+    //   image_url: this.data.imgs,
+    //   risk_level: this.riskLevelConvert(this.data.risk),
+    //   set_end_time: this.data.endDate,
+    //   check_type: this.data.checkType,
+    //   check_type_offspring: this.data.checkTypeZi
+    // }
 
-    const submitParam = {
-      openid: this.openId,
-      constructionSiteName: this.data.construction_site_name,
-      fromUser: this.data.from_user,
-      toUser: this.data.toUser,
-      ccPeople: this.data.ccPeople,
-      context: this.data.context,
-      imageUrl: this.data.imgs,
-      riskLevel: this.riskLevelConvert(this.data.risk),
-      setEndTime: endTime.toString(),
-      checkType: this.data.checkType,
-      checkTypeOffspring: this.data.checkTypeZi
-    }
+    // console.log(submitParam)
 
-    console.log(submitParam)
-    
-    
-    var url = `system/safe/getSafetyAndQualityInitInfo?setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&fromUser=${this.data.from_user}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}`
-    //var url = 'system/safe/getSafetyAndQualityInitInfo?'
-    const res = await request({url:url,method:"post"});
-    console.log("提交信息:", res)
+    var url = `system/safe/insertCheckProcessInfo?initCheckId=${this.data.id}&status=3&context=${this.data.dealcontext}&imageUrl=${this.data.dealimgs}`
+    const res=await request({url:url, method: 'post'});
+    console.log("状态变成处理中",res)
+
     if(res.code === 200) {
-      console.log("AAAAA")
+      wx.showToast({
+        title: '状态修改成功',
+        icon: 'none',
+        duration: 2000
+      })
       wx.navigateTo({
-        url: '/pages/myfaqi/index',
+        url: '/pages/mydeal/index',
         
         success: function(e) {
           console.log('aaa')
-          // var page =  getCurrentPages().pop();
-          // console.log(page)
-          // if(page == undefined || page == null) return;
-          // // page.onShow();
-          // page.onLoad();
         }
 
       })
     } else {
       wx.showToast({
-        title: '提交失败',
+        title: '修改失败',
         icon: 'none',
         duration: 2000
       })
-      return
     }
 
   },
@@ -383,8 +384,8 @@ Page({
    // 上传图片
    chooseImg: function (e) {
     var that = this;
-    var imgs = this.data.imgs;
-    if (imgs.length >= 9) {
+    var dealimgs = this.data.dealimgs;
+    if (dealimgs.length >= 9) {
       this.setData({
         lenMore: 1
       });
@@ -401,23 +402,22 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        console.log("选取照片的res", res)
         var tempFilePaths = res.tempFilePaths;
-        var imgs = that.data.imgs;
+        var dealimgs = that.data.dealimgs;
         // console.log(tempFilePaths + '----');
         for (var i = 0; i < tempFilePaths.length; i++) {
-          if (imgs.length >= 9) {
+          if (dealimgs.length >= 9) {
             that.setData({
-              imgs: imgs
+              dealimgs: dealimgs
             });
             return false;
           } else {
-            imgs.push(tempFilePaths[i]);
+            dealimgs.push(tempFilePaths[i]);
           }
         }
         // console.log(imgs);
         that.setData({
-          imgs: imgs
+          dealimgs: dealimgs
         });
       }
     });
@@ -427,11 +427,11 @@ Page({
 
   // 删除图片
   deleteImg: function (e) {
-    var imgs = this.data.imgs;
+    var dealimgs = this.data.dealimgs;
     var index = e.currentTarget.dataset.index;
-    imgs.splice(index, 1);
+    dealimgs.splice(index, 1);
     this.setData({
-      imgs: imgs
+      dealimgs: dealimgs
     });
   },
   // 预览图片
@@ -447,6 +447,60 @@ Page({
       urls: imgs
     })
   },
+
+  previewDealImg: function (e) {
+    //获取当前图片的下标
+    var index = e.currentTarget.dataset.index;
+    //所有图片
+    var dealimgs = this.data.dealimgs;
+    wx.previewImage({
+      //当前显示图片
+      current: dealimgs[index],
+      //所有图片
+      urls: dealimgs
+    })
+  },
+
+
+  async clickChulizhong() {
+
+    this.setData({
+      showForm: false
+    })
+    
+    var url = `system/safe/insertCheckProcessInfo?initCheckId=${this.data.id}&status=2`
+
+    const res=await request({url:url, method: 'post'});
+    console.log("状态变成处理中",res)
+
+    if(res.code === 200) {
+      wx.showToast({
+        title: '状态修改成功',
+        icon: 'none',
+        duration: 2000
+      })
+      wx.navigateTo({
+        url: '/pages/mydeal/index',
+        
+        success: function(e) {
+          console.log('aaa')
+        }
+
+      })
+    } else {
+      wx.showToast({
+        title: '修改失败',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+  },
+  async clickFinish() {
+    this.setData({
+      showForm: true
+    })
+    
+  }
 
 
 

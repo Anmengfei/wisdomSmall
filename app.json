@@ -9,7 +9,8 @@
     "pages/myinfo/index",
     "pages/addfaqi/index",
     "pages/faqidetail/index",
-    "pages/dealdetail/index"
+    "pages/dealdetail/index",
+    "pages/ccdetail/index"
 
     
   ],
