@@ -83,19 +83,24 @@ Page({
     const res = await request({url:url,method:"get"});
     console.log(res)
     var id = res.site_id
+    var deptName = res.userinfo.dept.deptName
+    console.log("zhuce_deptId", res.userinfo.deptId)
     if(res.code === 200) {
       
       wx.setStorageSync("site_id", res.site_id);
+      wx.setStorageSync("deptId", res.userinfo.deptId)
       wx.setStorageSync("nickName", res.userinfo.nickName);
       wx.setStorageSync("remark", res.userinfo.remark); // 项目管理员
       wx.setStorageSync("userName", this.data.userName); 
       wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
+      this.getNameById(id)
+      this.postprogramName(deptName)
       wx.switchTab({
         url: '/pages/index/index',
         
         success: function(e) {
-          this.getNameById(id)
+          
           console.log('aaa')
           var page =  getCurrentPages().pop();
           console.log(page)
@@ -122,6 +127,11 @@ Page({
     console.log(res)
     wx.setStorageSync("deptName", res.data.deptName);
 
+  },
+  async postprogramName(name) {
+    var url = `system/safe/programName?name=${name}`
+    const res = await request({url:url,method:"post"});
+    console.log(res)
   }
 
   

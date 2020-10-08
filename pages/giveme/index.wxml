@@ -26,8 +26,11 @@
         </view>
         <view >
           <text class='zi' >发起人</text><text class='title' >{{item.fromUser}}</text>
+          
+        </view>
+        <view >
           <text class='zi' >接受人</text><text class='title'>{{item.toUser}}</text>
-          <text class='zi' >抄送人</text><text class='title'>{{item.ccPeople}}</text>
+          <!-- <text class='zi' >抄送人</text><text class='title'>{{item.ccPeople}}</text> -->
         </view>
         <view >
           <text class='zi' >危险登记</text><text class='title' style="margin-right:30px;">{{index.riskConvert(item.riskLevel)}}</text>

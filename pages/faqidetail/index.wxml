@@ -160,9 +160,9 @@
                     </view>
                     
                     <!-- 用来提示用户上传图片 -->
-                    <view class="weui-uploader__input-box pic" bindtap="chooseImg"> </view>
+                    <view class="weui-uploader__input-box pic" bindtap="uploadImage"> </view>
                 </view>
-                <button class="upload-img-btn" bindtap="chooseImg" type='primary'>拍照  / 上传</button>
+                <button class="upload-img-btn" bindtap="uploadImage" type='primary'>拍照  / 上传</button>
             </view>
             
             

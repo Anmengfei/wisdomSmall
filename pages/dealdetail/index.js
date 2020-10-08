@@ -71,8 +71,8 @@ Page({
       id: id
     })
     this.getCheckType()
-    this.getToUSers()
-    this.getCcPeoples()
+    // this.getToUSers()
+    // this.getCcPeoples()
     this.getInfoById(id)
       
   },
@@ -121,11 +121,19 @@ Page({
     var obj = res.data
     var riskName = this.reverseRisk(obj.riskLevel)
     var processName = this.reverseStatus(obj.processStatus)
-    var safetyAndQualityProcessList = obj.safetyAndQualityProcessList[0]
     var img_1 = []
     var dealimg_1 = []
     img_1.push(obj.imageUrl)
-    dealimg_1.push(safetyAndQualityProcessList.imageUrl)
+    if(obj.safetyAndQualityProcessList.length !== 0) {
+      var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[0]
+      var dealcontext = safetyAndQualityProcessList1.context
+      dealimg_1.push(safetyAndQualityProcessList1.imageUrl)
+    }
+    
+    
+    
+    
+    
     var typezi = this.getCheckTypeZiList(obj.checkType)
     this.setData({
       checkTypeZis: typezi
@@ -147,7 +155,7 @@ Page({
       checkTypeZiTF: true,
       toUserTF: true,
       ccPeopleTF: true,
-      dealcontext: safetyAndQualityProcessList.context,
+      dealcontext: dealcontext,
       dealimgs: dealimg_1
     })
   },

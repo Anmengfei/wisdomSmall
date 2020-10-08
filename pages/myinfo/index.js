@@ -24,8 +24,8 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
 
-    var username = wx.getStorageSync("nickName")
-    var danwei = wx.getStorageSync("remark")
+    var username = wx.getStorageSync("userName")
+    var danwei = wx.getStorageSync("nickName")
     var role = wx.getStorageSync("roleName")
     var tel = wx.getStorageSync("phonenumber")
     this.setData({

@@ -60,27 +60,41 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
     this.getCheckType()
-    this.getToUSers()
-    this.getCcPeoples()
+    this.getPerson()
+    // this.getToUSers()
+    // this.getCcPeoples()
   },
 
-  async getToUSers() {
-    const res=await request({url:"system/safe/getAllToUser", method: 'get'});
-    console.log("获取ToUsersList",res)
+  async getPerson() {
+    var deptId = wx.getStorageSync("deptId")
+    
+    var url =  `system/safe/getPerson?deptId=${deptId}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取PersonList",res)
     
     this.setData({
-      toUsers: res.data
-    })
-  },
-
-  async getCcPeoples() {
-    const res=await request({url:"system/safe/getAllCcPeople", method: 'get'});
-    console.log("获取CcPeopleList",res)
-    
-    this.setData({
+      toUsers: res.data,
       ccPeoples: res.data
     })
   },
+
+  // async getToUSers() {
+  //   const res=await request({url:"system/safe/getAllToUser", method: 'get'});
+  //   console.log("获取ToUsersList",res)
+    
+  //   this.setData({
+  //     toUsers: res.data
+  //   })
+  // },
+
+  // async getCcPeoples() {
+  //   const res=await request({url:"system/safe/getAllCcPeople", method: 'get'});
+  //   console.log("获取CcPeopleList",res)
+    
+  //   this.setData({
+  //     ccPeoples: res.data
+  //   })
+  // },
 
   findToUserIndex(name) {
     console.log("users",this.data.toUsers)
