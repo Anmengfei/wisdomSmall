@@ -32,7 +32,10 @@
         </view>
         <view >
           <text class='zi' >发起人</text><text class='title' >{{item.fromUser}}</text>
-          <text class='zi' >接受人</text><text class='title'>{{item.toUser}}</text>
+          
+        </view>
+        <view >
+          <!-- <text class='zi' >接受人</text><text class='title'>{{item.toUser}}</text> -->
           <text class='zi' >抄送人</text><text class='title'>{{item.ccPeople}}</text>
         </view>
         <view >

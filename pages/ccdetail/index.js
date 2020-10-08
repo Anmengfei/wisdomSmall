@@ -35,7 +35,7 @@ Page({
     checkTypeTF: false,
     checkTypeZiTF: false,
 
-    processArr: ['未处理', '处理中', '已完成', '逾期'],
+    processArr: ['未处理', '处理中', '已完成', "逾期"],
     process_index: undefined,
     process_status: '',
 
@@ -71,8 +71,8 @@ Page({
       id: id
     })
     this.getCheckType()
-    this.getToUSers()
-    this.getCcPeoples()
+    // this.getToUSers()
+    // this.getCcPeoples()
     this.getInfoById(id)
       
   },
@@ -123,6 +123,15 @@ Page({
     var processName = this.reverseStatus(obj.processStatus)
     var safetyAndQualityProcessList = obj.safetyAndQualityProcessList[0]
 
+    var img_1 = []
+    var dealimg_1 = []
+    img_1.push(obj.imageUrl)
+    if(obj.safetyAndQualityProcessList.length !== 0) {
+      var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[0]
+      var dealcontext = safetyAndQualityProcessList1.context
+      dealimg_1.push(safetyAndQualityProcessList1.imageUrl)
+    }
+
     var typezi = this.getCheckTypeZiList(obj.checkType)
     this.setData({
       checkTypeZis: typezi
@@ -134,7 +143,7 @@ Page({
       construction_site_name: obj.constructionSiteName,
       context: obj.context,
       from_user: obj.fromUser,
-      imgs: [obj.imageUrl],
+      imgs: img_1,
       process_status: processName,
       risk: riskName,
       endDate: obj.setEndTime.split(" ")[0],
@@ -144,8 +153,8 @@ Page({
       checkTypeZiTF: true,
       toUserTF: true,
       ccPeopleTF: true,
-      dealcontext: safetyAndQualityProcessList.context,
-      dealimgs: [safetyAndQualityProcessList.imageUrl]
+      dealcontext: dealcontext,
+      dealimgs: dealimg_1
     })
   },
 

@@ -60,9 +60,9 @@ Page({
 
   async searchList() {
     /** 请求我发起的列表 */
-    var name = '抄送人3'
-    var url = `system/safe/getInfoByCcPeople?name=${name}`
-    //var url = `system/safe/getInfoByCcPeople?name=${this.data.name}`
+    // var name = '抄送人3'
+    // var url = `system/safe/getInfoByCcPeople?name=${name}`
+    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}`
     const res=await request({url:url});
     console.log("抄送Lists",res)
     

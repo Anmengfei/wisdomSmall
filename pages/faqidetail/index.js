@@ -42,20 +42,20 @@ Page({
     id: undefined,
     startTime: undefined,
 
-    openId: undefined
+    deptId: 0
   },
   
 
   onShow: function(options) {
+    var that = this
     var openid = wx.getStorageSync("openId")
     var username = wx.getStorageSync("userName")
     var construction_site_name = wx.getStorageSync("construction_site_name")
-
+   
     
-    
-    console.log("openid是：", openid)
-    this.setData({
-      openId: openid,
+   
+    that.setData({
+      
       from_user: username,
       construction_site_name: construction_site_name
     })
@@ -72,8 +72,9 @@ Page({
       id: id
     })
     this.getCheckType()
-    this.getToUSers()
-    this.getCcPeoples()
+    this.getPerson()
+    // this.getToUSers()
+    // this.getCcPeoples()
     this.getInfoById(id)
       
   },
@@ -87,23 +88,36 @@ Page({
     })
   },
 
-  async getToUSers() {
-    const res=await request({url:"system/safe/getAllToUser", method: 'get'});
-    console.log("获取ToUsersList",res)
+  async getPerson() {
+    var deptId = wx.getStorageSync("deptId")
+    
+    var url =  `system/safe/getPerson?deptId=${deptId}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取PersonList",res)
     
     this.setData({
-      toUsers: res.data
-    })
-  },
-
-  async getCcPeoples() {
-    const res=await request({url:"system/safe/getAllCcPeople", method: 'get'});
-    console.log("获取CcPeopleList",res)
-    
-    this.setData({
+      toUsers: res.data,
       ccPeoples: res.data
     })
   },
+
+  // async getToUSers() {
+  //   const res=await request({url:"system/safe/getAllToUser", method: 'get'});
+  //   console.log("获取ToUsersList",res)
+    
+  //   this.setData({
+  //     toUsers: res.data
+  //   })
+  // },
+
+  // async getCcPeoples() {
+  //   const res=await request({url:"system/safe/getAllCcPeople", method: 'get'});
+  //   console.log("获取CcPeopleList",res)
+    
+  //   this.setData({
+  //     ccPeoples: res.data
+  //   })
+  // },
 
   async getCheckTypeZiList(checkType) {
     var url = `system/safe/getCheckTypeOffspring?type=${checkType}`
@@ -619,7 +633,7 @@ Page({
   },
 
   //上传图片
-  uploadImage: function () {
+   uploadImage() {
     var that = this;
    
     wx.chooseImage({
@@ -629,6 +643,7 @@ Page({
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         var tempFilePaths = res.tempFilePaths;
+        console.log("路径：", tempFilePaths[0])
         //启动上传等待中...
         wx.showToast({
           title: '正在上传...',
@@ -636,12 +651,18 @@ Page({
           mask: true,
           duration: 10000
         })
+        console.log("AAA")
+
+        // var url = `system/safe/uploadFile?`
+        // const res=await request({url:"system/safe/uploadFile", method: 'post', data: tempFilePaths[0]});
+        // console.log("获取checkTypeList",res)
    
           wx.uploadFile({
-            url: '192.168.1.1/home/uploadfilenew',
+            url: 'https://zhgdxcs.jiangongtong.cn/wechat/system/safe/checkImg',
             filePath: tempFilePaths[0],
             name: 'uploadfile_ant',
             formData: {
+              
             },
             header: {
               "Content-Type": "multipart/form-data"

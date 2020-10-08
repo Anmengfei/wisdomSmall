@@ -60,9 +60,9 @@ Page({
 
   async searchList() {
     /** 请求我发起的列表 */
-    var name = '接收人3'
-    var url = `system/safe/getInfoByToUser?name=${name}`
-    //var url = `system/safe/getInfoByToUser?name=${this.data.name}`
+    // var name = '接收人3'
+    // var url = `system/safe/getInfoByToUser?name=${name}`
+    var url = `system/safe/getInfoByToUser?name=${this.data.name}`
     const res=await request({url:url});
     console.log("发起Lists",res)
     
