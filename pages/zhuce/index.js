@@ -84,10 +84,11 @@ Page({
     console.log(res)
     var id = res.site_id
     if(res.code === 200) {
+      
       wx.setStorageSync("site_id", res.site_id);
       wx.setStorageSync("nickName", res.userinfo.nickName);
       wx.setStorageSync("remark", res.userinfo.remark); // 项目管理员
-      wx.setStorageSync("userName", res.userinfo.userName); 
+      wx.setStorageSync("userName", this.data.userName); 
       wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       wx.switchTab({
