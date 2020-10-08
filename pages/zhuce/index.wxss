@@ -16,9 +16,6 @@
   overflow: hidden;
   background: #fff;
   margin: 10rpx 20rpx;
-  padding: 20rpx 60rpx;
-  box-shadow: 0 12rpx 12rpx rgba(75, 92, 178, 0.1);
-  border-radius: 4px;
   margin-left: 20rpx;
 }
 .yangshi {
@@ -45,6 +42,9 @@
 .yangshivalue {
   color: black;
   font-size: 23rpx;
+}
+input {
+  width: 200px;
 }
 .selectInfo {
   font-size: 30rpx;

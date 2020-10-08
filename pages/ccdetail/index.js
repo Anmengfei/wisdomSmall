@@ -17,7 +17,7 @@ Page({
     risk: undefined,
 
     endDate: undefined,
-    checkTypes: ["安全", "质量"],
+    checkTypes: [],
     checkType_index: undefined,
     checkType: undefined,
 
@@ -35,7 +35,7 @@ Page({
     checkTypeTF: false,
     checkTypeZiTF: false,
 
-    processArr: ['未处理', '处理中', '已完成'],
+    processArr: ['未处理', '处理中', '已完成', '逾期'],
     process_index: undefined,
     process_status: '',
 
@@ -121,7 +121,7 @@ Page({
     var obj = res.data
     var riskName = this.reverseRisk(obj.riskLevel)
     var processName = this.reverseStatus(obj.processStatus)
-    
+    var safetyAndQualityProcessList = obj.safetyAndQualityProcessList[0]
 
     var typezi = this.getCheckTypeZiList(obj.checkType)
     this.setData({
@@ -143,7 +143,9 @@ Page({
       riskTF: true,
       checkTypeZiTF: true,
       toUserTF: true,
-      ccPeopleTF: true
+      ccPeopleTF: true,
+      dealcontext: safetyAndQualityProcessList.context,
+      dealimgs: [safetyAndQualityProcessList.imageUrl]
     })
   },
 
