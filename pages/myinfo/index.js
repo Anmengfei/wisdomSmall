@@ -25,7 +25,7 @@ Page({
   onLoad: function (options) {
 
     var username = wx.getStorageSync("userName")
-    var danwei = wx.getStorageSync("nickName")
+    var danwei = wx.getStorageSync("deptName")
     var role = wx.getStorageSync("roleName")
     var tel = wx.getStorageSync("phonenumber")
     this.setData({

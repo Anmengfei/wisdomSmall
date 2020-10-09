@@ -38,23 +38,42 @@ Page({
   },
   // 页面开始加载 就会触发
   onLoad: function (options) {
-    var siteName = wx.getStorageSync("nickName")
-    console.log("siteName是：", siteName)
+    var userName = wx.getStorageSync("userName")
+    console.log("userName是：", userName)
 
     this.setData({
-      name: siteName
+      name: userName
     })
     this.searchList()
     this.getCheckType()
       
   },
 
-  selectStatus: function(e) {
+  async selectStatus(e) {
     console.log(e.detail)
+    var status = e.detail.id
+
+    var url = `system/safe/getInfoByToUser?name=${this.data.name}&status=${status}`
+    const res=await request({url:url});
+    console.log("statusLists",res)
+    
+    this.setData({
+      myFaqiList: res.data
+    })
+    
   },
 
-  selectType(e) {
+  async selectType(e) {
     console.log(e.detail)
+    var type = e.detail
+
+    var url = `system/safe/getInfoByToUser?name=${this.data.name}&type=${type}`
+    const res=await request({url:url});
+    console.log("statusLists",res)
+    
+    this.setData({
+      myFaqiList: res.data
+    })
   },
 
 

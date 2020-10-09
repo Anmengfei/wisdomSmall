@@ -1,8 +1,8 @@
 {
   "pages": [ 
-    "pages/zhuce/index",
-    "pages/index/index",
     
+    "pages/index/index",
+    "pages/zhuce/index",
     "pages/myfaqi/index",
     "pages/mydeal/index",
     "pages/giveme/index",

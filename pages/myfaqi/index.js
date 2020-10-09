@@ -41,12 +41,12 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
 
-    var siteName = wx.getStorageSync("nickName")
+    var userName = wx.getStorageSync("userName")
     var deptId = wx.getStorageSync("deptId")
-    console.log("siteName是：", siteName)
+    console.log("userName是：", userName)
 
     this.setData({
-      name: siteName,
+      name: userName,
       deptId: deptId
     })
     this.searchList()
@@ -54,12 +54,31 @@ Page({
       
   },
 
-  selectStatus: function(e) {
+  async selectStatus(e) {
     console.log(e.detail)
+    var status = e.detail.id
+
+    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&status=${status}`
+    const res=await request({url:url});
+    console.log("statusLists",res)
+    
+    this.setData({
+      myFaqiList: res.data
+    })
+    
   },
 
-  selectType(e) {
+  async selectType(e) {
     console.log(e.detail)
+    var type = e.detail
+
+    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&type=${type}`
+    const res=await request({url:url});
+    console.log("statusLists",res)
+    
+    this.setData({
+      myFaqiList: res.data
+    })
   },
 
 

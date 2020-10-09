@@ -660,7 +660,7 @@ Page({
           wx.uploadFile({
             url: 'https://zhgdxcs.jiangongtong.cn/wechat/system/safe/checkImg',
             filePath: tempFilePaths[0],
-            name: 'uploadfile_ant',
+            name: 'file',
             formData: {
               
             },
@@ -668,9 +668,26 @@ Page({
               "Content-Type": "multipart/form-data"
             },
             success: function (res) {
+              wx.hideToast();
               var data = JSON.parse(res.data);
               //服务器返回格式: { "Catalog": "testFolder", "FileName": "1.jpg", "Url": "https://test.com/1.jpg" }
               console.log(data);
+              console.log("res", res)
+              if(data.msg === "error") {
+                wx.showModal({
+                  title: '上传错误',
+                  content: '图片涉及敏感信息，请重新上传',
+                  showCancel: false,
+                  success: function (res) { }
+                })
+              } else {
+                var tmpArr = []
+                tmpArr.push(data.data)
+                console.log("tmpArr", tmpArr)
+                that.setData({
+                  imgs: tmpArr
+                })
+              }
             },
             fail: function (res) {
               wx.hideToast();
