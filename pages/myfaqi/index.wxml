@@ -3,7 +3,7 @@
   <view class="threeTabs">
     <navigator url="/pages/addfaqi/index">
       <view class="add tab">
-        <text>新增</text>
+        <text>+</text>
       </view>
     </navigator>
 

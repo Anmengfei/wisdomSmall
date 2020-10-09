@@ -29,7 +29,8 @@ import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
   data: {
     userName: '',
-    password: ''
+    password: '',
+    
     
     
   },
@@ -83,9 +84,11 @@ Page({
     const res = await request({url:url,method:"get"});
     console.log(res)
     // var id = res.site_id
-    var deptName = res.userinfo.dept.deptName
-    console.log("zhuce_deptId", res.userinfo.deptId)
+    
     if(res.code === 200) {
+
+      var deptName = res.userinfo.dept.deptName
+      console.log("zhuce_deptId", res.userinfo.deptId)
       wx.setStorageSync("deptName", deptName);
       wx.setStorageSync("site_id", res.site_id);
       wx.setStorageSync("deptId", res.userinfo.deptId)
@@ -109,10 +112,18 @@ Page({
 
       })
     } else {
-      wx.showToast({
-        title: '账号或密码错误',
-        icon: 'none',
-        duration: 2000
+      // wx.showToast({
+      //   title: '账号或密码错误',
+      //   icon: 'none',
+      //   duration: 2000
+      // })
+
+
+      wx.showModal({
+        title: '登陆错误',
+        content: res.msg,
+        showCancel: false,
+        success: function (res) { }
       })
       return
     }
