@@ -46,20 +46,13 @@ Page({
     id: undefined,
    
     
-    openId: undefined
+    
   },
   
 
   onShow: function(options) {
-    var openid = wx.getStorageSync("openId")
-    var username = wx.getStorageSync("userName")
-    var construction_site_name = wx.getStorageSync("construction_site_name")
-    console.log("openid是：", openid)
-    this.setData({
-      openId: openid,
-      from_user: username,
-      construction_site_name: construction_site_name
-    })
+    
+    
     
   
       
@@ -67,9 +60,15 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
     var id = options.id;
+    var username = wx.getStorageSync("userName")
+    var construction_site_name = wx.getStorageSync("deptName")
+   
     this.setData({
-      id: id
+      id: id,
+      from_user: username,
+      construction_site_name: construction_site_name
     })
+    
     this.getCheckType()
     // this.getToUSers()
     // this.getCcPeoples()
@@ -121,13 +120,13 @@ Page({
     var obj = res.data
     var riskName = this.reverseRisk(obj.riskLevel)
     var processName = this.reverseStatus(obj.processStatus)
-    var safetyAndQualityProcessList = obj.safetyAndQualityProcessList[0]
+    
 
     var img_1 = []
     var dealimg_1 = []
     img_1.push(obj.imageUrl)
-    if(obj.safetyAndQualityProcessList.length !== 0) {
-      var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[0]
+    if(obj.processStatus === 3 && obj.safetyAndQualityProcessList.length > 1) {
+      var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[1]
       var dealcontext = safetyAndQualityProcessList1.context
       dealimg_1.push(safetyAndQualityProcessList1.imageUrl)
     }

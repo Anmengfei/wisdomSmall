@@ -47,7 +47,7 @@
                 <view class='pic' wx:for="{{dealimgs}}" wx:for-item="item" wx:key="*this">
                     <image class='weui-uploader__img '
                             src="{{item}}"
-                            data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
+                            data-index="{{index}}" mode="aspectFill" bindtap="previewDealImg">
                             
                     </image>
                 </view>
