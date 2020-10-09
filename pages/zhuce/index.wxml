@@ -1,8 +1,14 @@
-<view style="height: 100%;width: 100%;display:flex;flex-direction: column;margin-top:20%;">
+<view class="zhucePage" >
     
       
      
           <view class="complete-card">
+
+            <view class="huanying">
+              <text class="huanying_title">智慧工地平台</text>
+            </view>
+
+
             <view class="info-item">
               <view class="info-item__value">
                 
@@ -23,7 +29,7 @@
                  <view class="yangshi">
                     <view><text class="yangshititle">密码：</text></view>
                     <view>
-                     <input type="text" class="schoolname" placeholder="请填写密码" value="{{passowrd}}" bindinput="tianPassword"></input>
+                     <input type="password" class="schoolname" placeholder="请填写密码" value="{{passowrd}}" bindinput="tianPassword"></input>
                     </view>
                     
                   </view>
@@ -33,7 +39,7 @@
             
             
           <view class="tianbao">
-            <button  type="primary" size="mini" bindtap="tianbao">登陆</button>
+            <button  class="denglu" type="primary" size="mini" bindtap="tianbao">登陆</button>
           </view>
         </view>
      
