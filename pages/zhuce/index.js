@@ -110,7 +110,7 @@ Page({
       })
     } else {
       wx.showToast({
-        title: '提交失败',
+        title: '账号或密码错误',
         icon: 'none',
         duration: 2000
       })

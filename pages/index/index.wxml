@@ -11,7 +11,7 @@
     
     <navigator url="/pages/mydeal/index">
       <view class="model">
-        <text class="iconfont icon-chuli tubiao">
+        <text class="iconfont icon-chuli1 tubiao">
         </text>
         <text class="faqi">我处理的</text>
       </view>

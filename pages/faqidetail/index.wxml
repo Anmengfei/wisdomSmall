@@ -121,19 +121,30 @@
                 </picker>
               </view>
             </view>
-            
-            <view class="info-item">
+             <view class="info-item">
               <view class="info-item__value">
                  <view class="">
                     <view><text class="yangshititle">内容：</text></view>
                     <view>
-                        <textarea class="textarea-bg" bindblur="tianxieContent">{{context}}</textarea>                    
+                        <text class="textarea-bg">{{context}}</text>                    
                     </view>
                     
                   </view>
                 
               </view>
             </view>
+            <!-- <view class="info-item">
+              <view class="info-item__value">
+                 <view class="">
+                    <view><text class="yangshititle">补充内容：</text></view>
+                    <view>
+                        <input class="textarea-bg" bindblur="tianxieContent">{{context}}</input>                    
+                    </view>
+                    
+                  </view>
+                
+              </view>
+            </view> -->
 
              <!-- <view class="info-item">
               <view class="info-item__value">
