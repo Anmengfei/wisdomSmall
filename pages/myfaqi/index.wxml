@@ -21,10 +21,10 @@
     </view>
   </view>
 
-  <view class="container">
- 
-  <view class='xiangqing' wx:for="{{myFaqiList}}" bindtap="navigateTo">
-    <navigator url="/pages/faqidetail/index?id={{item.id}}">
+  <view class="container" wx:for="{{myFaqiList}}">
+ <navigator url="/pages/faqidetail/index?id={{item.id}}&context={{item.context}}">
+    <view class='xiangqing'>
+    
     
       <view class='xiangqing_info' >
         <view>
@@ -53,10 +53,10 @@
           <text class='zi' >预计结束时间</text><text class='title'>{{item.setEndTime}}</text>
         </view>
       </view>
-    </navigator>
+    
     
   </view>
- 
+ </navigator>
 </view>
     
 

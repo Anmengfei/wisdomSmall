@@ -63,13 +63,16 @@ Page({
   
       
   },
+
   // 页面开始加载 就会触发
   onLoad: function (options) {
 
     var id = options.id;
+    var context = options.context
     
     this.setData({
-      id: id
+      id: id,
+      context: context
     })
     this.getCheckType()
     this.getPerson()
@@ -77,6 +80,13 @@ Page({
     // this.getCcPeoples()
     this.getInfoById(id)
       
+  },
+
+  onReady: function () {
+    console.log("context:", this.data.context)
+    this.setData({
+      context: this.data.context,
+    })
   },
 
   async getCheckType() {
@@ -351,131 +361,6 @@ Page({
   
 
   
-
-
-
-
-  // async tianbao() {
-  //   if(this.data.toUser === '') {
-  //     wx.showToast({
-  //       title: '请先选择接收人',
-  //       icon: 'none',
-  //       duration: 2000
-  //     })
-  //     return
-  //   }
-
-  //   if(this.data.ccPeople === '') {
-  //     wx.showToast({
-  //       title: '请先选择抄送人',
-  //       icon: 'none',
-  //       duration: 2000
-  //     })
-  //     return
-  //   }
-
-  //   if(this.data.endDate === '') {
-  //     wx.showToast({
-  //       title: '请先选择预计结束时间',
-  //       icon: 'none',
-  //       duration: 2000
-  //     })
-  //     return
-  //   }
-
-  //   if(this.data.risk === '') {
-  //     wx.showToast({
-  //       title: '请先选择风险等级',
-  //       icon: 'none',
-  //       duration: 2000
-  //     })
-  //     return
-  //   }
-
-  //   if(this.data.checkType === '') {
-  //     wx.showToast({
-  //       title: '请先选择检查类型',
-  //       icon: 'none',
-  //       duration: 2000
-  //     })
-  //     return
-  //   }
-
-  //   if(this.data.checkTypeZi === '') {
-  //     wx.showToast({
-  //       title: '请先选择子检查类型',
-  //       icon: 'none',
-  //       duration: 2000
-  //     })
-  //     return
-  //   }
-
-
-   
-    
-    
-    
-    
-
-  //   const submitParam = {
-  //     openid: this.openId,
-  //     construction_site_name: this.data.construction_site_name,
-  //     from_user: this.data.from_user,
-  //     to_user: this.data.toUser,
-  //     cc_people: this.data.ccPeople,
-  //     context: this.data.context,
-  //     image_url: this.data.imgs,
-  //     risk_level: this.riskLevelConvert(this.data.risk),
-  //     set_end_time: this.data.endDate,
-  //     check_type: this.data.checkType,
-  //     check_type_offspring: this.data.checkTypeZi
-  //   }
-
-  //   console.log(submitParam)
-
-  //   wx.switchTab({
-  //     url: '/pages/myfaqi/index',
-      
-  //     success: function(e) {
-  //       console.log('aaa')
-  //       var page =  getCurrentPages().pop();
-  //       console.log(page)
-  //       if(page == undefined || page == null) return;
-  //       // page.onShow();
-  //       page.onLoad();
-  //     }
-
-  //   })
-    
-    
-  //   // var url = `/school/saveUserInfo?openid=${this.openId}&province=${this.data.provinceCode}&category=${this.data.leibie}&batch=${this.data.pici}&subject=${allSubject}&city=${this.data.city}&citycode=${this.data.cityCode}&address=${this.data.address}&addresscode=${this.data.addressCode}&schoolname=${this.data.schoolName}`
-  //   // const res = await request({url:url,method:"post"});
-  //   // console.log(res)
-  //   // if(res.msg === '成功') {
-      
-  //   //   wx.switchTab({
-  //   //     url: '/pages/user1/index',
-        
-  //   //     success: function(e) {
-  //   //       console.log('aaa')
-  //   //       var page =  getCurrentPages().pop();
-  //   //       console.log(page)
-  //   //       if(page == undefined || page == null) return;
-  //   //       // page.onShow();
-  //   //       page.onLoad();
-  //   //     }
-
-  //   //   })
-  //   // } else {
-  //   //   wx.showToast({
-  //   //     title: '提交失败',
-  //   //     icon: 'none',
-  //   //     duration: 2000
-  //   //   })
-  //   //   return
-  //   // }
-
-  // },
 
 
   async tianbao() {
