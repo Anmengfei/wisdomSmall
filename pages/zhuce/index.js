@@ -96,7 +96,7 @@ Page({
       wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       //this.getNameById(id)
-      this.postprogramName(deptName)
+      //this.postprogramName(deptName)
       wx.switchTab({
         url: '/pages/index/index',
         

@@ -26,7 +26,8 @@ Page({
     myFaqiList: [],
    
     
-    name: ''
+    name: '',
+    deptName: ''
   },
   
 
@@ -39,10 +40,12 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
     var userName = wx.getStorageSync("userName")
+    var deptName = wx.getStorageSync("deptName")
     console.log("userName是：", userName)
 
     this.setData({
-      name: userName
+      name: userName,
+      deptName: deptName
     })
     this.searchList()
     this.getCheckType()
@@ -53,7 +56,7 @@ Page({
     console.log(e.detail)
     var status = e.detail.id
 
-    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&status=${status}`
+    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
     const res=await request({url:url});
     console.log("statusLists",res)
     
@@ -67,7 +70,7 @@ Page({
     console.log(e.detail)
     var type = e.detail
 
-    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&type=${type}`
+    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
     const res=await request({url:url});
     console.log("statusLists",res)
     
@@ -81,7 +84,7 @@ Page({
     /** 请求我发起的列表 */
     // var name = '抄送人3'
     // var url = `system/safe/getInfoByCcPeople?name=${name}`
-    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}`
+    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&sitename=${this.data.deptName}`
     const res=await request({url:url});
     console.log("抄送Lists",res)
     
