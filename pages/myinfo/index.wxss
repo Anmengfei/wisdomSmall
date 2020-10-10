@@ -50,17 +50,12 @@
   margin-top: 50rpx;
 }
 .mt10 {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .xiangqing {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   width: 100%;
-  margin-top: 25rpx;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  justify-content: center;
-  align-items: center;
   margin-left: 15px;
 }
 .xiangqing_img {
@@ -72,6 +67,13 @@
   height: 220rpx;
 }
 .xiangqing_info {
+  width: 100%;
+  margin-top: 25rpx;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
   padding-top: 25rpx;
   padding-bottom: 25rpx;
 }
