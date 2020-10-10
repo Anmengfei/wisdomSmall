@@ -4,6 +4,10 @@
  
   <view class='xiangqing' >
     
+
+      <!-- <view class="personInfo">
+        <text class="infp_title">个人中心</text>
+      </view> -->
     
       <view class='xiangqing_info' >
         <view >
