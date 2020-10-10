@@ -26,7 +26,8 @@ Page({
     typeList: [],
     myFaqiList: [],
     name: '',
-    deptId: undefined
+    deptId: undefined,
+    deptName: ''
     
     
   },
@@ -43,11 +44,13 @@ Page({
 
     var userName = wx.getStorageSync("userName")
     var deptId = wx.getStorageSync("deptId")
+    var deptName = wx.getStorageSync("deptName")
     console.log("userName是：", userName)
 
     this.setData({
       name: userName,
-      deptId: deptId
+      deptId: deptId,
+      deptName: deptName
     })
     this.searchList()
     this.getCheckType()
@@ -58,7 +61,7 @@ Page({
     console.log(e.detail)
     var status = e.detail.id
 
-    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&status=${status}`
+    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
     const res=await request({url:url});
     console.log("statusLists",res)
     
@@ -72,7 +75,7 @@ Page({
     console.log(e.detail)
     var type = e.detail
 
-    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&type=${type}`
+    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
     const res=await request({url:url});
     console.log("statusLists",res)
     
@@ -86,7 +89,7 @@ Page({
     /** 请求我发起的列表 */
     
     // var url = `system/safe/getInfoByFromUser?name=${this.data.name}`
-    var url = `system/safe/getInfoByFromUser?name=${this.data.name}`
+    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&sitename=${this.data.deptName}`
     const res=await request({url:url});
     console.log("发起Lists",res)
     
