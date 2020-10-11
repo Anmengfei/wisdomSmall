@@ -83,19 +83,20 @@ Page({
     var url = `wechat_login?username=${this.data.userName}&password=${this.data.password}`
     const res = await request({url:url,method:"get"});
     console.log(res)
-    // var id = res.site_id
+    var id = res.site_id
     
     if(res.code === 200) {
 
-      var deptName = res.userinfo.dept.deptName
+      // var deptName = res.userinfo.dept.deptName
       console.log("zhuce_deptId", res.userinfo.deptId)
-      wx.setStorageSync("deptName", deptName);
+      // wx.setStorageSync("deptName", deptName);
       wx.setStorageSync("site_id", res.site_id);
+
       wx.setStorageSync("deptId", res.userinfo.deptId)
       wx.setStorageSync("userName", res.userinfo.userName); 
       wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
-      //this.getNameById(id)
+      this.getNameById(id)
       //this.postprogramName(deptName)
       wx.switchTab({
         url: '/pages/index/index',
@@ -129,6 +130,8 @@ Page({
     }
 
   },
+
+  
 
   async getNameById(id) {
     var url = `getSite?siteId=${id}`

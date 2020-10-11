@@ -45,7 +45,7 @@ Page({
     var userName = wx.getStorageSync("userName")
     var deptId = wx.getStorageSync("deptId")
     var deptName = wx.getStorageSync("deptName")
-    console.log("userName是：", userName)
+    console.log("deptName是：", deptName)
 
     this.setData({
       name: userName,
