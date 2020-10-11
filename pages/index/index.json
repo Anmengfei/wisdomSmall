@@ -2,5 +2,5 @@
   "usingComponents": {
     "SearchInput":"../../components/SearchInput/SearchInput"
   },
-  "navigationBarTitleText": "智慧工地"
+  "navigationBarTitleText": "智慧工地随手拍"
 }
