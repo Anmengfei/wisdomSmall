@@ -74,21 +74,39 @@
               </view>
             </view>
 
-            <!-- <view class="info-item">
+
+            <view class="info-item">
               <view class="info-item__value">
-                <picker mode="selector" value="{{process_index}}" bindchange="bindProcessChange" range="{{processArr}}">
+                <picker mode="selector" value="{{ schedule_index }}" bindchange="bindScheduleChange" range="{{schedules}}" range-key="durationDictName" >
                   <view class="yangshi">
-                    <view><text class="yangshititle">处理状态：</text></view>
-                    <view bindtap="bindProcess">
-                      <text wx:if="{{processArr.length === 0 }}" class="yangshiTishi">请选择处理状态></text>
-                      <text wx:else class="yangshivalue">{{process_status}}</text>
+                    <view><text class="yangshititle">一级进度：</text></view>
+                    <view bindtap="bindSchedule">
+                      <text wx:if="{{schedules.length === 0 || scheduleTF === false}}" class="yangshiTishi">请选择一级进度></text>
+                      <text wx:else class="yangshivalue">{{schedules[schedule_index].durationDictName}}</text>
                     </view>
                     
                   </view>
                   
                 </picker>
               </view>
-            </view> -->
+            </view>
+
+            <view class="info-item">
+              <view class="info-item__value">
+                <picker mode="selector" value="{{scheduleZi_index}}" bindchange="bindScheduleZiChange" range="{{scheduleZis}}" range-key="duration2DictName">
+                  <view class="yangshi">
+                    <view><text class="yangshititle">二级进度：</text></view>
+                    <view bindtap="bindScheduleZi">
+                      <text wx:if="{{scheduleZis.length === 0 || scheduleZiTF === false}}" class="yangshiTishi">请选择二级类型></text>
+                      <text wx:else class="yangshivalue">{{scheduleZis[scheduleZi_index].duration2DictName}}</text>
+                    </view>
+                    
+                  </view>
+                  
+                </picker>
+              </view>
+            </view>
+            
 
             <view class="info-item">
               <view class="info-item__value">

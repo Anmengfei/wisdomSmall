@@ -24,6 +24,16 @@ Page({
     checkTypeZi_index: undefined,
     checkTypeZi: undefined,
 
+    schedules: [],
+    schedule_index: undefined,
+    schedule: undefined,
+    scheduleId: undefined,
+
+    scheduleZis: [],
+    scheduleZi_index: undefined,
+    scheduleZi: undefined,
+    scheduleZiId: undefined,
+
     context: '',
     construction_site_name: '',
     from_user: '',
@@ -42,13 +52,13 @@ Page({
     id: undefined,
     startTime: undefined,
 
-    deptId: 0
+    deptId: 0,
+    planId: undefined
   },
   
 
   onShow: function(options) {
     var that = this
-    var openid = wx.getStorageSync("openId")
     var username = wx.getStorageSync("userName")
     var construction_site_name = wx.getStorageSync("construction_site_name")
    
@@ -69,13 +79,16 @@ Page({
 
     var id = options.id;
     var context = options.context
-    
+    var planId = options.planId
     this.setData({
       id: id,
-      context: context
+      context: context,
+      planId: planId
     })
     this.getCheckType()
     this.getPerson()
+    this.getSchedule()
+    this.getScheduleZiList(this.data.planId)
     // this.getToUSers()
     // this.getCcPeoples()
     this.getInfoById(id)
@@ -95,6 +108,17 @@ Page({
     
     this.setData({
       checkTypes: res.data
+    })
+  },
+
+  async getSchedule() {
+    var deptId = wx.getStorageSync("deptId")
+    var url =`schedule/getOneSche?siteId=${deptId}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取ScheduleList",res)
+    
+    this.setData({
+      schedules: res.data
     })
   },
 
@@ -138,6 +162,50 @@ Page({
     })
   },
 
+  async getScheduleZiList(id) {
+    var url = `schedule/getTwoSche?planId=${id}`
+    const res=await request({url:url});
+    console.log("获取ScheduleziList",res)
+    this.setData({
+      scheduleZis: res.data
+    })
+  },
+  // sectionId
+  getScheduleIndex(id) {
+    this.getScheduleZiList(id)
+    var arr = this.data.schedules
+    for(var i = 0; i < arr.length; i++) {
+      var obj = arr[i];
+      if(obj.id === id) {
+        this.setData({
+          scheduleTF: true,
+          schedule: obj.durationDictName,
+          schedule_index: i,
+          scheduleId: id
+        })
+      }
+    }
+    
+  },
+
+  getScheduleZiIndex(id) {
+    var arr = this.data.scheduleZis
+    for(var i = 0; i < arr.length; i++) {
+      var obj = arr[i];
+      if(obj.id === id) {
+        this.setData({
+          scheduleZiTF: true,
+          scheduleZi: obj.durationDictName,
+          scheduleZi_index: i,
+          scheduleZiId:id
+        })
+        // console.log("一级工期", obj.durationDictName)
+        // return obj.durationDictName
+      }
+    }
+  },
+  //石家庄宝能中心项目二标段
+
   async getInfoById(id) {
     var url = `system/safe/getCheckInfoById?id=${id}`
     const res=await request({url:url, method: 'get'});
@@ -150,11 +218,18 @@ Page({
     var processName = this.reverseStatus(obj.processStatus)
     var imgs_1 =[]
     imgs_1.push(obj.imageUrl)
-
+    
+    this.getScheduleIndex(obj.planId)
     var typezi = this.getCheckTypeZiList(obj.checkType)
     this.setData({
       checkTypeZis: typezi
     })
+    console.log("schedulesssss:", this.data.schedule)
+    console.log("schedulesYYYYY:", this.data.schedules)
+    if(this.data.schedule !== '') {
+      console.log("!@#$%&")
+      this.getScheduleZiIndex(obj.sectionId)
+    }
     this.setData({
       ccPeople: obj.ccPeople,
       checkType: obj.checkType,
@@ -171,7 +246,13 @@ Page({
       riskTF: true,
       checkTypeZiTF: true,
       toUserTF: true,
-      ccPeopleTF: true
+      ccPeopleTF: true,
+      scheduleTF: true,
+      scheduleZiTF: true
+
+      
+      
+      
     })
   },
 
@@ -204,6 +285,16 @@ Page({
   bindCheckTypeZi() {
     this.setData({
       checkTypeZiTF: true
+    })
+  },
+  bindSchedule() {
+    this.setData({
+      scheduleTF: true
+    })
+  },
+  bindScheduleZi() {
+    this.setData({
+      scheduleZiTF: true
     })
   },
 
@@ -294,6 +385,36 @@ Page({
       checkTypeZi: temp
     })
     console.log("checkTypeZi", this.data.checkTypeZi)
+  },
+
+  bindScheduleChange(e) {
+    console.log("scheduleSSS", e.detail.value)
+    console.log("eee", e)
+   
+    var temp = this.data.schedules[e.detail.value].durationDictName
+   console.log(temp)
+    this.setData({
+      schedule_index: e.detail.value,
+      schedule: temp,
+      scheduleId: this.data.schedules[e.detail.value].id,
+      scheduleZi_index: 0
+    })
+    console.log("schedule",this.data.schedule)
+    this.getScheduleZiList(this.data.schedules[e.detail.value].id)
+  },
+
+  bindScheduleZiChange(e) {
+    console.log("scheduleZi", e.detail.value)
+    console.log(e)
+   
+    var temp = this.data.scheduleZis[e.detail.value]
+   
+    this.setData({
+      scheduleZi_index: e.detail.value,
+      scheduleZi: temp,
+      scheduleZiId: this.data.scheduleZis[e.detail.value].id
+    })
+    console.log("scheduleZi", this.data.scheduleZi)
   },
   
 
@@ -417,6 +538,23 @@ Page({
       })
       return
     }
+
+    if(this.data.schedule === '') {
+      wx.showToast({
+        title: '请先选择一级进度',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if(this.data.scheduleZi === '') {
+      wx.showToast({
+        title: '请先选择二级进度',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
     var endTime = `${this.data.endDate} 00:00:00`
     console.log(endTime)
 
@@ -437,7 +575,7 @@ Page({
     console.log(submitParam)
     
     
-    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&startTime=${this.data.startTime}`
+    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&startTime=${this.data.startTime}&planId=${this.data.scheduleId}&sectionId=${this.data.scheduleZiId}`
     //var url = 'system/safe/getSafetyAndQualityInitInfo?'
     const res = await request({url:url,method:"post"});
     console.log("提交信息:", res)

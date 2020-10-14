@@ -22,6 +22,13 @@
         <view class="mt10">
           <text class='zi' >电话：</text><text class='title' style="margin-right:25px;">{{tel}}</text>
         </view>
+
+        <view class="mt10">
+          <text class='zi' >岗位：</text><text class='title' style="margin-right:25px;">{{userType}}</text>
+        </view>
+        <view class="mt10">
+          <text class='zi' >工种：</text><text class='title' style="margin-right:25px;">{{postName}}</text>
+        </view>
       </view>
     
   </view>

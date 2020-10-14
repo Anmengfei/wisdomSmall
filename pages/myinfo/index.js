@@ -6,7 +6,9 @@ Page({
     username: '',
     danwei: '',
     tel: '',
-    role: ''
+    role: '',
+    userType: '',
+    postName: ''
 
     
     
@@ -28,11 +30,15 @@ Page({
     var danwei = wx.getStorageSync("deptName")
     var role = wx.getStorageSync("roleName")
     var tel = wx.getStorageSync("phonenumber")
+    var userType = wx.getStorageSync("userType")
+    var postName = wx.getStorageSync('postName')
     this.setData({
       username: username,
       danwei: danwei,
       role: role,
-      tel: tel
+      tel: tel,
+      userType: userType,
+      postName: postName
 
     })
     
