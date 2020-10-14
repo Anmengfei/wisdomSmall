@@ -93,6 +93,7 @@ Page({
     const res=await request({url:url});
     console.log("发起Lists",res)
     
+    
     this.setData({
       myFaqiList: res.data
     })
