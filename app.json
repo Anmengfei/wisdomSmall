@@ -1,8 +1,8 @@
 {
   "pages": [ 
-   
-    "pages/index/index",
     "pages/zhuce/index",
+    "pages/index/index",
+    
     "pages/myfaqi/index",
     "pages/mydeal/index",
     "pages/giveme/index",
@@ -17,7 +17,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#42b473",
-    "navigationBarTitleText": "智慧工地随手拍",
+    "navigationBarTitleText": "建工随手拍",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

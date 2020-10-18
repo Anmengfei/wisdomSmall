@@ -23,6 +23,10 @@
           <text class='zi' >详细类型</text><text class='title'>{{checkTypeZi}}</text>
         </view>
         <view >
+          <text class='zi' >一级进度</text><text class='title' style="margin-right:25px;">{{schedule}}</text>
+          <text class='zi' >二级进度</text><text class='title'>{{scheduleZi}}</text>
+        </view>
+        <view >
           <text class='zi' >危险登记</text><text class='title' style="margin-right:30px;">{{risk}}</text>
           <text class='zi' >预计结束时间</text><text class='title'>{{endDate}}</text>
         </view>

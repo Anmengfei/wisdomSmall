@@ -12,6 +12,9 @@ Page({
     ccPeople_index: undefined,
     ccPeople: '',
 
+    schedule: undefined,
+    scheduleZi: undefined,
+
     risks: ["一级","二级","三级","四级"],
     risk_index: undefined,
     risk: undefined,
@@ -139,6 +142,8 @@ Page({
       ccPeople: obj.ccPeople,
       checkType: obj.checkType,
       checkTypeZi: obj.checkTypeOffspring,
+      schedule: obj.planName,
+      scheduleZi: obj.sectionName,
       construction_site_name: obj.constructionSiteName,
       context: obj.context,
       from_user: obj.fromUser,

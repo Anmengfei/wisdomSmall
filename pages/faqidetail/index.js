@@ -234,6 +234,9 @@ Page({
       ccPeople: obj.ccPeople,
       checkType: obj.checkType,
       checkTypeZi: obj.checkTypeOffspring,
+
+      schedule: obj.planName,
+      scheduleZi: obj.sectionName,
       construction_site_name: obj.constructionSiteName,
       context: obj.context,
       from_user: obj.fromUser,
