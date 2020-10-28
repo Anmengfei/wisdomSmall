@@ -19,11 +19,12 @@
   white-space: nowrap;
   padding: 0 40px 0 6px;
   font-size: 14px;
+ 
 }
 
 .ms-options {
   background: white;
-  width: inherit;
+  width: auto;
   position: absolute;
   border: 1px solid #e2e2e2;
   border-top: none;
@@ -31,6 +32,7 @@
   z-index: 3;
   max-height: 120px;
   overflow: auto;
+  min-width: 120px;
 }
 
 .ms-option {
@@ -39,10 +41,11 @@
   border-top: 1px solid #e2e2e2;
   padding: 0 6px;
   text-align: left;
-  overflow: hidden;
+  /* overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap; */
   font-size: 14px;
+  
 }
 
 .ms-item:first-child {
