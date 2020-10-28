@@ -30,6 +30,25 @@
           <text class='zi' >工种：</text><text class='title' style="margin-right:25px;">{{postName}}</text>
         </view>
       </view>
+      <view class="selectStatus">
+        <!-- <text class="tab oneTab">选择切换的工地:</text> -->
+        <view class="info-item__value">
+          <picker mode="selector" value="{{ siteIndex }}" bindchange="bindSiteChange" range="{{siteList}}" range-key="deptName" >
+            <view class="yangshi">
+              <view><text class="yangshititle oneTab">选择切换的工地:</text></view>
+              <view bindtap="bindSite">
+                <text wx:if="{{siteList.length === 0 || siteTF === false}}" class="yangshiTishi">请选择工地></text>
+                <text wx:else class="yangshivalue">{{selectedSite}}</text>
+              </view>
+              
+            </view>
+            
+          </picker>
+        </view>
+        
+      </view>
+      <!-- <text class="changeBtn" bindtap="changeSite">切换</text> -->
+     
     
   </view>
  

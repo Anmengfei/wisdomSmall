@@ -91,7 +91,7 @@ Page({
       console.log("zhuce_deptId", res.userinfo.deptId)
       // wx.setStorageSync("deptName", deptName);
       wx.setStorageSync("site_id", res.site_id);
-      wx.setStorageSync("userType", res.userType);
+      wx.setStorageSync("userType", res.userinfo.nickName);
       wx.setStorageSync("postName", res.postName);
 
       wx.setStorageSync("deptId", res.userinfo.deptId)
