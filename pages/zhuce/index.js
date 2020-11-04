@@ -44,16 +44,16 @@ Page({
   onLoad: function (options) {
 
     
-    var openid = wx.getStorageSync("openId")
-    this.openId = openid
-    console.log(this.openId)
+    
     
     
     
   },
   onShow: function(options) {
-    
-    
+    var openid = wx.getStorageSync("openId")
+    this.openId = openid
+    console.log("zhuce", this.openId)
+   
     
   },
   
@@ -70,58 +70,25 @@ Page({
   },
 
   async tianbao() {
-
+    var openid = wx.getStorageSync("openId")
     const zhuceParams = {
       
       userName: this.data.userName,
-      password: this.data.password
+      password: this.data.password,
+      wechatOpenid: this.openId
       
     }
     console.log(zhuceParams)
     
     // var url = `/school/saveUserInfo?openid=${this.openId}&province=${this.data.provinceCode}&category=${this.data.leibie}&batch=${this.data.pici}&subject=${allSubject}&city=${this.data.city}&citycode=${this.data.cityCode}&address=${this.data.address}&addresscode=${this.data.addressCode}&schoolname=${this.data.schoolName}`
-    var url = `wechat_login?username=${this.data.userName}&password=${this.data.password}`
+    var url = `wechat_bind_user?username=${this.data.userName}&password=${this.data.password}&wechatOpenid=${openid}`
     const res = await request({url:url,method:"get"});
     console.log(res)
     var id = res.site_id
     
     if(res.code === 200) {
-
-      // var deptName = res.userinfo.dept.deptName
-      console.log("zhuce_deptId", res.userinfo.deptId)
-      // wx.setStorageSync("deptName", deptName);
-      wx.setStorageSync("site_id", res.site_id);
-      wx.setStorageSync("userType", res.userinfo.nickName);
-      wx.setStorageSync("postName", res.postName);
-
-      wx.setStorageSync("deptId", res.userinfo.deptId)
-      wx.setStorageSync("userName", res.userinfo.userName); 
-      wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
-      wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
-      this.getNameById(id)
-      //this.postprogramName(deptName)
-      wx.switchTab({
-        url: '/pages/index/index',
-        
-        success: function(e) {
-          
-          console.log('aaa')
-          var page =  getCurrentPages().pop();
-          console.log(page)
-          if(page == undefined || page == null) return;
-          // page.onShow();
-          page.onLoad();
-        }
-
-      })
+      this.getInfoByInfo(openid)
     } else {
-      // wx.showToast({
-      //   title: '账号或密码错误',
-      //   icon: 'none',
-      //   duration: 2000
-      // })
-
-
       wx.showModal({
         title: '登陆错误',
         content: res.msg,
@@ -132,8 +99,32 @@ Page({
     }
 
   },
+  async getInfoByInfo (id) {
+    const getOpenidParams = {openid: id}
+    //  3 发送请求 获取用户的openid
+    const res = await request({url:"getUserInfoByMiniOpenid",data:getOpenidParams});
+    if(res.code === 200) {
+      var id = res.site_id
+      wx.setStorageSync("site_id", res.site_id);
+      wx.setStorageSync("userType", res.userinfo.nickName);
+      wx.setStorageSync("postName", res.postName);
+      wx.setStorageSync("deptId", res.userinfo.deptId)
+      wx.setStorageSync("userName", res.userinfo.userName); 
+      wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
+      wx.setStorageSync("bind", true);
+      this.getNameById(id)
+    } else {
+      wx.setStorageSync("bind", false);
+    }
+    console.log('res111:', res.data)
+  },
 
-  
+  async bangdingInfo(username, password, wechatOpenid) {
+    var url = `wechat_bind_user?username=${username}&password=${password}&wechatOpenid=${wechatOpenid}`
+    const res = await request({url:url,method:"get"});
+    console.log("绑定信息返回数据", res)
+  },
 
   async getNameById(id) {
     var url = `getSite?siteId=${id}`
