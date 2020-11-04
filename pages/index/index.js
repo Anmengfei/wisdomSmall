@@ -5,17 +5,13 @@ Page({
   data: {
     
    
-    
+    setInter: '',
     openId: undefined
   },
   
 
   onShow: function(options) {
-    var openid = wx.getStorageSync("openId")
-    console.log("openid是：", openid)
-    this.setData({
-      openId: openid
-    })
+    
     
   
       
@@ -23,7 +19,38 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
     
-      
+    this.startSetInter()
+  },
+
+  startSetInter: function () {
+    var that = this;
+    //将计时器赋值给setInter
+    that.data.setInter = setInterval(
+       function () {
+           that.queryUser() //这里的queryUser()是我自己写的去云数据库获取数据的接口
+       }, 2000);
+  },
+  queryUser() {
+    var openid = wx.getStorageSync("openId")
+    var bindStatus = wx.getStorageSync("bind")
+ 
+    if(openid !== undefined) {
+      clearInterval(this.data.setInter) // 关闭定时器
+      console.log("openid是：", openid)
+      console.log("绑定状态:", bindStatus)
+      this.setData({
+        openId: openid
+      })
+      if(bindStatus === false) {
+        setTimeout(function(){
+          wx.navigateTo({
+            url: '../zhuce/index',
+          })
+        },3000);
+      }
+    }
+    
+    
   },
 
   navigateTo() {
