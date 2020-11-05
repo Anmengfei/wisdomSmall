@@ -165,9 +165,28 @@
                     </view>
                     
                     <!-- 用来提示用户上传图片 -->
-                    <view class="weui-uploader__input-box pic" bindtap="uploadImage"> </view>
+                    <!-- <view class="weui-uploader__input-box pic" bindtap="uploadImage"> </view> -->
                 </view>
                 <button class="upload-img-btn" bindtap="uploadImage" type='primary'>拍照  / 上传</button>
+            </view>
+
+            <!-- 上传视频 -->
+
+            <view class="weui-uploader">
+                <view class="img-v weui-uploader__bd">
+                    <view class='pic' wx:for="{{videos}}" wx:for-item="item" wx:key="*this">
+                        <video class='weui-uploader__img '
+                                src="{{item}}"
+                                data-index="{{index}}" mode="aspectFill" >
+                                <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteVideo"></icon>
+                        </video>
+                    </view>
+                    <!-- <video src="{{videos}}" /> -->
+                    
+                    <!-- 用来提示用户上传图片 -->
+                    <!-- <view class="weui-uploader__input-box pic" bindtap="uploadVideo"> </view> -->
+                </view>
+                <button class="upload-img-btn" bindtap="uploadVideo" type='primary'>上传视频</button>
             </view>
             
             

@@ -49,6 +49,7 @@ Page({
 
 
     imgs: [],
+    videos: [],
     id: undefined,
     startTime: undefined,
 
@@ -217,7 +218,15 @@ Page({
     var riskName = this.reverseRisk(obj.riskLevel)
     var processName = this.reverseStatus(obj.processStatus)
     var imgs_1 =[]
+    var videos_1 = []
+    console.log("视频详细信息:", obj.videoUrl)
+    if(obj.videoUrl === null) {
+      videos_1 = []
+    } else {
+      videos_1.push(obj.videoUrl)
+    }
     imgs_1.push(obj.imageUrl)
+   
     
     this.getScheduleIndex(obj.planId)
     var typezi = this.getCheckTypeZiList(obj.checkType)
@@ -241,6 +250,7 @@ Page({
       context: obj.context,
       from_user: obj.fromUser,
       imgs: imgs_1,
+      videos: videos_1,
       process_status: processName,
       risk: riskName,
       endDate: obj.setEndTime.split(" ")[0],
@@ -569,6 +579,7 @@ Page({
       ccPeople: this.data.ccPeople,
       context: this.data.context,
       imageUrl: this.data.imgs,
+      videourl: this.data.videos,
       riskLevel: this.riskLevelConvert(this.data.risk),
       setEndTime: endTime.toString(),
       checkType: this.data.checkType,
@@ -578,7 +589,7 @@ Page({
     console.log(submitParam)
     
     
-    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&startTime=${this.data.startTime}&planId=${this.data.scheduleId}&sectionId=${this.data.scheduleZiId}`
+    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&startTime=${this.data.startTime}&planId=${this.data.scheduleId}&sectionId=${this.data.scheduleZiId}&videoUrl=${this.data.videos}`
     //var url = 'system/safe/getSafetyAndQualityInitInfo?'
     const res = await request({url:url,method:"post"});
     console.log("提交信息:", res)
@@ -752,6 +763,91 @@ Page({
       urls: imgs
     })
   },
+  deleteVideo: function (e) {
+    var videos = this.data.videos;
+    var index = e.currentTarget.dataset.index;
+    videos.splice(index, 1);
+    this.setData({
+      videos: videos
+    });
+  },
+  uploadVideo() {
+    console.log("!!!")
+    var that = this;
+   
+    wx.chooseVideo({
+      sourceType: ['album', 'camera'],
+      compressed: true,
+      maxDuration: 10,
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        console.log("视频:", res)
+        // if(res.duration > 10) {
+        //   wx.showModal({
+        //     title: '错误提示',
+        //     content: '视频不能超过10秒',
+        //     showCancel: false,
+        //     success: function (res) { }
+        //   })
+        //   return;
+        // }
+        var tmpFilePath = res.tempFilePath;
+        console.log("路径：", tmpFilePath)
+        //启动上传等待中...
+        wx.showToast({
+          title: '正在上传...',
+          icon: 'loading',
+          mask: true,
+          duration: 10000
+        })
+        console.log("AAA")
+
+       
+   
+          wx.uploadFile({
+            url: 'https://zhgdxcs.jiangongtong.cn/wechat/system/safe/uploadFile',
+            filePath: tmpFilePath,
+            name: 'file',
+            
+            header: {
+              "Content-Type": "multipart/form-data"
+            },
+            success: function (res) {
+              wx.hideToast();
+              console.log("上传视频:", res)
+              var data = JSON.parse(res.data);
+              //服务器返回格式: { "Catalog": "testFolder", "FileName": "1.jpg", "Url": "https://test.com/1.jpg" }
+              console.log(data);
+              console.log("res", res)
+              if(data.code !== 200) {
+                wx.showModal({
+                  title: '上传错误',
+                  content: '上传失败，请重新上传',
+                  showCancel: false,
+                  success: function (res) { }
+                })
+              } else {
+                var tmpArr = []
+                tmpArr.push(data.data)
+                console.log("tmpArr", tmpArr)
+                that.setData({
+                  videos: tmpArr
+                })
+              }
+            },
+            fail: function (res) {
+              wx.hideToast();
+              wx.showModal({
+                title: '错误提示',
+                content: '上传视频失败',
+                showCancel: false,
+                success: function (res) { }
+              })
+            }
+          });
+      }
+    });
+  }
 
 
 

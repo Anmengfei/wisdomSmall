@@ -43,7 +43,9 @@ Page({
 
 
     imgs: [],
+    videos: [],
     dealimgs: [],
+    dealVideos: [],
 
     id: undefined,
    
@@ -117,11 +119,23 @@ Page({
     
     var img_1 = []
     var dealimg_1 = []
+    var videos_1 = []
+    var dealvideo_1 = []
     img_1.push(obj.imageUrl)
+    if(obj.videoUrl === null) {
+      videos_1 = []
+    } else {
+      videos_1.push(obj.videoUrl)
+    }
     if(obj.processStatus === 3 && obj.safetyAndQualityProcessList.length > 1) {
       var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[1]
       var dealcontext = safetyAndQualityProcessList1.context
       dealimg_1.push(safetyAndQualityProcessList1.imageUrl)
+      if(safetyAndQualityProcessList1.videoUrl === null) {
+        dealvideo_1 = []
+      } else {
+        dealvideo_1.push(safetyAndQualityProcessList1.videoUrl)
+      }
     }
     
     
@@ -142,6 +156,7 @@ Page({
       context: obj.context,
       from_user: obj.fromUser,
       imgs: img_1,
+      videos: videos_1,
       process_status: processName,
       risk: riskName,
       endDate: obj.setEndTime.split(" ")[0],
@@ -152,7 +167,8 @@ Page({
       toUserTF: true,
       ccPeopleTF: true,
       dealcontext: dealcontext,
-      dealimgs: dealimg_1
+      dealimgs: dealimg_1,
+      dealVideos: dealvideo_1
     })
   },
 
@@ -361,7 +377,7 @@ Page({
 
     // console.log(submitParam)
 
-    var url = `system/safe/insertCheckProcessInfo?initCheckId=${this.data.id}&status=3&context=${this.data.dealcontext}&imageUrl=${this.data.dealimgs}`
+    var url = `system/safe/insertCheckProcessInfo?initCheckId=${this.data.id}&status=3&context=${this.data.dealcontext}&imageUrl=${this.data.dealimgs}&videoUrl=${this.data.dealVideos}`
     const res=await request({url:url, method: 'post'});
     console.log("状态变成处理中",res)
 
@@ -579,6 +595,91 @@ Page({
       showForm: true
     })
     
+  },
+  uploadVideo() {
+    console.log("!!!")
+    var that = this;
+   
+    wx.chooseVideo({
+      sourceType: ['album', 'camera'],
+      compressed: true,
+      maxDuration: 10,
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        console.log("视频:", res)
+        // if(res.duration > 10) {
+        //   wx.showModal({
+        //     title: '错误提示',
+        //     content: '视频不能超过10秒',
+        //     showCancel: false,
+        //     success: function (res) { }
+        //   })
+        //   return;
+        // }
+        var tmpFilePath = res.tempFilePath;
+        console.log("路径：", tmpFilePath)
+        //启动上传等待中...
+        wx.showToast({
+          title: '正在上传...',
+          icon: 'loading',
+          mask: true,
+          duration: 10000
+        })
+        console.log("AAA")
+
+       
+   
+          wx.uploadFile({
+            url: 'https://zhgdxcs.jiangongtong.cn/wechat/system/safe/uploadFile',
+            filePath: tmpFilePath,
+            name: 'file',
+            
+            header: {
+              "Content-Type": "multipart/form-data"
+            },
+            success: function (res) {
+              wx.hideToast();
+              console.log("上传视频:", res)
+              var data = JSON.parse(res.data);
+              //服务器返回格式: { "Catalog": "testFolder", "FileName": "1.jpg", "Url": "https://test.com/1.jpg" }
+              console.log(data);
+              console.log("res", res)
+              if(data.code !== 200) {
+                wx.showModal({
+                  title: '上传错误',
+                  content: '上传失败，请重新上传',
+                  showCancel: false,
+                  success: function (res) { }
+                })
+              } else {
+                var tmpArr = []
+                tmpArr.push(data.data)
+                console.log("tmpArr", tmpArr)
+                that.setData({
+                  dealVideos: tmpArr
+                })
+              }
+            },
+            fail: function (res) {
+              wx.hideToast();
+              wx.showModal({
+                title: '错误提示',
+                content: '上传视频失败',
+                showCancel: false,
+                success: function (res) { }
+              })
+            }
+          });
+      }
+    });
+  },
+  deleteVideo: function (e) {
+    var videos = this.data.dealVideos;
+    var index = e.currentTarget.dataset.index;
+    videos.splice(index, 1);
+    this.setData({
+      dealVideos: videos
+    });
   },
 
 

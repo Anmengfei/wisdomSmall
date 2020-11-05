@@ -45,6 +45,8 @@ Page({
 
     imgs: [],
     dealimgs: [],
+    videos: [],
+    dealVideos: [],
 
     id: undefined,
    
@@ -127,11 +129,23 @@ Page({
 
     var img_1 = []
     var dealimg_1 = []
+    var videos_1 = []
+    var dealvideo_1 = []
     img_1.push(obj.imageUrl)
+    if(obj.videoUrl === null) {
+      videos_1 = []
+    } else {
+      videos_1.push(obj.videoUrl)
+    }
     if(obj.processStatus === 3 && obj.safetyAndQualityProcessList.length > 1) {
       var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[1]
       var dealcontext = safetyAndQualityProcessList1.context
       dealimg_1.push(safetyAndQualityProcessList1.imageUrl)
+      if(safetyAndQualityProcessList1.videoUrl === null) {
+        dealvideo_1 = []
+      } else {
+        dealvideo_1.push(safetyAndQualityProcessList1.videoUrl)
+      }
     }
 
     var typezi = this.getCheckTypeZiList(obj.checkType)
@@ -148,6 +162,7 @@ Page({
       context: obj.context,
       from_user: obj.fromUser,
       imgs: img_1,
+      videos: videos_1,
       process_status: processName,
       risk: riskName,
       endDate: obj.setEndTime.split(" ")[0],
@@ -158,7 +173,8 @@ Page({
       toUserTF: true,
       ccPeopleTF: true,
       dealcontext: dealcontext,
-      dealimgs: dealimg_1
+      dealimgs: dealimg_1,
+      dealVideos: dealvideo_1
     })
   },
 
