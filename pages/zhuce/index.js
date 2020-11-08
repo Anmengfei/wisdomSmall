@@ -88,6 +88,7 @@ Page({
     
     if(res.code === 200) {
       this.getInfoByInfo(openid)
+
     } else {
       wx.showModal({
         title: '登陆错误',
@@ -114,6 +115,20 @@ Page({
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       wx.setStorageSync("bind", true);
       this.getNameById(id)
+      wx.switchTab({	
+        url: '/pages/index/index',	
+
+        success: function(e) {	
+
+          console.log('aaa')	
+          var page =  getCurrentPages().pop();	
+          console.log(page)	
+          if(page == undefined || page == null) return;	
+          // page.onShow();	
+          page.onLoad();	
+        }	
+
+      })
     } else {
       wx.setStorageSync("bind", false);
     }
