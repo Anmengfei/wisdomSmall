@@ -111,7 +111,9 @@ Page({
       wx.setStorageSync("postName", res.postName);
       wx.setStorageSync("deptId", res.userinfo.deptId)
       wx.setStorageSync("userName", res.userinfo.userName); 
-      wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      if(res.userinfo.roles.length !== 0) {
+        wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      }
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       wx.setStorageSync("bind", true);
       this.getNameById(id)
