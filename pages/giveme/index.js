@@ -56,8 +56,17 @@ Page({
     console.log(e.detail)
     var status = e.detail.id
 
-    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    // var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
+    // const res=await request({url:url});
+
+    var params = {
+      name: this.data.name,
+      status: status,
+      sitename: this.data.deptName
+    }
+
+    var url = "system/safe/getInfoByCcPeople"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("statusLists",res)
     
     this.setData({
@@ -70,8 +79,17 @@ Page({
     console.log(e.detail)
     var type = e.detail
 
-    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    // var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
+    // const res=await request({url:url});
+
+    var params = {
+      name: this.data.name,
+      type: type,
+      sitename: this.data.deptName
+    }
+
+    var url = "system/safe/getInfoByCcPeople"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("statusLists",res)
     
     this.setData({
@@ -84,8 +102,16 @@ Page({
     /** 请求我发起的列表 */
     // var name = '抄送人3'
     // var url = `system/safe/getInfoByCcPeople?name=${name}`
-    var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    // var url = `system/safe/getInfoByCcPeople?name=${this.data.name}&sitename=${this.data.deptName}`
+    // const res=await request({url:url});
+
+    var params = {
+      name: this.data.name,
+      sitename: this.data.deptName
+    }
+
+    var url = "system/safe/getInfoByCcPeople"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("抄送Lists",res)
     
     this.setData({

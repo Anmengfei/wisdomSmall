@@ -73,16 +73,24 @@ Page({
     var openid = wx.getStorageSync("openId")
     const zhuceParams = {
       
-      userName: this.data.userName,
+      
       password: this.data.password,
-      wechatOpenid: this.openId
+      wechatOpenid: this.openId,
+      username: this.data.userName,
       
     }
     console.log(zhuceParams)
     
     // var url = `/school/saveUserInfo?openid=${this.openId}&province=${this.data.provinceCode}&category=${this.data.leibie}&batch=${this.data.pici}&subject=${allSubject}&city=${this.data.city}&citycode=${this.data.cityCode}&address=${this.data.address}&addresscode=${this.data.addressCode}&schoolname=${this.data.schoolName}`
-    var url = `wechat_bind_user?username=${this.data.userName}&password=${this.data.password}&wechatOpenid=${openid}`
-    const res = await request({url:url,method:"get"});
+    //var url = `wechat_bind_user?password=${this.data.password}&wechatOpenid=${openid}&username=${this.data.userName}`
+    //const res = await request({url:url,method:"get"});
+    var url = "wechat_bind_user"
+    const res = await request({
+      url: url,
+      data: zhuceParams,
+      method: 'get'
+
+    })
     console.log(res)
     var id = res.site_id
     
@@ -113,6 +121,8 @@ Page({
       wx.setStorageSync("userName", res.userinfo.userName); 
       if(res.userinfo.roles.length !== 0) {
         wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      } else {
+        wx.setStorageSync("roleName", null); 
       }
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       wx.setStorageSync("bind", true);

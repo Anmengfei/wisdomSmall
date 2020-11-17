@@ -1,6 +1,7 @@
 // 0 引入 用来发送请求的 方法 一定要把路径补全
 import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
+import qs from "../../utils/qs"
 Page({
   data: {
     toUsers: [],
@@ -61,8 +62,8 @@ Page({
   onShow: function(options) {
     var that = this
     var username = wx.getStorageSync("userName")
-    var construction_site_name = wx.getStorageSync("construction_site_name")
-   
+    var construction_site_name = wx.getStorageSync("deptName")
+   console.log("项目名称", construction_site_name)
     
    
     that.setData({
@@ -589,9 +590,27 @@ Page({
     console.log(submitParam)
     
     
-    var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&startTime=${this.data.startTime}&planId=${this.data.scheduleId}&sectionId=${this.data.scheduleZiId}&videoUrl=${this.data.videos}`
-    //var url = 'system/safe/getSafetyAndQualityInitInfo?'
-    const res = await request({url:url,method:"post"});
+    // var url = `system/safe/updateInfoByFromUser?id=${this.data.id}&setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&startTime=${this.data.startTime}&planId=${this.data.scheduleId}&sectionId=${this.data.scheduleZiId}&videoUrl=${this.data.videos}`
+    //var url = 'system/safe/getSafetyAndQualityInitInfo'
+    var params = {
+      id: this.data.id,
+      setEndTime: endTime,
+      constructionSiteName: this.data.construction_site_name,
+      toUser: this.data.toUser,
+      ccPeople: this.data.ccPeople,
+      context: this.data.context,
+      imageUrl: this.data.imgs[0],
+      riskLevel: this.riskLevelConvert(this.data.risk),
+      checkType: this.data.checkType,
+      checkTypeOffspring: this.data.checkTypeZi,
+      startTime: this.data.startTime,
+      planId: this.data.scheduleId,
+      sectionId: this.data.scheduleZiId,
+      videoUrl: this.data.videos[0]
+    }
+    var url = `system/safe/updateInfoByFromUser?${qs.stringify(params)}`
+    const res = await request({url:url, method:"post"});
+    // const res = await request({url:url,method:"post"});
     console.log("提交信息:", res)
     if(res.code === 200) {
       console.log("AAAAA")
