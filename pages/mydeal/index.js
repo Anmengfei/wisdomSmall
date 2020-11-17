@@ -56,8 +56,17 @@ Page({
     console.log(e.detail)
     var status = e.detail.id
 
-    var url = `system/safe/getInfoByToUser?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    // var url = `system/safe/getInfoByToUser?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
+    // const res=await request({url:url});
+
+    var params = {
+      name: this.data.name,
+      status: status,
+      sitename: this.data.deptName
+    }
+
+    var url = "system/safe/getInfoByToUser"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("statusLists",res)
     
     this.setData({
@@ -70,8 +79,17 @@ Page({
     console.log(e.detail)
     var type = e.detail
 
-    var url = `system/safe/getInfoByToUser?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    // var url = `system/safe/getInfoByToUser?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
+    // const res=await request({url:url});
+
+    var params = {
+      name: this.data.name,
+      type: type,
+      sitename: this.data.deptName
+    }
+
+    var url = "system/safe/getInfoByToUser"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("statusLists",res)
     
     this.setData({
@@ -84,8 +102,17 @@ Page({
     /** 请求我发起的列表 */
     // var name = '接收人3'
     // var url = `system/safe/getInfoByToUser?name=${name}`
-    var url = `system/safe/getInfoByToUser?name=${this.data.name}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    // var url = `system/safe/getInfoByToUser?name=${this.data.name}&sitename=${this.data.deptName}`
+
+    // const res=await request({url:url});
+
+    var params = {
+      name: this.data.name,
+      sitename: this.data.deptName
+    }
+
+    var url = "system/safe/getInfoByToUser"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("发起Lists",res)
     
     this.setData({

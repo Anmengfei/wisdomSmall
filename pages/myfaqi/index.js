@@ -46,6 +46,7 @@ Page({
     var deptId = wx.getStorageSync("deptId")
     var deptName = wx.getStorageSync("deptName")
     console.log("deptName是：", deptName)
+    console.log("userName", userName)
 
     this.setData({
       name: userName,
@@ -61,8 +62,15 @@ Page({
     console.log(e.detail)
     var status = e.detail.id
 
-    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    var params = {
+      name: this.data.name,
+      status: status,
+      sitename: this.data.deptName
+    }
+
+    //var url = `system/safe/getInfoByFromUser?name=${this.data.name}&status=${status}&sitename=${this.data.deptName}`
+    var url = "system/safe/getInfoByFromUser"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("statusLists",res)
     
     this.setData({
@@ -74,9 +82,16 @@ Page({
   async selectType(e) {
     console.log(e.detail)
     var type = e.detail
+    console.log("AAA", this.data.name)
+    var params = {
+      name: this.data.name,
+      type: type,
+      sitename: this.data.deptName
+    }
 
-    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    //var url = `system/safe/getInfoByFromUser?name=${this.data.name}&type=${type}&sitename=${this.data.deptName}`
+    var url = "system/safe/getInfoByFromUser"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("statusLists",res)
     
     this.setData({
@@ -89,8 +104,14 @@ Page({
     /** 请求我发起的列表 */
     
     // var url = `system/safe/getInfoByFromUser?name=${this.data.name}`
-    var url = `system/safe/getInfoByFromUser?name=${this.data.name}&sitename=${this.data.deptName}`
-    const res=await request({url:url});
+    //var url = `system/safe/getInfoByFromUser?name=${this.data.name}&sitename=${this.data.deptName}`
+    var params = {
+      name: this.data.name,
+      sitename: this.data.deptName
+    }
+
+    var url = "system/safe/getInfoByFromUser"
+    const res=await request({url:url, data: params, method: 'get'});
     console.log("发起Lists",res)
     
     

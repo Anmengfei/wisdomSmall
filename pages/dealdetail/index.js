@@ -1,6 +1,8 @@
 // 0 引入 用来发送请求的 方法 一定要把路径补全
 import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
+import qs from "../../utils/qs"
+
 Page({
   data: {
     showForm: false,
@@ -377,7 +379,15 @@ Page({
 
     // console.log(submitParam)
 
-    var url = `system/safe/insertCheckProcessInfo?initCheckId=${this.data.id}&status=3&context=${this.data.dealcontext}&imageUrl=${this.data.dealimgs}&videoUrl=${this.data.dealVideos}`
+    //var url = `system/safe/insertCheckProcessInfo?initCheckId=${this.data.id}&status=3&context=${this.data.dealcontext}&imageUrl=${this.data.dealimgs}&videoUrl=${this.data.dealVideos}`
+    var params = {
+      initCheckId: this.data.id,
+      status: 3,
+      context: this.data.dealcontext,
+      imageUrl:this.data.dealimgs[0],
+      videoUrl: this.data.dealVideos[0]
+    }
+    var url = `system/safe/insertCheckProcessInfo?${qs.stringify(params)}`
     const res=await request({url:url, method: 'post'});
     console.log("状态变成处理中",res)
 

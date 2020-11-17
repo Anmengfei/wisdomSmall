@@ -1,6 +1,7 @@
 // 0 引入 用来发送请求的 方法 一定要把路径补全
 import { request } from "../../request/index.js";
 import regeneratorRuntime from '../../lib/runtime/runtime';
+import qs from "../../utils/qs"
 Page({
   data: {
     toUsers: [],
@@ -442,8 +443,25 @@ Page({
     console.log(submitParam)
     
     
-    var url = `system/safe/getSafetyAndQualityInitInfo?setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&fromUser=${this.data.from_user}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&planId=${this.data.scheduleId}&sectionId=${this.data.scheduleZiId}&videoUrl=${this.data.videos}`
-    //var url = 'system/safe/getSafetyAndQualityInitInfo?'
+    //var url = `system/safe/getSafetyAndQualityInitInfo?setEndTime=${endTime}&constructionSiteName=${this.data.construction_site_name}&fromUser=${this.data.from_user}&toUser=${this.data.toUser}&ccPeople=${this.data.ccPeople}&context=${this.data.context}&imageUrl=${this.data.imgs}&riskLevel=${this.riskLevelConvert(this.data.risk)}&checkType=${this.data.checkType}&checkTypeOffspring=${this.data.checkTypeZi}&planId=${this.data.scheduleId}&sectionId=${this.data.scheduleZiId}&videoUrl=${this.data.videos}`
+    var url = 'system/safe/getSafetyAndQualityInitInfo'
+    var params = {
+      setEndTime: endTime,
+      constructionSiteName: this.data.construction_site_name,
+      fromUser: this.data.from_user,
+      toUser: this.data.toUser,
+      ccPeople: this.data.ccPeople,
+      context: this.data.context,
+      imageUrl: this.data.imgs[0],
+      riskLevel: this.riskLevelConvert(this.data.risk),
+      checkType: this.data.checkType,
+      checkTypeOffspring: this.data.checkTypeZi,
+      planId: this.data.scheduleId,
+      sectionId: this.data.scheduleZiId,
+      videoUrl: this.data.videos[0]
+    }
+    var url = `system/safe/getSafetyAndQualityInitInfo?${qs.stringify(params)}`
+    //const res = await request({url:url,data: qs.stringify(params), method:"post"});
     const res = await request({url:url,method:"post"});
     console.log("提交信息:", res)
     if(res.code === 200) {
