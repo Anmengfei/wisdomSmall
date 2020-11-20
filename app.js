@@ -8,6 +8,7 @@ App({
     wx.login({
       success: function (res) {
         var code = res.code;
+        console.log("重新进入")
         console.log("code是", code)
         _this.getOpenid(code)
       }
@@ -39,6 +40,7 @@ App({
   },
 
   async getInfoByInfo (id) {
+    console.log("!@!@@!!@!@")
     const getOpenidParams = {openid: id}
     //  3 发送请求 获取用户的openid
     const res = await request({url:"getUserInfoByMiniOpenid",data:getOpenidParams});
@@ -48,10 +50,17 @@ App({
       wx.setStorageSync("userType", res.userinfo.nickName);
       wx.setStorageSync("postName", res.postName);
       wx.setStorageSync("deptId", res.userinfo.deptId)
-      wx.setStorageSync("userName", res.userinfo.userName); 
-      wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      wx.setStorageSync("userName", res.userinfo.userName);
+      if(res.userinfo.roles.length !== 0) {
+        wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      } else {
+        wx.setStorageSync("roleName", null); 
+      }
+     
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       wx.setStorageSync("bind", true);
+
+      console.log("12344", res.userinfo.phonenumber)
       this.getNameById(id)
     } else {
       wx.setStorageSync("bind", false);
