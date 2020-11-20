@@ -49,8 +49,8 @@ App({
       wx.setStorageSync("site_id", res.site_id);
       wx.setStorageSync("userType", res.userinfo.nickName);
       wx.setStorageSync("postName", res.postName);
+      wx.setStorageSync("userName", res.userinfo.userName); 
       wx.setStorageSync("deptId", res.userinfo.deptId)
-      wx.setStorageSync("userName", res.userinfo.userName);
       if(res.userinfo.roles.length !== 0) {
         wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
       } else {
