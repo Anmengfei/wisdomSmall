@@ -43,7 +43,9 @@ Page({
    */
   onLoad: function (options) {
 
-    
+    var openid = wx.getStorageSync("openId")
+    this.openId = openid
+    console.log("zhuce1", this.openId)
     
     
     

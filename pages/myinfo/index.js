@@ -37,6 +37,8 @@ Page({
     var tel = wx.getStorageSync("phonenumber")
     var userType = wx.getStorageSync("userType")
     var postName = wx.getStorageSync('postName')
+    console.log("cehisceshicehis")
+    console.log('1', username, '2', danwei,'3', tel, '4',userType)
     this.setData({
       username: username,
       danwei: danwei,
@@ -113,7 +115,11 @@ Page({
 
       wx.setStorageSync("deptId", res.userinfo.deptId)
       wx.setStorageSync("userName", res.userinfo.userName); 
-      wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      if(res.userinfo.roles.length !== 0) {
+        wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      } else {
+        wx.setStorageSync("roleName", null); 
+      }
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       this.getNameById(res.site_id)
       //this.postprogramName(deptName)
@@ -140,6 +146,15 @@ Page({
       })
       return
     }
+  },
+
+  logout() {
+    var tmpOpenid = wx.getStorageSync("openId")
+    wx.clearStorageSync()
+    wx.setStorageSync("openId", tmpOpenid)
+    wx.navigateTo({
+      url: '../zhuce/index',
+    })
   }
 
 

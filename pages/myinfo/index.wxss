@@ -204,3 +204,9 @@ Select {
   color: black;
   font-size: 23rpx;
 }
+.logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50rpx;
+}

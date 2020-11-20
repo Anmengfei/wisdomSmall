@@ -191,7 +191,7 @@
             
             
           <view class="tianbao">
-            <button  type="primary" size="mini" bindtap="tianbao">提交</button>
+            <button  type="primary"  bindtap="tianbao">提交</button>
           </view>
         </view>
       </view>
