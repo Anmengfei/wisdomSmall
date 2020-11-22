@@ -348,12 +348,19 @@ Page({
     })
   },
 
+  getCurrentTime() {
+    var time = new Date()
+    // console.log(`${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`)
+    return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
+
+  },
   
 
 
 
 
   async tianbao() {
+    var currentTime = this.getCurrentTime()
     if(this.data.toUser === '') {
       wx.showToast({
         title: '请先选择接收人',
@@ -375,6 +382,15 @@ Page({
     if(this.data.endDate === '') {
       wx.showToast({
         title: '请先选择预计结束时间',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+
+    if(this.data.endDate === currentTime) {
+      wx.showToast({
+        title: '请选择明天及以后的时间',
         icon: 'none',
         duration: 2000
       })
