@@ -35,17 +35,14 @@ Page({
     var danwei = wx.getStorageSync("deptName")
     var role = wx.getStorageSync("roleName")
     var tel = wx.getStorageSync("phonenumber")
-    var userType = wx.getStorageSync("userType")
-    var postName = wx.getStorageSync('postName')
-    console.log("cehisceshicehis")
-    console.log('1', username, '2', danwei,'3', tel, '4',userType)
+    // var userType = wx.getStorageSync("userType")
+    // var postName = wx.getStorageSync('postName')
+    
     this.setData({
       username: username,
       danwei: danwei,
       role: role,
-      tel: tel,
-      userType: userType,
-      postName: postName
+      tel: tel
 
     })
     this.getInfoByTel()
@@ -110,8 +107,8 @@ Page({
       wx.clearStorageSync()
       console.log(wx.getStorageSync("site_id"))
       wx.setStorageSync("site_id", res.site_id);
-      wx.setStorageSync("userType", res.userinfo.nickName);
-      wx.setStorageSync("postName", res.postName);
+      // wx.setStorageSync("userType", res.userinfo.nickName);
+      //wx.setStorageSync("postName", res.postName);
 
       wx.setStorageSync("deptId", res.userinfo.deptId)
       wx.setStorageSync("userName", res.userinfo.userName); 

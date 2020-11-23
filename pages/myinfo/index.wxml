@@ -26,9 +26,9 @@
         <!-- <view class="mt10">
           <text class='zi' >岗位：</text><text class='title' style="margin-right:25px;">{{userType}}</text>
         </view> -->
-        <view class="mt10">
+        <!-- <view class="mt10">
           <text class='zi' >岗位：</text><text class='title' style="margin-right:25px;">{{postName}}</text>
-        </view>
+        </view> -->
       </view>
       <view class="selectStatus">
         <!-- <text class="tab oneTab">选择切换的工地:</text> -->
