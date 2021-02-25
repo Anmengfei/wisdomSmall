@@ -4,6 +4,72 @@ import regeneratorRuntime from '../../lib/runtime/runtime';
 import qs from "../../utils/qs"
 Page({
   data: {
+    
+    selectArray: {
+      text: '', 
+      id: '',
+      nodes: [{
+        "id": 5,
+        "text": "沈阳市",
+        "nodes": []
+      }, {
+        "id": 6,
+        "text": "本溪市",
+        "nodes": [{
+          "id": 7,
+          "text": "本溪石街",
+          "nodes": []
+        }, {
+          "id": 8,
+          "text": "本溪梨树",
+          "nodes": []
+        }, {
+          "id": 9,
+          "text": "辽宁本溪",
+          "nodes": []
+        }, {
+          "id": 10,
+          "text": "本溪平山",
+          "nodes": []
+        }, {
+          "id": 11,
+          "text": "本溪明山",
+          "nodes": []
+        }]
+      }, {
+        "id": 12,
+        "text": "盘锦市",
+        "nodes": [{
+          "id": 13,
+          "text": "盘锦辽东湾",
+          "nodes": []
+        }]
+      }, {
+        "id": 14,
+        "text": "辽阳市",
+        "nodes": [{
+          "id": 15,
+          "text": "辽阳灯塔",
+          "nodes": []
+        }]
+      }, {
+        "id": 16,
+        "text": "铁岭市",
+        "nodes": [{
+          "id": 17,
+          "text": "铁岭银州",
+          "nodes": []
+        }]
+      }, {
+        "id": 18,
+        "text": "鞍山市",
+        "nodes": [{
+          "id": 19,
+          "text": "鞍山千山",
+          "nodes": []
+        }]
+      }]
+    },
     toUsers: [],
     toUser_index: undefined,
     toUser: '',
@@ -25,6 +91,14 @@ Page({
     checkTypeZi_index: undefined,
     checkTypeZi: undefined,
 
+    nodeList: [],
+    node_index: undefined,
+    node: undefined,
+    nodeId: undefined,
+
+    taskId: undefined,
+    taskName: undefined,
+
     schedules: [],
     schedule_index: undefined,
     schedule: undefined,
@@ -45,6 +119,7 @@ Page({
     checkTypeZiTF: false,
     scheduleTF: false,
     scheduleZiTF: false,
+    nodeTF: false,
     lenMore: 0,
     imgs: [],
     videos: []
@@ -74,7 +149,38 @@ Page({
     this.getCheckType()
     this.getSchedule()
     this.getPerson()
+    this.getTaskList()
    
+  },
+
+  tapItem: function (e) {
+    var itemid = e.detail.itemid;
+    var itemval = e.detail.value;
+    console.log("所选中的分区编号：" + itemid + "， 名称：" + itemval);
+    this.setData({
+      taskId: itemid,
+      taskName: itemval
+    })
+    this.getNodeList(itemid)
+  },
+  async getNodeList(id) {
+    
+    var url = `scheduleManage/node/list?taskId=${id}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取NodeList",res.rows)
+    this.setData({
+      nodeList: res.rows
+    })
+  },
+
+  async getTaskList() {
+    var deptId = wx.getStorageSync("deptId")
+    var url = `schedule/task/wechat-board-tree?siteId=${deptId}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取TaskList",res.data[0])
+    this.setData({
+      selectArray: res.data[0]
+    })
   },
 
   async getPerson() {
@@ -143,8 +249,15 @@ Page({
       checkTypeZiTF: true
     })
   },
+  bindNode() {
+    
+    this.setData({
+      nodeTF: true
+    })
+  },
 
   bindSchedule() {
+    
     this.setData({
       scheduleTF: true
     })
@@ -215,6 +328,22 @@ Page({
     })
     console.log("checkType",this.data.checkType)
     this.getCheckTypeZiList(temp)
+  },
+
+  bindNodeChange(e) {
+    console.log("NodeSSS", e.detail.value)
+    console.log("eee", e)
+   
+    var temp = this.data.nodeList[e.detail.value].label
+   console.log(temp)
+    this.setData({
+      node_index: e.detail.value,
+      node: temp,
+      nodeId: this.data.nodeList[e.detail.value].id
+    })
+    console.log("node",this.data.node)
+    console.log("nodeId",this.data.nodeId)
+    
   },
 
   bindScheduleChange(e) {
@@ -415,7 +544,7 @@ Page({
       return
     }
 
-    if(this.data.schedule === '') {
+    if(this.data.taskId === '') {
       wx.showToast({
         title: '请先选择一级进度',
         icon: 'none',
@@ -423,14 +552,14 @@ Page({
       })
       return
     }
-    if(this.data.scheduleZi === '') {
-      wx.showToast({
-        title: '请先选择二级进度',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
+    // if(this.data.scheduleZi === '') {
+    //   wx.showToast({
+    //     title: '请先选择二级进度',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
     var endTime = `${this.data.endDate} 00:00:00`
     console.log(endTime)
 
@@ -472,13 +601,15 @@ Page({
       riskLevel: this.riskLevelConvert(this.data.risk),
       checkType: this.data.checkType,
       checkTypeOffspring: this.data.checkTypeZi,
-      planId: this.data.scheduleId,
-      sectionId: this.data.scheduleZiId,
+      planId: this.data.taskId,
+      planName: this.data.taskName,
+      sectionId: this.data.nodeId,
+      sectionName: this.data.node,
       videoUrl: this.data.videos[0]
     }
     var url = `system/safe/getSafetyAndQualityInitInfo?${qs.stringify(params)}`
-    //const res = await request({url:url,data: qs.stringify(params), method:"post"});
-    const res = await request({url:url,method:"post"});
+    console.log("提交对url", url)
+   const res = await request({url:url,method:"post"});
     console.log("提交信息:", res)
     if(res.code === 200) {
       console.log("AAAAA")
