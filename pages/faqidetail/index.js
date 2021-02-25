@@ -4,6 +4,71 @@ import regeneratorRuntime from '../../lib/runtime/runtime';
 import qs from "../../utils/qs"
 Page({
   data: {
+    selectArray: {
+      text: '', 
+      id: '',
+      nodes: [{
+        "id": 5,
+        "text": "沈阳市",
+        "nodes": []
+      }, {
+        "id": 6,
+        "text": "本溪市",
+        "nodes": [{
+          "id": 7,
+          "text": "本溪石街",
+          "nodes": []
+        }, {
+          "id": 8,
+          "text": "本溪梨树",
+          "nodes": []
+        }, {
+          "id": 9,
+          "text": "辽宁本溪",
+          "nodes": []
+        }, {
+          "id": 10,
+          "text": "本溪平山",
+          "nodes": []
+        }, {
+          "id": 11,
+          "text": "本溪明山",
+          "nodes": []
+        }]
+      }, {
+        "id": 12,
+        "text": "盘锦市",
+        "nodes": [{
+          "id": 13,
+          "text": "盘锦辽东湾",
+          "nodes": []
+        }]
+      }, {
+        "id": 14,
+        "text": "辽阳市",
+        "nodes": [{
+          "id": 15,
+          "text": "辽阳灯塔",
+          "nodes": []
+        }]
+      }, {
+        "id": 16,
+        "text": "铁岭市",
+        "nodes": [{
+          "id": 17,
+          "text": "铁岭银州",
+          "nodes": []
+        }]
+      }, {
+        "id": 18,
+        "text": "鞍山市",
+        "nodes": [{
+          "id": 19,
+          "text": "鞍山千山",
+          "nodes": []
+        }]
+      }]
+    },
     toUsers: [],
     toUser_index: undefined,
     toUser: '',
@@ -25,6 +90,15 @@ Page({
     checkTypeZi_index: undefined,
     checkTypeZi: undefined,
 
+    nodeList: [],
+    node_index: undefined,
+    node: undefined,
+    nodeId: undefined,
+
+    taskId: undefined,
+    taskName: undefined,
+    taskNameTF: false,
+
     schedules: [],
     schedule_index: undefined,
     schedule: undefined,
@@ -43,6 +117,7 @@ Page({
     riskTF: false,
     checkTypeTF: false,
     checkTypeZiTF: false,
+    nodeTF: false,
 
     processArr: ['未处理', '处理中', '已完成', '逾期'],
     process_index: undefined,
@@ -78,22 +153,24 @@ Page({
 
   // 页面开始加载 就会触发
   onLoad: function (options) {
-
+    console.log("打印option", options)
     var id = options.id;
     var context = options.context
     var planId = options.planId
     this.setData({
       id: id,
       context: context,
-      planId: planId
+      taskId: planId
     })
     this.getCheckType()
     this.getPerson()
     this.getSchedule()
-    this.getScheduleZiList(this.data.planId)
+    // this.getScheduleZiList(this.data.planId)
     // this.getToUSers()
     // this.getCcPeoples()
     this.getInfoById(id)
+    this.getTaskList()
+    
       
   },
 
@@ -103,6 +180,94 @@ Page({
       context: this.data.context,
     })
   },
+
+  // 进度相关
+  async getTaskList() {
+    var deptId = wx.getStorageSync("deptId")
+    var url = `schedule/task/wechat-board-tree?siteId=${deptId}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取TaskList",res.data[0])
+    this.setData({
+      selectArray: res.data[0]
+    })
+  },
+
+  tapItem: function (e) {
+    var itemid = e.detail.itemid;
+    var itemval = e.detail.value;
+    console.log("所选中的分区编号：" + itemid + "， 名称：" + itemval);
+    this.setData({
+      taskId: itemid,
+      taskName: itemval
+    })
+    this.getNodeList(itemid)
+  },
+
+  async getNodeList(id) {
+    var url = `scheduleManage/node/list?taskId=${id}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取NodeList",res.rows)
+    this.setData({
+      nodeList: res.rows
+    })
+    
+  },
+
+  async getNodeList2(id, nodeId) {
+    var url = `scheduleManage/node/list?taskId=${id}`
+    const res=await request({url:url, method: 'get'});
+    console.log("获取NodeList",res.rows)
+    this.setData({
+      nodeList: res.rows
+    })
+    this.getNodeIndex(nodeId)
+    
+  },
+
+
+  getNodeIndex(id) {
+    console.log("搜索node的index", id)
+    console.log("搜索node的index", this.data.nodeList)
+    var arr = this.data.nodeList
+    for(var i = 0; i < arr.length; i++) {
+      var obj = arr[i];
+      if(obj.id === id) {
+        this.setData({
+          nodeTF: true,
+          node: obj.label,
+          node_index: i,
+          nodeId: id
+        })
+        console.log("搜索node的index2", this.data.nodeId)
+        console.log("搜索node的index2", this.data.node_index)
+       break;
+      }
+    }
+  },
+  bindNodeChange(e) {
+    console.log("NodeSSS", e.detail.value)
+    console.log("eee", e)
+   
+    var temp = this.data.nodeList[e.detail.value].label
+   console.log(temp)
+    this.setData({
+      node_index: e.detail.value,
+      node: temp,
+      nodeId: this.data.nodeList[e.detail.value].id
+    })
+    console.log("node",this.data.node)
+    console.log("nodeId",this.data.nodeId)
+    
+  },
+
+  bindNode() {
+    this.setData({
+      nodeTF: true
+    })
+  },
+
+  
+
 
   async getCheckType() {
     const res=await request({url:"system/safe/getCheckType", method: 'get'});
@@ -164,31 +329,31 @@ Page({
     })
   },
 
-  async getScheduleZiList(id) {
-    var url = `schedule/getTwoSche?planId=${id}`
-    const res=await request({url:url});
-    console.log("获取ScheduleziList",res)
-    this.setData({
-      scheduleZis: res.data
-    })
-  },
+  // async getScheduleZiList(id) {
+  //   var url = `schedule/getTwoSche?planId=${id}`
+  //   const res=await request({url:url});
+  //   console.log("获取ScheduleziList",res)
+  //   this.setData({
+  //     scheduleZis: res.data
+  //   })
+  // },
   // sectionId
-  getScheduleIndex(id) {
-    this.getScheduleZiList(id)
-    var arr = this.data.schedules
-    for(var i = 0; i < arr.length; i++) {
-      var obj = arr[i];
-      if(obj.id === id) {
-        this.setData({
-          scheduleTF: true,
-          schedule: obj.durationDictName,
-          schedule_index: i,
-          scheduleId: id
-        })
-      }
-    }
+  // getScheduleIndex(id) {
+  //   this.getScheduleZiList(id)
+  //   var arr = this.data.schedules
+  //   for(var i = 0; i < arr.length; i++) {
+  //     var obj = arr[i];
+  //     if(obj.id === id) {
+  //       this.setData({
+  //         scheduleTF: true,
+  //         schedule: obj.durationDictName,
+  //         schedule_index: i,
+  //         scheduleId: id
+  //       })
+  //     }
+  //   }
     
-  },
+  // },
 
   getScheduleZiIndex(id) {
     var arr = this.data.scheduleZis
@@ -229,7 +394,7 @@ Page({
     imgs_1.push(obj.imageUrl)
    
     
-    this.getScheduleIndex(obj.planId)
+    // this.getScheduleIndex(obj.planId)
     var typezi = this.getCheckTypeZiList(obj.checkType)
     this.setData({
       checkTypeZis: typezi
@@ -238,12 +403,22 @@ Page({
     console.log("schedulesYYYYY:", this.data.schedules)
     if(this.data.schedule !== '') {
       console.log("!@#$%&")
-      this.getScheduleZiIndex(obj.sectionId)
+      this.getNodeList2(obj.planId, obj.sectionId)
+    }
+    if(obj.planName === null || obj.planName === undefined) {
+      this.setData({
+        taskNameTF: false
+      })
+    } else {
+      this.setData({
+        taskNameTF: true
+      })
     }
     this.setData({
       ccPeople: obj.ccPeople,
       checkType: obj.checkType,
       checkTypeZi: obj.checkTypeOffspring,
+      taskName: obj.planName,
 
       schedule: obj.planName,
       scheduleZi: obj.sectionName,
@@ -262,7 +437,8 @@ Page({
       toUserTF: true,
       ccPeopleTF: true,
       scheduleTF: true,
-      scheduleZiTF: true
+      scheduleZiTF: true,
+      nodeTF: true
 
       
       
@@ -272,7 +448,11 @@ Page({
 
 
   
-
+  dian() {
+    this.setData({
+      taskNameTF: false
+    })
+  },
 
   // bind函数系列
   bindToUser() {
@@ -401,21 +581,21 @@ Page({
     console.log("checkTypeZi", this.data.checkTypeZi)
   },
 
-  bindScheduleChange(e) {
-    console.log("scheduleSSS", e.detail.value)
-    console.log("eee", e)
+  // bindScheduleChange(e) {
+  //   console.log("scheduleSSS", e.detail.value)
+  //   console.log("eee", e)
    
-    var temp = this.data.schedules[e.detail.value].durationDictName
-   console.log(temp)
-    this.setData({
-      schedule_index: e.detail.value,
-      schedule: temp,
-      scheduleId: this.data.schedules[e.detail.value].id,
-      scheduleZi_index: 0
-    })
-    console.log("schedule",this.data.schedule)
-    this.getScheduleZiList(this.data.schedules[e.detail.value].id)
-  },
+  //   var temp = this.data.schedules[e.detail.value].durationDictName
+  //  console.log(temp)
+  //   this.setData({
+  //     schedule_index: e.detail.value,
+  //     schedule: temp,
+  //     scheduleId: this.data.schedules[e.detail.value].id,
+  //     scheduleZi_index: 0
+  //   })
+  //   console.log("schedule",this.data.schedule)
+  //   this.getScheduleZiList(this.data.schedules[e.detail.value].id)
+  // },
 
   bindScheduleZiChange(e) {
     console.log("scheduleZi", e.detail.value)
@@ -553,7 +733,7 @@ Page({
       return
     }
 
-    if(this.data.schedule === '') {
+    if(this.data.taskId === '') {
       wx.showToast({
         title: '请先选择一级进度',
         icon: 'none',
@@ -561,14 +741,7 @@ Page({
       })
       return
     }
-    if(this.data.scheduleZi === '') {
-      wx.showToast({
-        title: '请先选择二级进度',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
+    
     var endTime = `${this.data.endDate} 00:00:00`
     console.log(endTime)
 
@@ -604,8 +777,8 @@ Page({
       checkType: this.data.checkType,
       checkTypeOffspring: this.data.checkTypeZi,
       startTime: this.data.startTime,
-      planId: this.data.scheduleId,
-      sectionId: this.data.scheduleZiId,
+      planId: this.data.taskId,
+      sectionId: this.data.nodeId,
       videoUrl: this.data.videos[0]
     }
     var url = `system/safe/updateInfoByFromUser?${qs.stringify(params)}`

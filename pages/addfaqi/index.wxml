@@ -74,7 +74,35 @@
               </view>
             </view>
 
-            <view class="info-item">
+             <view class="progress0">
+              <view class="progress01">
+               <text class="progress012" >一级进度：</text>
+               
+                <treeSelect model='{{selectArray}}' bind:tapitem='tapItem' style="float:right;margin-top:20px;"></treeSelect>
+           
+                
+              </view>
+            </view>
+
+
+            <view class="info-item" style="clear:right;">
+              <view class="info-item__value">
+                <picker mode="selector" value="{{ node_index }}" bindchange="bindNodeChange" range="{{nodeList}}" range-key="label" >
+                  <view class="yangshi">
+                    <view><text class="yangshititle">二级进度：</text></view>
+                    <view bindtap="bindNode">
+                      <text wx:if="{{nodeList.length === 0 && nodeTF === false}}" class="yangshiTishi">请选择二级进度></text>
+                      <text wx:if="{{nodeList.length === 0  && nodeTF === true}}" class="yangshiTishi">暂无数据</text>
+                      <text wx:if="{{nodeList.length !== 0  && nodeTF === true}}}" class="yangshivalue">{{nodeList[node_index].label}}</text>
+                    </view>
+                    
+                  </view>
+                </picker>
+              </view>
+            </view>
+            
+
+            <!-- <view class="info-item" style="clear:right;">
               <view class="info-item__value">
                 <picker mode="selector" value="{{ schedule_index }}" bindchange="bindScheduleChange" range="{{schedules}}" range-key="durationDictName" >
                   <view class="yangshi">
@@ -85,12 +113,11 @@
                     </view>
                     
                   </view>
-                  
                 </picker>
               </view>
-            </view>
+            </view> -->
 
-            <view class="info-item">
+            <!-- <view class="info-item">
               <view class="info-item__value">
                 <picker mode="selector" value="{{scheduleZi_index}}" bindchange="bindScheduleZiChange" range="{{scheduleZis}}" range-key="duration2DictName">
                   <view class="yangshi">
@@ -104,7 +131,7 @@
                   
                 </picker>
               </view>
-            </view>
+            </view> -->
 
             <view class="info-item">
               <view class="info-item__value">

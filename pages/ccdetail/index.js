@@ -137,8 +137,8 @@ Page({
     } else {
       videos_1.push(obj.videoUrl)
     }
-    if(obj.processStatus === 3 && obj.safetyAndQualityProcessList.length > 1) {
-      var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[1]
+    if(obj.processStatus === 3 && obj.safetyAndQualityProcessList.length !== 0) {
+      var safetyAndQualityProcessList1 = obj.safetyAndQualityProcessList[0]
       var dealcontext = safetyAndQualityProcessList1.context
       dealimg_1.push(safetyAndQualityProcessList1.imageUrl)
       if(safetyAndQualityProcessList1.videoUrl === null) {

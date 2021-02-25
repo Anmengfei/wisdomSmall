@@ -250,3 +250,11 @@ button {
 .input-15 {
   margin-left: 15%;
 }
+.progress01 {
+  height: 65px;
+  border-bottom: 3rpx solid rgba(112, 171, 219, 0.6);
+}
+.progress012 {
+  color: #70abdb;
+  line-height: 65px;
+}
