@@ -4,7 +4,6 @@ import regeneratorRuntime from '../../lib/runtime/runtime';
 import qs from "../../utils/qs"
 Page({
   data: {
-    showIndex:0,
     
     selectArray: {
       text: '', 
@@ -152,18 +151,6 @@ Page({
     this.getPerson()
     this.getTaskList()
    
-  },
-
-  panel: function (e) {
-    if (e.currentTarget.dataset.index != this.data.showIndex) {
-      this.setData({
-        showIndex: e.currentTarget.dataset.index
-      })
-    } else {
-      this.setData({
-        showIndex: 0
-      })
-    }
   },
 
   tapItem: function (e) {
@@ -493,12 +480,7 @@ Page({
   getCurrentTime() {
     var time = new Date()
     // console.log(`${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`)
-    var month = time.getMonth() + 1;
-    if(month < 10) {
-      month = '0' + month
-    } 
-    
-    return `${time.getFullYear()}-${month}-${time.getDate()}`
+    return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
 
   },
   
@@ -508,30 +490,25 @@ Page({
 
   async tianbao() {
     var currentTime = this.getCurrentTime()
-    // if(this.data.toUser === '') {
-    //   wx.showToast({
-    //     title: '请先选择接收人',
-    //     icon: 'none',
-    //     duration: 2000
-    //   })
-    //   return
-    // }
+    if(this.data.toUser === '') {
+      wx.showToast({
+        title: '请先选择接收人',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
 
-    // if(this.data.ccPeople === '') {
-    //   wx.showToast({
-    //     title: '请先选择抄送人',
-    //     icon: 'none',
-    //     duration: 2000
-    //   })
-    //   return
-    // }
+    if(this.data.ccPeople === '') {
+      wx.showToast({
+        title: '请先选择抄送人',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
 
-    // console.log("选择的日期1", this.data.endDate.valueOf() )
-
-    // console.log("当前日期2",  currentTime.valueOf())
-
-    // console.log("处理时间", this.data.endDate.valueOf() > currentTime.valueOf())
-    if(this.data.endDate === '' || this.data.endDate === undefined) {
+    if(this.data.endDate === '') {
       wx.showToast({
         title: '请先选择预计结束时间',
         icon: 'none',
@@ -540,7 +517,7 @@ Page({
       return
     }
 
-    if(this.data.endDate <= currentTime) {
+    if(this.data.endDate === currentTime) {
       wx.showToast({
         title: '请选择明天及以后的时间',
         icon: 'none',
@@ -549,37 +526,25 @@ Page({
       return
     }
 
-    // if(this.data.risk === '') {
-    //   wx.showToast({
-    //     title: '请先选择风险等级',
-    //     icon: 'none',
-    //     duration: 2000
-    //   })
-    //   return
-    // }
-
-    // if(this.data.checkType === '') {
-    //   wx.showToast({
-    //     title: '请先选择检查类型',
-    //     icon: 'none',
-    //     duration: 2000
-    //   })
-    //   return
-    // }
-    // console.log("当前的url", this.data.imgs)
-    // console.log("videos", this.data.videos)
-
-    if(this.data.imgs.length === 0 || this.data.videos.length) {
+    if(this.data.risk === '') {
       wx.showToast({
-        title: '请先进行拍照或者视频',
+        title: '请先选择风险等级',
         icon: 'none',
         duration: 2000
       })
       return
     }
 
-    
-    if(this.data.taskId === '' || this.data.taskId === undefined) {
+    if(this.data.checkType === '') {
+      wx.showToast({
+        title: '请先选择检查类型',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+
+    if(this.data.taskId === '') {
       wx.showToast({
         title: '请先选择一级进度',
         icon: 'none',
@@ -587,7 +552,6 @@ Page({
       })
       return
     }
-    
     // if(this.data.scheduleZi === '') {
     //   wx.showToast({
     //     title: '请先选择二级进度',
