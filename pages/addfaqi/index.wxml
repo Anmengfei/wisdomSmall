@@ -4,6 +4,106 @@
         <view>
           <view class="complete-card">
 
+           <view class="weui-uploader">
+                <view class="img-v weui-uploader__bd">
+                    <view class='pic' wx:for="{{imgs}}" wx:for-item="item" wx:key="*this">
+                        <image class='weui-uploader__img '
+                                src="{{item}}"
+                                data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
+                                <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
+                        </image>
+                    </view>
+                    
+                    <!-- 用来提示用户上传图片 -->
+                    <!-- <view class="weui-uploader__input-box pic" bindtap="uploadImage"> </view> -->
+                </view>
+                <button class="upload-img-btn" bindtap="uploadImage" type='primary'>拍照  / 上传</button>
+            </view>
+
+            <!-- 上传视频 -->
+
+            <view class="weui-uploader">
+                <view class="img-v weui-uploader__bd">
+                    <view class='pic' wx:for="{{videos}}" wx:for-item="item" wx:key="*this">
+                        <video class='weui-uploader__img '
+                                src="{{item}}"
+                                data-index="{{index}}" mode="aspectFill" >
+                                <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteVideo"></icon>
+                        </video>
+                    </view>
+                    <!-- <video src="{{videos}}" /> -->
+                    
+                    <!-- 用来提示用户上传图片 -->
+                    <!-- <view class="weui-uploader__input-box pic" bindtap="uploadVideo"> </view> -->
+                </view>
+                <button class="upload-img-btn" bindtap="uploadVideo" type='primary'>上传视频</button>
+            </view>
+
+             <view class="info-item">
+              <view class="info-item__value">
+                <picker mode="date" value="{{endDate}}" bindchange="bindDateChange" start="2020-09-01" end="2021-09-01">
+
+                  <view class="yangshi">
+                    <view><text class="yangshititle">预计结束时间：</text></view>
+                    <view bindtap="bindDate">
+                      <text wx:if="{{endDate === undefined}}" class="yangshiTishi">请选择预计结束时间></text>
+                      <text wx:else class="yangshivalue">{{endDate}}</text>
+                    </view>
+                    
+                  </view>
+                  
+                </picker>
+              </view>
+            </view>
+
+             <view class="progress0">
+              <view class="progress01">
+               <text class="progress012" >一级进度：</text>
+               
+                <treeSelect model='{{selectArray}}' bind:tapitem='tapItem' style="float:right;margin-top:20px;"></treeSelect>
+           
+                
+              </view>
+            </view>
+
+
+            <view class="info-item" style="clear:right;">
+              <view class="info-item__value">
+                <picker mode="selector" value="{{ node_index }}" bindchange="bindNodeChange" range="{{nodeList}}" range-key="label" >
+                  <view class="yangshi">
+                    <view><text class="yangshititle">二级进度：</text></view>
+                    <view bindtap="bindNode">
+                      <text wx:if="{{nodeList.length === 0 && nodeTF === false}}" class="yangshiTishi">请选择二级进度></text>
+                      <text wx:if="{{nodeList.length === 0  && nodeTF === true}}" class="yangshiTishi">暂无数据</text>
+                      <text wx:if="{{nodeList.length !== 0  && nodeTF === true}}}" class="yangshivalue">{{nodeList[node_index].label}}</text>
+                    </view>
+                    
+                  </view>
+                </picker>
+              </view>
+            </view>
+
+            <view class='help'>
+              <view class='help_item'>
+                <view class='title' data-index='1' catchtap='panel'>
+                  <view class='title_1'>点击补充更多信息</view>
+                  <view class='title_2'><image src="/icons/show_more.png"></image></view>
+                </view>
+                <view class='' wx:if="{{showIndex == 1}}">
+                  
+                   <view class="info-item">
+              <view class="info-item__value">
+                 <view class="">
+                    <view><text class="yangshititle">内容：</text></view>
+                    <view>
+                        <textarea class="textarea-bg" placeholder="请填写问题描述" bindblur="tianxieContent"></textarea>                    
+                    </view>
+                    
+                  </view>
+                
+              </view>
+            </view>
+
             <view class="info-item">
               <view class="info-item__value">
                 <picker mode="selector" value="{{toUser_index}}" bindchange="bindToUserChange" range="{{toUsers}}">
@@ -54,84 +154,8 @@
                 </picker>
               </view>
             </view>
-            
-
-            
-            <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="date" value="{{endDate}}" bindchange="bindDateChange" start="2020-09-01" end="2021-09-01">
-
-                  <view class="yangshi">
-                    <view><text class="yangshititle">预计结束时间：</text></view>
-                    <view bindtap="bindDate">
-                      <text wx:if="{{endDate === undefined}}" class="yangshiTishi">请选择预计结束时间></text>
-                      <text wx:else class="yangshivalue">{{endDate}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view>
-
-             <view class="progress0">
-              <view class="progress01">
-               <text class="progress012" >一级进度：</text>
-               
-                <treeSelect model='{{selectArray}}' bind:tapitem='tapItem' style="float:right;margin-top:20px;"></treeSelect>
+ 
            
-                
-              </view>
-            </view>
-
-
-            <view class="info-item" style="clear:right;">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{ node_index }}" bindchange="bindNodeChange" range="{{nodeList}}" range-key="label" >
-                  <view class="yangshi">
-                    <view><text class="yangshititle">二级进度：</text></view>
-                    <view bindtap="bindNode">
-                      <text wx:if="{{nodeList.length === 0 && nodeTF === false}}" class="yangshiTishi">请选择二级进度></text>
-                      <text wx:if="{{nodeList.length === 0  && nodeTF === true}}" class="yangshiTishi">暂无数据</text>
-                      <text wx:if="{{nodeList.length !== 0  && nodeTF === true}}}" class="yangshivalue">{{nodeList[node_index].label}}</text>
-                    </view>
-                    
-                  </view>
-                </picker>
-              </view>
-            </view>
-            
-
-            <!-- <view class="info-item" style="clear:right;">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{ schedule_index }}" bindchange="bindScheduleChange" range="{{schedules}}" range-key="durationDictName" >
-                  <view class="yangshi">
-                    <view><text class="yangshititle">一级进度：</text></view>
-                    <view bindtap="bindSchedule">
-                      <text wx:if="{{schedules.length === 0 || scheduleTF === false}}" class="yangshiTishi">请选择一级进度></text>
-                      <text wx:else class="yangshivalue">{{schedules[schedule_index].durationDictName}}</text>
-                    </view>
-                    
-                  </view>
-                </picker>
-              </view>
-            </view> -->
-
-            <!-- <view class="info-item">
-              <view class="info-item__value">
-                <picker mode="selector" value="{{scheduleZi_index}}" bindchange="bindScheduleZiChange" range="{{scheduleZis}}" range-key="duration2DictName">
-                  <view class="yangshi">
-                    <view><text class="yangshititle">二级进度：</text></view>
-                    <view bindtap="bindScheduleZi">
-                      <text wx:if="{{scheduleZis.length === 0 || scheduleZiTF === false}}" class="yangshiTishi">请选择二级类型></text>
-                      <text wx:else class="yangshivalue">{{scheduleZis[scheduleZi_index].duration2DictName}}</text>
-                    </view>
-                    
-                  </view>
-                  
-                </picker>
-              </view>
-            </view> -->
 
             <view class="info-item">
               <view class="info-item__value">
@@ -164,57 +188,23 @@
                 </picker>
               </view>
             </view>
-            
-            <view class="info-item">
-              <view class="info-item__value">
-                 <view class="">
-                    <view><text class="yangshititle">内容：</text></view>
-                    <view>
-                        <textarea class="textarea-bg" placeholder="请填写问题描述" bindblur="tianxieContent"></textarea>                    
-                    </view>
-                    
-                  </view>
-                
+
+
+                </view>
               </view>
+
             </view>
+
+
+
+           
+            
+            
 
              
 
 
-            <view class="weui-uploader">
-                <view class="img-v weui-uploader__bd">
-                    <view class='pic' wx:for="{{imgs}}" wx:for-item="item" wx:key="*this">
-                        <image class='weui-uploader__img '
-                                src="{{item}}"
-                                data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
-                                <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
-                        </image>
-                    </view>
-                    
-                    <!-- 用来提示用户上传图片 -->
-                    <!-- <view class="weui-uploader__input-box pic" bindtap="uploadImage"> </view> -->
-                </view>
-                <button class="upload-img-btn" bindtap="uploadImage" type='primary'>拍照  / 上传</button>
-            </view>
-
-            <!-- 上传视频 -->
-
-            <view class="weui-uploader">
-                <view class="img-v weui-uploader__bd">
-                    <view class='pic' wx:for="{{videos}}" wx:for-item="item" wx:key="*this">
-                        <video class='weui-uploader__img '
-                                src="{{item}}"
-                                data-index="{{index}}" mode="aspectFill" >
-                                <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteVideo"></icon>
-                        </video>
-                    </view>
-                    <!-- <video src="{{videos}}" /> -->
-                    
-                    <!-- 用来提示用户上传图片 -->
-                    <!-- <view class="weui-uploader__input-box pic" bindtap="uploadVideo"> </view> -->
-                </view>
-                <button class="upload-img-btn" bindtap="uploadVideo" type='primary'>上传视频</button>
-            </view>
+           
             
             
           <view class="tianbao">
