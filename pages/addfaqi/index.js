@@ -526,11 +526,7 @@ Page({
     //   return
     // }
 
-    // console.log("选择的日期1", this.data.endDate.valueOf() )
-
-    // console.log("当前日期2",  currentTime.valueOf())
-
-    // console.log("处理时间", this.data.endDate.valueOf() > currentTime.valueOf())
+    //   
     if(this.data.endDate === '' || this.data.endDate === undefined) {
       wx.showToast({
         title: '请先选择预计结束时间',
