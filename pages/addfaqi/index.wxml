@@ -83,15 +83,7 @@
               </view>
             </view>
 
-            <view class='help'>
-              <view class='help_item'>
-                <view class='title' data-index='1' catchtap='panel'>
-                  <view class='title_1'>点击补充更多信息</view>
-                  <view class='title_2'><image src="/icons/show_more.png"></image></view>
-                </view>
-                <view class='' wx:if="{{showIndex == 1}}">
-                  
-                   <view class="info-item">
+            <view class="info-item">
               <view class="info-item__value">
                  <view class="">
                     <view><text class="yangshititle">内容：</text></view>
@@ -103,6 +95,16 @@
                 
               </view>
             </view>
+
+            <view class='help'>
+              <view class='help_item'>
+                <view class='title' data-index='1' catchtap='panel'>
+                  <view class='title_1'>点击补充更多信息</view>
+                  <view class='title_2'><image src="/icons/show_more.png"></image></view>
+                </view>
+                <view class='' wx:if="{{showIndex == 1}}">
+                  
+                   
 
             <view class="info-item">
               <view class="info-item__value">

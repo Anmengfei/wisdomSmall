@@ -59,7 +59,7 @@ Page({
     
   },
   async getInfoByTel() {
-    var url = `people/user/getUserInfoByPhone?phone=${this.data.tel}`
+    var url = `people/info/getSiteInfoByUserPhone?phone=${this.data.tel}`
     const res = await request({url:url,method:"get"});
     console.log(res)
     this.setData({
@@ -80,13 +80,13 @@ Page({
   bindSiteChange(e) {
     console.log("siteSS", e.detail.value)
     console.log("eee", e)
-   
+   console.log("siteList",this.data.siteList)
     var temp = this.data.siteList[e.detail.value].deptName
    console.log(temp)
     this.setData({
       siteIndex: e.detail.value,
       selectedSite: temp,
-      userId: this.data.siteList[e.detail.value].userId
+      userId: this.data.siteList[e.detail.value].deptId
     })
     console.log("userId",this.data.userId)
     this.getUpdateInfo()
@@ -147,6 +147,9 @@ Page({
 
   logout() {
     var tmpOpenid = wx.getStorageSync("openId")
+    this.setData({
+      selectedSite: ''
+    })
     wx.clearStorageSync()
     wx.setStorageSync("openId", tmpOpenid)
     wx.navigateTo({

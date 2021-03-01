@@ -183,7 +183,7 @@ Page({
 
   // 进度相关
   async getTaskList() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     var url = `schedule/task/wechat-board-tree?siteId=${deptId}`
     const res=await request({url:url, method: 'get'});
     console.log("获取TaskList",res.data[0])
@@ -279,7 +279,7 @@ Page({
   },
 
   async getSchedule() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     var url =`schedule/getOneSche?siteId=${deptId}`
     const res=await request({url:url, method: 'get'});
     console.log("获取ScheduleList",res)
@@ -290,7 +290,7 @@ Page({
   },
 
   async getPerson() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     
     var url =  `system/safe/getPerson?deptId=${deptId}`
     const res=await request({url:url, method: 'get'});
@@ -679,25 +679,25 @@ Page({
 
 
   async tianbao() {
-    if(this.data.toUser === '') {
-      wx.showToast({
-        title: '请先选择接收人',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
+    // if(this.data.toUser === '') {
+    //   wx.showToast({
+    //     title: '请先选择接收人',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
 
-    if(this.data.ccPeople === '') {
-      wx.showToast({
-        title: '请先选择抄送人',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
+    // if(this.data.ccPeople === '') {
+    //   wx.showToast({
+    //     title: '请先选择抄送人',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
 
-    if(this.data.endDate === '') {
+    if(this.data.endDate === '' || this.data.endDate === undefined) {
       wx.showToast({
         title: '请先选择预计结束时间',
         icon: 'none',
@@ -706,34 +706,38 @@ Page({
       return
     }
 
-    if(this.data.risk === '') {
-      wx.showToast({
-        title: '请先选择风险等级',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
+    
 
-    if(this.data.checkType === '') {
-      wx.showToast({
-        title: '请先选择检查类型',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
+    // if(this.data.risk === '') {
+    //   wx.showToast({
+    //     title: '请先选择风险等级',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
 
-    if(this.data.checkTypeZi === '') {
-      wx.showToast({
-        title: '请先选择子检查类型',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
+    // if(this.data.checkType === '') {
+    //   wx.showToast({
+    //     title: '请先选择检查类型',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
 
-    if(this.data.taskId === '') {
+    // if(this.data.checkTypeZi === '') {
+    //   wx.showToast({
+    //     title: '请先选择子检查类型',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
+
+    
+
+    if(this.data.taskId === '' || this.data.taskId === undefined) {
       wx.showToast({
         title: '请先选择一级进度',
         icon: 'none',
