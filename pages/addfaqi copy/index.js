@@ -174,7 +174,7 @@ Page({
   },
 
   async getTaskList() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     var url = `schedule/task/wechat-board-tree?siteId=${deptId}`
     const res=await request({url:url, method: 'get'});
     console.log("获取TaskList",res.data[0])
@@ -184,7 +184,7 @@ Page({
   },
 
   async getPerson() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     
     var url =  `system/safe/getPerson?deptId=${deptId}`
     const res=await request({url:url, method: 'get'});
@@ -449,7 +449,7 @@ Page({
     })
   },
   async getSchedule() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     var url =`schedule/getOneSche?siteId=${deptId}`
     const res=await request({url:url, method: 'get'});
     console.log("获取ScheduleList",res)

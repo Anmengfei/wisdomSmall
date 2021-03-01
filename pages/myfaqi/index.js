@@ -43,7 +43,7 @@ Page({
   onLoad: function (options) {
 
     var userName = wx.getStorageSync("userName")
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     var deptName = wx.getStorageSync("deptName")
     console.log("deptName是：", deptName)
     console.log("userName", userName)

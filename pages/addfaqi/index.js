@@ -187,7 +187,7 @@ Page({
   },
 
   async getTaskList() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     var url = `schedule/task/wechat-board-tree?siteId=${deptId}`
     const res=await request({url:url, method: 'get'});
     console.log("获取TaskList",res.data[0])
@@ -197,7 +197,7 @@ Page({
   },
 
   async getPerson() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     
     var url =  `system/safe/getPerson?deptId=${deptId}`
     const res=await request({url:url, method: 'get'});
@@ -462,7 +462,7 @@ Page({
     })
   },
   async getSchedule() {
-    var deptId = wx.getStorageSync("deptId")
+    var deptId = wx.getStorageSync("site_id")
     var url =`schedule/getOneSche?siteId=${deptId}`
     const res=await request({url:url, method: 'get'});
     console.log("获取ScheduleList",res)
@@ -494,11 +494,15 @@ Page({
     var time = new Date()
     // console.log(`${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`)
     var month = time.getMonth() + 1;
+    var day = time.getDate();
     if(month < 10) {
       month = '0' + month
     } 
+    if(day < 10) {
+      day = '0' + day
+    }
     
-    return `${time.getFullYear()}-${month}-${time.getDate()}`
+    return `${time.getFullYear()}-${month}-${day}`
 
   },
   
@@ -508,6 +512,8 @@ Page({
 
   async tianbao() {
     var currentTime = this.getCurrentTime()
+    console.log("当前照片", this.data.imgs)
+
     // if(this.data.toUser === '') {
     //   wx.showToast({
     //     title: '请先选择接收人',
@@ -535,7 +541,7 @@ Page({
       })
       return
     }
-
+   
     if(this.data.endDate <= currentTime) {
       wx.showToast({
         title: '请选择明天及以后的时间',
@@ -564,8 +570,10 @@ Page({
     // }
     // console.log("当前的url", this.data.imgs)
     // console.log("videos", this.data.videos)
-
-    if(this.data.imgs.length === 0 || this.data.videos.length) {
+    console.log('content',this.data.context)
+    console.log("当前照片", this.data.imgs)
+    console.log("当前视频", this.data.videos)
+    if(this.data.imgs.length === 0 && this.data.videos.length === 0) {
       wx.showToast({
         title: '请先进行拍照或者视频',
         icon: 'none',
@@ -583,6 +591,17 @@ Page({
       })
       return
     }
+    
+    
+    if(this.data.context === '') {
+      wx.showToast({
+        title: '请先填写事件描述',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    
     
     // if(this.data.scheduleZi === '') {
     //   wx.showToast({
