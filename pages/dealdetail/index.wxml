@@ -71,7 +71,7 @@
             </view>
         </view>
 
-        <view class="weui-uploader">
+        <view class="weui-uploader" wx:if="{{process_status === '已完成'}}">
                 <view class="img-v weui-uploader__bd">
                     <view class='pic' wx:for="{{dealVideos}}" wx:for-item="item" wx:key="*this">
                         <video class='weui-uploader__img '

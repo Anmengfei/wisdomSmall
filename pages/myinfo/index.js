@@ -31,22 +31,16 @@ Page({
   // 页面开始加载 就会触发
   onLoad: function (options) {
 
-    var username = wx.getStorageSync("userName")
-    var danwei = wx.getStorageSync("deptName")
-    var role = wx.getStorageSync("roleName")
-    var tel = wx.getStorageSync("phonenumber")
-    // var userType = wx.getStorageSync("userType")
-    // var postName = wx.getStorageSync('postName')
     
+    
+    var tel = wx.getStorageSync("phonenumber")
     this.setData({
-      username: username,
-      danwei: danwei,
-      role: role,
+      
       tel: tel
 
     })
+    this.getInfoByInfo()
     this.getInfoByTel()
-    
       
   },
 
@@ -57,6 +51,36 @@ Page({
       selectedSite: e.detail
     })
     
+  },
+
+  async getInfoByInfo () {
+    var openid = wx.getStorageSync("openId")
+    const getOpenidParams = {openid: openid}
+    //  3 发送请求 获取用户的openid
+    const res = await request({url:"getUserInfoByMiniOpenid",data:getOpenidParams});
+    console.log("ASADAD",res)
+    if(res.code === 200) {
+      var tmpJuese = ''
+      if(res.userinfo.roles.length === 0) {
+        tmpJuese = '暂无角色'
+      } else {
+        tmpJuese = res.userinfo.roles[0].roleName
+      }
+
+      
+      this.setData({
+        username: res.userinfo.userName,
+        danwei: res.userinfo.dept.deptName,
+        role: tmpJuese,
+        tel: res.userinfo.phonenumber
+  
+      })
+
+     
+    } else {
+      console.log("获取信息失败")
+    }
+
   },
   async getInfoByTel() {
     var url = `people/info/getSiteInfoByUserPhone?phone=${this.data.tel}`
@@ -86,7 +110,7 @@ Page({
     this.setData({
       siteIndex: e.detail.value,
       selectedSite: temp,
-      userId: this.data.siteList[e.detail.value].deptId
+      userId: this.data.siteList[e.detail.value].userId
     })
     console.log("userId",this.data.userId)
     this.getUpdateInfo()
@@ -100,26 +124,28 @@ Page({
 
   },
   async getUpdateInfo() {
-    var url = `switchUser?phoneNumber=${this.data.tel}&userid=${this.data.userId}`
+    var openId = wx.getStorageSync("openId")
+    var url = `switchUser?phoneNumber=${this.data.tel}&userid=${this.data.userId}&openid=${openId}`
     const res = await request({url:url,method:"get"});
     console.log(res)
     if(res.code === 200) {
+      var openId = wx.getStorageSync("openId")
       wx.clearStorageSync()
+      wx.setStorageSync("openId", openId)
       console.log(wx.getStorageSync("site_id"))
       wx.setStorageSync("site_id", res.site_id);
-      // wx.setStorageSync("userType", res.userinfo.nickName);
-      //wx.setStorageSync("postName", res.postName);
+  
 
       wx.setStorageSync("deptId", res.userinfo.deptId)
       wx.setStorageSync("userName", res.userinfo.userName); 
-      if(res.userinfo.roles.length !== 0) {
-        wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
-      } else {
-        wx.setStorageSync("roleName", null); 
-      }
+      // if(res.userinfo.roles.length !== 0) {
+      //   wx.setStorageSync("roleName", res.userinfo.roles[0].roleName); 
+      // } else {
+      //   wx.setStorageSync("roleName", null); 
+      // }
       wx.setStorageSync("phonenumber", res.userinfo.phonenumber); 
       this.getNameById(res.site_id)
-      //this.postprogramName(deptName)
+      
       wx.switchTab({
         url: '/pages/index/index',
         
