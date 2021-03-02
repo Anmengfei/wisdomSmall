@@ -300,7 +300,7 @@ Page({
   
 
   tianxieContent(e) {
-    console.log("content", e.detail.value)
+    console.log("填写content", e.detail.value)
     this.setData({
       dealcontext: e.detail.value
     })
@@ -353,7 +353,21 @@ Page({
 
 
   async tianbao() {
-    if(this.data.dealcontext === '') {
+    // console.log("处理内容", this.data.dealcontext)
+    // console.log("处理照片", this.data.dealimgs)
+    // console.log("处理内容", this.data.dealVideos)
+   
+
+    if(this.data.dealimgs.length === 0 && this.data.dealVideos.length === 0) {
+      wx.showToast({
+        title: '请先进行拍照或者视频',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+
+    if(this.data.dealcontext === '' || this.data.dealcontext === undefined) {
       wx.showToast({
         title: '请先填写处理内容',
         icon: 'none',
